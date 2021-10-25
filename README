@@ -1,0 +1,87 @@
+==================================== OCR ==================================== 
+
+
+
+=============================================================================
+|   Filtres                                                                 |
+============================================================================= 
+
+=>Otsu : make otsu_function => "./otsu_function". Affiche une image.
+Lors du premier appui sur une touche, cela va binariser l'image.
+Lors du second cela va fermer la fenêtre avec l'image.
+
+=> Rotation : make rotation => "./rotation" avec un entier en paramètre
+Exemple : "./rotation 90"
+Si le paramètre n'est pas un entier ou si top/pas assez sont donné cela 
+génèrera une erreur
+
+=>Canny : Il faut tout d'abord executer la commande "make cannybis".
+Après cela, exécuter la commande "./cannybis".
+Nous allons alors avoir l'image initiale.
+Il faut ensuite presser une touche, et nous aurons un aperçu de l'image avec
+un gradient x appliqué.
+Une seconde pression d'une touche donne un aperçu de l'image avec un gradient y
+est appliqué.
+Une troisième pression permet d'afficher un aperçu de la combinaison des deux
+gradient.
+Une quatrième permet d'afficher l'image avec uniquement ses maximums locaux.
+Une cinquième pression permet de montrer l'image nettoyé par un algorithme de
+seuil.
+Enfin, une dernière pression permet de terminer le programme.
+
+
+=============================================================================
+|   Hough Line                                                              |
+============================================================================= 
+Compiler le code avec "make main_hough".
+Lancer le programme avec ./main_hough.
+Nous allons alors voir la première image.
+La pression d'une touche permet d'appliquer la transformé de Hough, ainsi que
+le filtre de Canny sur l'image actuel avant de l'afficher à nouveau, les
+droites ayant été détectées par Hough sont tracées en vertes.
+Une seconde pression permet de détecter la grille du sudoku, et plus
+précisemment les cases de façon individuels, mettant des lignes rouges tout
+autour et supprimant toutes les lignes vertes.
+Nous pouvons alors répéter les étapes citées ci-dessus l'opération deux autres
+fois qui seront fait avec deux images différentes.
+
+
+=============================================================================
+|   XOR                                                                     |
+============================================================================= 
+
+Aller à /Scripts/OCR/
+Ensuite compiler le code avec : "make xor"
+
+Pour lancer un entraînement, il suffit d'appeler le programme "./xor" suivi 
+du nom du fichier sous lequel vous souhaitez enregistrer vos valeurs. 
+Une fois ceci fait vous verrez un nouveau fichier avec dedans 
+les valeurs de votre réseau de neurone, sous le format décris au dessus.
+    
+De plus sur la console, vous verrez apparaître le résultat et 
+la progression de l'entraînement. Dans un premier nous affichons toutes 
+les valeurs de départ de notre réseau de neurone. 
+Ensuite arrive une large partie avec les résultats des entraînements 
+toutes les 1000 générations ainsi que la première. 
+Ceux-ci sont très simple à interpréter : 
+En premier les valeurs de l'entraînement, 
+ensuite le résultat compris entre 1 et 0 ainsi que son interprétation,
+puis pour finir le résultat attendu. 
+Si celui-ci est faux alors la ligne s'affichera en rouge, en vert sinon. 
+
+=============================================================================
+|   Solver                                                                  |
+============================================================================= 
+
+Aller à /Scripts/Solver/
+Ensuite compiler le code avec : "make solver"
+
+Le fonctionnement de cette partie fonctionne exactement comme demandé 
+dans le cahier des charges.
+Le programme ./solver prenant en paramètre un fichier texte contenant une 
+grille et en créer un nouveau contenant la grille complétée.
+
+
+
+
+
