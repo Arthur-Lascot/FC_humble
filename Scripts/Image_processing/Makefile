@@ -26,6 +26,7 @@ canny.o: base_function_on_pict.h
 clean:
 	${RM} *.o
 	${RM} *.d
+	${RM} *.BMP
 	${RM} display ${RM} main_hough
 
 # END

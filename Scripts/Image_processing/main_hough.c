@@ -33,7 +33,7 @@ int main()
     wait_for_keypressed();
     //printf("Key pressed\n");
     SDL_FreeSurface(image_surface);
-    image_surface = load_image("../../Ressources/image_03.jpeg");
+   /* image_surface = load_image("../../Ressources/image_03.jpeg");
     display_image(image_surface);
     wait_for_keypressed();
     SDL_FreeSurface(image_surface);
@@ -73,6 +73,6 @@ int main()
     wait_for_keypressed();
     //printf("Key pressed\n");
     SDL_FreeSurface(image_surface);
-    printf("Done\n");
+    printf("Done\n");*/
     return 0;
 }

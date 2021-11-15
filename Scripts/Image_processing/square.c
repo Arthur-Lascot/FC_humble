@@ -448,34 +448,29 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
     Element* current_line;
     Uint32 red = SDL_MapRGB(image_surface->format,255,0,0);
     int i = 0;
+    char name[] = "square00.BMP";
     while(current_column != NULL)
     {
-        i++;
         int left = *((int*)(((tuple3*)(current_column->key))->item1));
         int right = *((int*)(((tuple3*)(current_column->key))->item2));
         current_line = line->last;
         while(current_line != NULL)
         {
+	    i++;
             int high = *((int*)(((tuple3*)(current_line->key))->item1));
             int low = *((int*)(((tuple3*)(current_line->key))->item2));
-            char name1[] = "square";
-            if (i/10>0)
-            {
-                char name2bis[] = 1/10 + '0';
-                strcat(name1,name2bis);
-            }
-            char name2[] = i%10 + '0';
-            strcat(name1,name2);
-            strcat(name1,name3);
-            char name3[] = ".png";
+	    name[7]=i%10+'0';
+	    name[6]=i/10+'0';
             SDL_Rect square;
             square.x = left;
             square.y = high;
             square.h = low - high;
             square.w = right - left;
-            SDL_Surface* newImage;
-            int isWorking = SDL_BlitSurface(image_surface,&square,newImage,NULL);
-            IMG_SavePNG(newImage,name1);
+            SDL_Surface* newImage = SDL_CreateRGBSurface(0,square.w,square.h
+			    ,32,0,0,0,0);
+            if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
+            SDL_SaveBMP(newImage,name);}
+	    SDL_FreeSurface(newImage);
             for(int i = high;i<low;i++)
             {
                 put_pixel(image_surface,left,i,red);
@@ -526,5 +521,3 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
     }
     return image_surface;
 }
-
-
