@@ -5,7 +5,7 @@ CC=gcc
 CPPFLAGS= `pkg-config --cflags sdl` -MMD
 CFLAGS= -Wall -Wextra -Werror -std=c99 -O3 -g -fsanitize=address 
 LDFLAGS= -fsanitize=address
-LDLIBS= `pkg-config --libs sdl SDL_image` -lm
+LDLIBS= `pkg-config --libs sdl SDL_image` -lm -lSDL_gfx
 
 all: main_hough display
 
