@@ -7,13 +7,13 @@
 #include "backprop.h"
 #include "forward.h"
 #include "network_tools.h"
-
+#include "reader.h"
 
 //Characteristic for the Neuron Network
 
-#define NUMINPUTS 2
-#define NUMHIDNEURONS 4
-#define NUMOUTPUTS 1
+#define NUMINPUTS 2 //784
+#define NUMHIDNEURONS 4 //1000
+#define NUMOUTPUTS 1 //10
 
 static const int epoch = 10001;
 
@@ -276,6 +276,7 @@ void read(FILE *path)
 
 int main(int argc,char** argv)
 {
+
     //====> Initialization <====//
     if (argc != 2 && argc != 4)
         errx(1,"Usage: path [0-1][0-1]");
