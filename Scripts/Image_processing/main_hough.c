@@ -11,6 +11,7 @@
 
 int main()
 {
+    char* sudoku = calloc(81,sizeof(char));
     SDL_Surface* image_surface;
     init_sdl();
     image_surface = load_image("../../Ressources/image_01.jpeg");
@@ -27,7 +28,7 @@ int main()
     printf("Square line called\n");
     List* line = square_line(image_surface);
     printf("DrawSquare called\n");
-    image_surface = DrawSquare(image_surface,column,line);
+    image_surface = DrawSquare(image_surface,column,line,sudoku);
     printf("End of drawing\n");
     display_image(image_surface);
     wait_for_keypressed();

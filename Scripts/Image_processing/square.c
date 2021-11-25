@@ -442,13 +442,16 @@ List* square_line(SDL_Surface* image_surface)
     return result;
 }
 
-SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
+SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
+        char* sudoku)
 {
     Element* current_column = column->last;
     Element* current_line;
     Uint32 red = SDL_MapRGB(image_surface->format,255,0,0);
-    int i = 0;
-    char name[] = "square00.BMP";
+    Uint32 black = SDL_MapRGB(image_surface->format,0,0,0);
+    Uint32 white = SDL_MapRGB(image_surface->format,255,255,255);
+    int i = -1;
+    int isNotBlank = 0;
     while(current_column != NULL)
     {
         int left = *((int*)(((tuple3*)(current_column->key))->item1));
@@ -459,17 +462,40 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
 	    i++;
             int high = *((int*)(((tuple3*)(current_line->key))->item1));
             int low = *((int*)(((tuple3*)(current_line->key))->item2));
-	    name[7]=i%10+'0';
-	    name[6]=i/10+'0';
             SDL_Rect square;
-            square.x = left;
-            square.y = high;
+            square.x = left+2;
+            square.y = high+2;
             square.h = low - high;
             square.w = right - left;
             SDL_Surface* newImage = SDL_CreateRGBSurface(0,square.w,square.h
 			    ,32,0,0,0,0);
             if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
-            SDL_SaveBMP(newImage,name);}
+                for (int i =0;i<newImage->w;i++)
+                {
+	                for(int j=0;j<newImage->h;j++)
+	                {
+		                Uint32 pixel;
+		                Uint8 r,g,b;
+		                pixel = get_pixel(newImage,i,j);
+		                SDL_GetRGB(pixel,newImage->format,&r,&g,&b);
+		                if(r!=255&&g!=255&&b!=255)
+		                {
+			                put_pixel(newImage,i,j,white);
+		                }
+                        else{
+                            isNotBlank=1;
+                            put_pixel(newImage,i,j,black);
+                        }
+	                }
+                }
+                if(isNotBlank==1){
+                    isNotBlank=0;
+                    //sudoku[i] = fonction neurone
+                }
+                else{
+                    sudoku[i]='_';
+                }
+            }
 	    SDL_FreeSurface(newImage);
             for(int i = high;i<low;i++)
             {
@@ -504,7 +530,6 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
     free(line);
     int w = image_surface->w;
     int h = image_surface->h;
-    Uint32 black = SDL_MapRGB(image_surface->format,0,0,0);
     for (int i =0;i<w;i++)
     {
 	    for(int j=0;j<h;j++)
