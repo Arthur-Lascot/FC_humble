@@ -2,10 +2,13 @@
 
 #include "backprop.h"
 #include "network_tools.h"
+#include "reader.h"
+//#include "xor.h"
 
-#define NUMINPUTS 2
-#define NUMHIDNEURONS 4
-#define NUMOUTPUTS 1
+
+#define NUMINPUTS 784
+#define NUMHIDNEURONS 64
+#define NUMOUTPUTS 9
 
 
 extern double lr;
@@ -27,6 +30,12 @@ extern int training[][NUMINPUTS];
 
 extern int target[][NUMINPUTS];  
 
+double errorOut[NUMOUTPUTS];
+double errorHid[NUMHIDNEURONS];
+
+double deltaOS[NUMHIDNEURONS][NUMOUTPUTS];
+double deltaHS[NUMINPUTS][NUMHIDNEURONS];
+
 /* BackPropagation */
 /*
 Parameters : 
@@ -39,26 +48,36 @@ deltaOutput = MSE for each output neurons
 deltaHidden = MSE for each hidden neurons
  */
 
-void backprop(int i,int n)
+void backprop(int result,int n)
 {
-    //Do nothing for the moment
-    int tmp = n;
-    tmp++;
     
+    int img = n%TRAIN_DATA;
     //Calculating the delta for the outputs
     double deltaOutput[numOutputs];
+    double rerror = 0.0;
+    
     for (int j = 0; j < numOutputs; j++) 
     {
+        double expected = 0.0;
+        if (j+1 == train_label[img])
+        {
+            if (n%1000 == 0)
+                printf("=>BackProp Input : (j)%i => (expected)%i\n",j+1,train_label[img]);
+            expected = 1.0;
+        }
         //printf("OutputLayBACK [%i] = %f => %i\n\n"
-        //,j,outputLay[j],outputLay[j] > 0.5f);
-        double errorDif = (target[i][j] - outputLay[j]);
-        deltaOutput[j] = errorDif * d_sigmoid(outputLay[j]);
-        
-        /*Print the error dif
+        errorOut[j] = (expected - outputLay[j]);
+        deltaOutput[j] = (-errorOut[j]) * d_sigmoid(outputLay[j]);
+        /*
         if (n%1000 == 0)
-            printf("Error dif = %f => %d - %f\n\n",errorDif,
-            target[i][j],outputLay[j]);
+            printf("DELTA OUTPUT[%i] = %f\n",j,deltaOutput[j]);
         */
+        rerror += errorOut[j]*errorOut[j];
+
+        //Print the error dif
+        if (n%1000 == 0)
+            printf("Error dif = %f => %f - %f\n",errorOut[j],expected,outputLay[j]);
+        
         
         /*Result Good enough
         if (errorDif <= 0.10f && errorDif >= -0.10f)
@@ -71,13 +90,14 @@ void backprop(int i,int n)
     double deltaHidden[numHidNeurons];
     for (int j = 0; j < numHidNeurons; j++) 
     {
-        double errorHidden = 0.0f;
+        errorHid[j] = 0.0;
         for(int k = 0; k < numOutputs; k++) 
         {
-            errorHidden += deltaOutput[k] * outputWeights[j][k];
+            errorHid[j] += deltaOutput[k] * outputWeights[j][k];
         }
-        deltaHidden[j] = errorHidden*d_sigmoid(hidLay[j]);
-    }
+        deltaHidden[j] = errorHid[j]* d_sigmoid(hidLay[j]);
+        //(1.0+hidLay[j])*(1.0-hidLay[j]);     
+  }
     //Correcting the outputs with the delta
     for (int j=0; j < numOutputs; j++) 
     {
@@ -85,7 +105,8 @@ void backprop(int i,int n)
         
         for (int k=0; k < numHidNeurons; k++) 
         {
-            outputWeights[k][j] += hidLay[k] * deltaOutput[j]*lr;
+            deltaOS[k][j] = hidLay[k] * deltaOutput[j]*lr;//+deltaOS[k][j]*lr;
+            outputWeights[k][j] -= deltaOS[k][j]; 
             //printf("OutputWeights [%i][%i] = %f (hidLay[%f] * 
             //deltaOutput[%f]\n)",k,j,outputWeights[k][j],
             //hidLay[k],deltaOutput[j]);
@@ -96,9 +117,22 @@ void backprop(int i,int n)
     for (int j = 0; j < numHidNeurons; j++) 
     {
         hidLayBias[j] += deltaHidden[j]*lr;
-
-        for(int k = 0; k < numInputs; k++) {
-            hidWeights[k][j] += training[i][k] * deltaHidden[j]*lr;
+        /*
+        if (n%1000 == 0)
+        {
+            printf("  HidLayBias[%i] : %f with deltaH : %f ",j,hidLayBias[j],deltaHidden[j]);
+        }
+        */
+        for(int k = 0; k < numInputs; k++)
+        {
+            deltaHS[k][j]=train_double[img][k]*deltaHidden[j]*lr;//+deltaHS[k][j]*lr;
+            hidWeights[k][j] -= deltaHS[k][j];
+            /*
+            if (n%1000 == 0 && k == 0 && j <10)
+            {
+                printf("Change hidweights[%i][%i] => %f",k,j,)
+            }
+            */
         }
     }
 }

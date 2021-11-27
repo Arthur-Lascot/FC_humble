@@ -398,7 +398,7 @@ int main(int argc, char** argv)
 
 	solve();
 
-	char *fileres = concat(path,".res");
+	char *fileres = concat(path,".result");
 	FILE *gridres = fopen(fileres,"w");
 	if (gridres == NULL)
 		errx(1,"Error : Could not write the result file");

@@ -42,7 +42,7 @@ double sigmoid(double d)
 //Derivative
 double d_sigmoid(double d)
 {
-    double res = d * (1-d);
+    double res = sigmoid(d) * (1-sigmoid(d));
     return res;
 }
 

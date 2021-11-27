@@ -4,18 +4,25 @@
 #include <time.h>
 #include <err.h>
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+
+#include "xor.h"
 #include "backprop.h"
 #include "forward.h"
 #include "network_tools.h"
-
+#include "reader.h"
 
 //Characteristic for the Neuron Network
 
-#define NUMINPUTS 2
-#define NUMHIDNEURONS 4
-#define NUMOUTPUTS 1
+#define NUMINPUTS 784
+#define NUMHIDNEURONS 64
+#define NUMOUTPUTS 9
 
-static const int epoch = 10001;
+//static const int epoch = 10001;
 
 const double lr = 0.1f; //Learning rate 
 
@@ -188,32 +195,32 @@ void print_value_net()
 //Return 1 if the inputs are valid for a xor function
 int testing_inputs(char *input1, char *input2)
 {
-        if (lenstr(input1) != 1 || lenstr(input2) != 1)
-        {
-            printf("input_1 = %s\n",input1);
-            printf("input_2 = %s\n",input2);
-            return 0;
-            //errx(1,"Usage: path [0-1][0-1]");
-        }
+    if (lenstr(input1) != 1 || lenstr(input2) != 1)
+    {
+        printf("input_1 = %s\n",input1);
+        printf("input_2 = %s\n",input2);
+        return 0;
+        //errx(1,"Usage: path [0-1][0-1]");
+    }
 
-        if (*input1 != '0' && *input1 != '1')
-        {
-            printf("input_1 = %s\n",input1);
-            return 0;
-            //errx(1,"Usage: path [0-1][0-1]");
-        }
-        if (*input2 != '0' && *input2 != '1')
-        {
-            printf("input_2 = %s\n",input2);
-            return 0;
-            //errx(1,"Usage: path [0-1][0-1]");
-        }
-        return 1;
+    if (*input1 != '0' && *input1 != '1')
+    {
+        printf("input_1 = %s\n",input1);
+        return 0;
+        //errx(1,"Usage: path [0-1][0-1]");
+    }
+    if (*input2 != '0' && *input2 != '1')
+    {
+        printf("input_2 = %s\n",input2);
+        return 0;
+        //errx(1,"Usage: path [0-1][0-1]");
+    }
+    return 1;
 }
 
 
 //Write a file with values of the neural network
-void write(FILE *path)
+void write_net(FILE *path)
 {
     for (int i = 0; i < numInputs ; i++)
     {
@@ -243,7 +250,7 @@ void write(FILE *path)
 }
 
 //Write a file with values of the neural network
-void read(FILE *path)
+void read_net(FILE *path)
 {
     for (int i = 0; i < numInputs ; i++)
     {
@@ -272,40 +279,23 @@ void read(FILE *path)
     fclose(path);
 }
 
-
-
-int main(int argc,char** argv)
+int xr(int reading,FILE* filenet,double img[NUMINPUTS])
 {
-    //====> Initialization <====//
-    if (argc != 2 && argc != 4)
-        errx(1,"Usage: path [0-1][0-1]");
 
-    char *path = argv[1]; 
+    load_data();
 
-    FILE *filenet = fopen(path,"r");
+    //First tenth train:
+    // 5-0-4-1-9-2-1-3-1-4 
 
-    int reading = 1; //Reading or Writing a file
-    int testing = (argc == 4); //Testing with value
-    
-    char *input_1 = 0;
-    char *input_2 = 0;
-    //Checks good values for testing
-    if (testing)
-    {
-        input_1 = argv[2];
-        input_2 = argv[3];
-        
-        if (!testing_inputs(input_1,input_2))
-            errx(1,"Usage: path [0-1][0-1]");
-    }
+    /*int numz = 0;
+      for (int i = 0; i<TEST_DATA;i++)
+      {
+      if (test_label[i] == 0)
+      numz++;
+      }
+      printf("Num Zero : %i",numz);
+     */
 
-    if (filenet == NULL)
-    {
-        filenet = fopen(path,"w");
-        reading = 0;
-        if (filenet == NULL)
-            errx(1,"Error : Could not write the network file");
-    }
 
     //=========================//
     /*                         */
@@ -319,82 +309,105 @@ int main(int argc,char** argv)
         srand((unsigned) time(&t));    
 
         init_network();
-        print_value_net();
+        //print_value_net();
 
-        int trainingOrder[] = {0, 1, 2, 3};
-
-        while (n < epoch)
+        while (n < 150001)
         { 
-            if (n%1000 == 0)
-                printf("\n===============> EPOCH N°%i <================\n",n);
-
-            mix(trainingOrder,sizeTraining);
-
-            /* Print the training order:
-               if (n%1000 == 0)
-               {
-               printf("Training Order : {");
-               for (int h = 0 ; h < sizeTraining;h++)
-               {
-               printf("%i",trainingOrder[h]);
-               }
-               printf("}\n\n");
-               }
-             */
-            for (int x=0; x< 4; x++) 
-            {    
-                int i = trainingOrder[x];
-
+            if (train_label[n%TRAIN_DATA] != 0)
+            {
                 if (n%1000 == 0)
-                {
-                    //Print the training set
-                    //printf("   Set training N°%i \n",x);
-                    printf(" [%i] XOR [%i] => ",training[i][0],training[i][1]);
-                }
+                    printf("\n==============> EPOCH N°%i <===============\n",n);
 
                 //Forward
-                forward(i,n);
+                double *res;
+                int result = forward(res,n,1,0);
 
                 //BackProp
-                backprop(i,n); 
+                backprop(result,n);
             }
-            n++;
+            else 
+            {
+                if (n%1000 == 0)
+                    printf("SKIPPED !");
+            }
+            n+=1;
         }
     }
+
     //========================//
     /*                        */
     //====> Fetching Part <===//
     if (reading)
     {
-        read(filenet);
+        double rate = 0.0f;
+        read_net(filenet);
+        //print_value_net();
         printf("\nReading .../\n\n");
-    }
-    //========================//
-    /*                        */
-    //====> Testing Part <====//
-    if (testing)
-    {
-        int index = research_input(input_1,input_2);
-        printf("########## RESULT ##########\n|\n");
-        printf("|  [%d] XOR [%d] => ",*input_1-'0',*input_2-'0');
-        forward(index,0);
-        printf("|\n");
-        printf("############################\n");
+
+        if (img != NULL)
+        {
+            printf("Ici");
+            for (int i=0; i<784; i++) 
+            {
+                if (image[i] >= 0.5f)
+                    printf("1 ");
+                else 
+                    printf("  ");
+                if ((i+1) % 28 == 0) putchar('\n');
+            }
+
+
+            double* res;
+            int result = forward(res,1,0,0);
+        }
+        else 
+        {
+            printf("Here");
+            for (int j = 0 ; j < TEST_DATA ; j++)
+            {
+                if (test_label[j] != 0)
+                {
+                    if (j%1000 == 0)
+                        printf("\n============> EPOCH N°%i <=============\n",j);
+
+
+                    double* res;  
+                    int result = forward(res,j,0,1);
+                    if (result == test_label[j])
+                        rate++;
+                }
+                else 
+                {
+                    if (j%1000 == 0)
+                        printf("SKIPPED !");
+                }
+            }
+            rate = (rate/TEST_DATAZ)*100;
+            printf("\n===============> RESULT <===============\n");
+            printf("%f/100 SUCESS RATE ",rate);
+            printf("\n===============> RESULT <===============\n");
+        }
 
     }
-
-
-
-    //========================//
-
-    print_value_net();
+    //print_value_net();
     if (!reading)
     {
-        write(filenet);
+        write_net(filenet);
         printf("\nWriting ..../\n");
     }
+
     printf("Done\n");
 
     return 1;
 }
+
+
+
+
+
+
+
+
+
+
 
