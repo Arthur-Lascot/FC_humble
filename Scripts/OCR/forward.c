@@ -112,7 +112,7 @@ output : 0 if sigmoid(activation) <= 0.5
         }
         outputLay[i] /= totsum;
     }
-    
+   
     *res = outputLay[imax-1];
 
     if (train)

@@ -340,13 +340,20 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
     if (reading)
     {
         double rate = 0.0f;
-        read_net(filenet);
+        if (filenet == NULL)
+        {
+            FILE *defaul = fopen("../OCR/_firstNet_","r");
+            read_net(defaul);
+        }
+        else
+            read_net(filenet);
         //print_value_net();
         printf("\nReading .../\n\n");
 
         if (img != NULL)
         {
             printf("Ici");
+            /*
             for (int i=0; i<784; i++) 
             {
                 if (image[i] >= 0.5f)
@@ -355,10 +362,13 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
                     printf("  ");
                 if ((i+1) % 28 == 0) putchar('\n');
             }
+            */
 
-
-            double* res;
+            double* res = malloc(sizeof(double));
             int result = forward(res,1,0,0);
+            free(res);
+            printf("RESULT : %i\n",result);
+            return result;
         }
         else 
         {
