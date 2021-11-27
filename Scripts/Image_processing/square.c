@@ -482,9 +482,9 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
                     {   
                         Uint32 pixel;
                         Uint8 r,g,b;
-                        pixel = get_pixel(image28x28,i,j);
+                        pixel = get_pixel(image28x28,j,i);
                         SDL_GetRGB(pixel,image28x28->format,&r,&g,&b);
-                        if(r!=255&&g!=255&&b!=255)
+                        if(r!=255||g!=255||b!=255)
                         {
                             Case[k] = 0;
                         }
@@ -494,11 +494,13 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
                         }
                         k++;
                     }
-                }
-                for(int i=0;i<54;i++)
-                {
+                    Case[k] = 0;
                     k++;
+                }
+                for(int i=0;i<28;i++)
+                {
                     Case[k]=0;
+                    k++;
                 }
                
                     
@@ -515,8 +517,8 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
                 if(isNotBlank==1){
                     isNotBlank=0;
                     
-                    display_image(image28x28);
-                    wait_for_keypressed();
+                    //display_image(image28x28);
+                    //wait_for_keypressed();
 
                     sudoku[i] = (char)xr(1,NULL,Case);
                 }

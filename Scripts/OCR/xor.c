@@ -295,6 +295,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
       }
       printf("Num Zero : %i",numz);
      */
+    double* res = malloc(sizeof(double));
 
 
     //=========================//
@@ -319,7 +320,6 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
                     printf("\n==============> EPOCH N°%i <===============\n",n);
 
                 //Forward
-                double *res;
                 int result = forward(res,n,1,0);
 
                 //BackProp
@@ -340,6 +340,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
     if (reading)
     {
         double rate = 0.0f;
+
         if (filenet == NULL)
         {
             FILE *defaul = fopen("../OCR/_firstNet_","r");
@@ -364,7 +365,6 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
             }
             */
 
-            double* res = malloc(sizeof(double));
             int result = forward(res,1,0,0);
             free(res);
             printf("RESULT : %i\n",result);
@@ -379,9 +379,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
                 {
                     if (j%1000 == 0)
                         printf("\n============> EPOCH N°%i <=============\n",j);
-
-
-                    double* res;  
+  
                     int result = forward(res,j,0,1);
                     if (result == test_label[j])
                         rate++;
@@ -407,7 +405,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
     }
 
     printf("Done\n");
-
+    free(res);
     return 1;
 }
 
