@@ -450,7 +450,6 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
     Element* current_line;
     Uint32 red = SDL_MapRGB(image_surface->format,255,0,0);
     Uint32 black = SDL_MapRGB(image_surface->format,0,0,0);
-    Uint32 white = SDL_MapRGB(image_surface->format,255,255,255);
     int i = -1;
     int isNotBlank = 0;
     while(current_column != NULL)
@@ -470,32 +469,37 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
             square.w = right - left;
             SDL_Surface* newImage = SDL_CreateRGBSurface(0,square.w,square.h
 			    ,32,0,0,0,0);
+            int k=0;
             if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
                 SDL_Surface* image28x28 = zoomSurface(newImage,
 		0.28,0.28, SMOOTHING_ON);
-                for (int i =0;i<image28x28->w;i++)
+                int * case = malloc(28*28*sizeof(int));
+                for (int i =0;i<27;i++)
                 {
-	                for(int j=0;j<image28x28->h;j++)
-	                {
+	                for(int j=0;j<27;j++)
+	                {   
 		                Uint32 pixel;
 		                Uint8 r,g,b;
 		                pixel = get_pixel(image28x28,i,j);
 		                SDL_GetRGB(pixel,image28x28->format,&r,&g,&b);
 		                if(r!=255&&g!=255&&b!=255)
 		                {
-			                put_pixel(image28x28,i,j,white);
+                            case[k] = 0;
 		                }
                         else{
                             isNotBlank=1;
-                            put_pixel(image28x28,i,j,black);
+                            case[k] = 1;
                         }
+                        k++;
 	                }
+                    for(int i =0;i<55;i++)
+                    {
+                        k+=1;
+                        case[k]=0;
+                    }
                 }
                 if(isNotBlank==1){
                     isNotBlank=0;
-		    printf("%ix%i\n",image28x28->h,image28x28->w);
-		    display_image(image28x28);
-		    wait_for_keypressed();
                     //sudoku[i] = fonction neurone
                 }
                 else{
