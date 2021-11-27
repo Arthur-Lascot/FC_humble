@@ -54,7 +54,7 @@ void convert_i(int size_d,unsigned char image_char[][SIZE],double image[][SIZE])
     {
         for (int j = 0 ; j < SIZE ;j++)
         {
-           image[i][j] = (double)image_char[i][j]/255.0; 
+            image[i][j] = (double)image_char[i][j]/255.0; 
         }
     }
 }
@@ -63,17 +63,24 @@ void convert_l(int size_d,unsigned char label_char[size_d][1],int label[size_d])
 {
     for (int i = 0; i<size_d; i++)
     {
-       label[i] = (int)label_char[i][0]; 
+        label[i] = (int)label_char[i][0]; 
     }
 }
 
 
 void load_data()
 {
+    //TRAIN
     read_mnist_image(TRAIN_IMAGE,TRAIN_DATA,train_char);
     read_mnist_label(TRAIN_LABEL,TRAIN_DATA,train_label_char);
     convert_i(TRAIN_DATA,train_char,train_double);
     convert_l(TRAIN_DATA,train_label_char,train_label);
+
+    //TEST
+    read_mnist_image(TEST_IMAGE,TEST_DATA,test_char);
+    read_mnist_label(TEST_LABEL,TEST_DATA,test_label_char);
+    convert_i(TEST_DATA,test_char,test_double);
+    convert_l(TEST_DATA,test_label_char,test_label);
 }
 
 

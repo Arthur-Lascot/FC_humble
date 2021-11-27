@@ -8,7 +8,7 @@
 
 #define NUMINPUTS 784
 #define NUMHIDNEURONS 64
-#define NUMOUTPUTS 10
+#define NUMOUTPUTS 9
 
 
 extern double lr;
@@ -51,7 +51,7 @@ deltaHidden = MSE for each hidden neurons
 void backprop(int result,int n)
 {
     
-    int img = n%60000;
+    int img = n%TRAIN_DATA;
     //Calculating the delta for the outputs
     double deltaOutput[numOutputs];
     double rerror = 0.0;
@@ -59,17 +59,19 @@ void backprop(int result,int n)
     for (int j = 0; j < numOutputs; j++) 
     {
         double expected = 0.0;
-        if (j == train_label[img])
+        if (j+1 == train_label[img])
         {
             if (n%1000 == 0)
-                printf("=>BackProp Input : (j)%i => (expected)%i\n",j,train_label[img]);
+                printf("=>BackProp Input : (j)%i => (expected)%i\n",j+1,train_label[img]);
             expected = 1.0;
         }
         //printf("OutputLayBACK [%i] = %f => %i\n\n"
         errorOut[j] = (expected - outputLay[j]);
         deltaOutput[j] = (-errorOut[j]) * d_sigmoid(outputLay[j]);
+        /*
         if (n%1000 == 0)
             printf("DELTA OUTPUT[%i] = %f\n",j,deltaOutput[j]);
+        */
         rerror += errorOut[j]*errorOut[j];
 
         //Print the error dif
@@ -103,7 +105,7 @@ void backprop(int result,int n)
         
         for (int k=0; k < numHidNeurons; k++) 
         {
-            deltaOS[k][j] = hidLay[k] * deltaOutput[j]*lr+deltaOS[k][j]*lr;
+            deltaOS[k][j] = hidLay[k] * deltaOutput[j]*lr;//+deltaOS[k][j]*lr;
             outputWeights[k][j] -= deltaOS[k][j]; 
             //printf("OutputWeights [%i][%i] = %f (hidLay[%f] * 
             //deltaOutput[%f]\n)",k,j,outputWeights[k][j],
@@ -123,7 +125,7 @@ void backprop(int result,int n)
         */
         for(int k = 0; k < numInputs; k++)
         {
-            deltaHS[k][j]=train_double[img][k]*deltaHidden[j]*lr+deltaHS[k][j]*lr;
+            deltaHS[k][j]=train_double[img][k]*deltaHidden[j]*lr;//+deltaHS[k][j]*lr;
             hidWeights[k][j] -= deltaHS[k][j];
             /*
             if (n%1000 == 0 && k == 0 && j <10)

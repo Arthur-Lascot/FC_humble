@@ -5,12 +5,12 @@
 #include "forward.h"
 #include "network_tools.h"
 #include "reader.h"
-//#include "xor.h"
+#include "xor.h"
 
 
 #define NUMINPUTS 784
 #define NUMHIDNEURONS 64
-#define NUMOUTPUTS 10
+#define NUMOUTPUTS 9
 
 
 extern double lr;
@@ -49,9 +49,18 @@ int max_index(double output[NUMOUTPUTS])
     return 0;
 }
 
-int forward(int i,int n)
+int forward(double *res,int n,int train,int test)
 {
-    int img = n%60000;
+    int img = 0;
+    if (train)
+        img = n%TRAIN_DATA;
+    else if (test)
+        img = n%TEST_DATA;
+
+    /*
+    if (n%1000 == 0 && !train)
+        printf("Img : %i => Label %i\n",img,test_label[img]);
+    */
     /* Try solving */
     /* 
 Comments : 
@@ -66,16 +75,15 @@ output : 0 if sigmoid(activation) <= 0.5
         double activation = hidLayBias[j];
         for (int k = 0; k < numInputs; k++) 
         {
-            activation += train_double[img][k] * hidWeights[k][j];
-            //activation += training[i][k] * hidWeights[k][j];
+            if (train)
+                activation += train_double[img][k] * hidWeights[k][j];
+            else if (test)
+                activation += test_double[img][k] * hidWeights[k][j];
+            else 
+                activation += image[k] * hidWeights[k][j];
         }
         hidLay[j] = sigmoid(activation);
 
-        //Print the hidden layer
-        /*
-           if (n%1000 == 0)
-           printf("HidLay [%i] = %f\n",j,hidLay[j]);
-         */
     }
 
     //Second operation betwenn hidden and output layers
@@ -92,78 +100,74 @@ output : 0 if sigmoid(activation) <= 0.5
         totsum += outputLay[j];
     }
 
-    /*
-    //Second operation betwenn hidden and output layers
-    for (int j = 0; j < numOutputs; j++) 
-    {
-    double activation = outputLayBias[j];
-    for (int k = 0; k < numHidNeurons; k++) 
-    {
-    activation += hidLay[k] * outputWeights[k][j];
-    }
-    outputLay[j] = sigmoid(activation);
-
-    if (n%1000 == 0)
-    {
-    double varOut = outputLay[j];
-    if ((varOut > 0.5f) == target[i][j])
-    green();
-    else
-    red();
-    printf("%f => %i",varOut,varOut > 0.5f);
-    printf(" | Expected : %i\n",target[i][j]);
-    normal();
-    }
-    }
-
-    double max = outputLay[0];
-    int imax = 0;
-    for (int i = 0; i<numOutputs; i++)
-    {
-    if (outputLay[i] > max)
-    {
-    max = outputLay[i];
-    imax = i;
-    }
-    }
-     */
-
-
     //Softmax
     double max = outputLay[0];
-    int imax = 0;
+    int imax = 1;
     for (int i = 0; i<numOutputs; i++)
     {
         if (outputLay[i] > max)
         {
             max = outputLay[i];
-            imax = i;
+            imax = i+1;
         }
         outputLay[i] /= totsum;
     }
+    
+    *res = outputLay[imax-1];
 
-    if (n%1000 == 0 || n%1000 == 1)
-    {
-        printf("RESULT : %i => %f \n",imax,outputLay[imax]);
-        printf("    |  Expected : %d\n",train_label[img]);
-        if (n != 0)
-        {
-            printf("Previous : %d\n",train_label[img-1]);
-            printf("Next : %d\n",train_label[img+1]);
-        }
-
-    }
-    for (int j = 0 ; j < numOutputs; j++)
+    if (train)
     {
         if (n%1000 == 0 || n%1000 == 1)
         {
-            if (imax == train_label[img])
-                green();
-            else
-                red();
-            printf(" %i Res => %f\n",j,outputLay[j]);
-            normal();
+            printf("RESULT : %i => %f \n",imax,outputLay[imax-1]);
+            printf("    |  Expected : %d\n",train_label[img]);
+            if (n != 0)
+            {
+                printf("Previous : %d\n",train_label[img-1]);
+                printf("Next : %d\n",train_label[img+1]);
+            }
+
         }
+        for (int j = 0 ; j < numOutputs; j++)
+        {
+            if (n%1000 == 0 || n%1000 == 1)
+            {
+                if (imax == train_label[img])
+                    green();
+                else
+                    red();
+                printf(" %i Res => %f\n",j+1,outputLay[j]);
+                normal();
+            }
+        }
+    }
+    
+    else if (test)
+    {
+        if (n%1000 == 0 || n%1000 == 1)
+        {
+            printf("RESULT : %i => %f \n",imax,outputLay[imax-1]);
+            printf("    |  Expected : %d\n",test_label[img]);
+            if (n != 0)
+            {
+                printf("Previous : %d\n",test_label[img-1]);
+                printf("Next : %d\n",test_label[img+1]);
+            }
+
+        }
+        for (int j = 0 ; j < numOutputs; j++)
+        {
+            if (n%1000 == 0 || n%1000 == 1)
+            {
+                if (imax == test_label[img])
+                    green();
+                else
+                    red();
+                printf(" %i Res => %f\n",j+1,outputLay[j]);
+                normal();
+            }
+        }
+
     }
     return imax;
 

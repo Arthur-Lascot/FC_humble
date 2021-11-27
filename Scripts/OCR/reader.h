@@ -11,6 +11,14 @@
 #define TRAIN_DATA 60000
 #define TEST_DATA 10000
 
+#define TRAIN_NUMZERO 5923
+#define TEST_NUMZERO 980
+
+//====> WITHOUT 0
+#define TRAIN_DATAZ 54077
+#define TEST_DATAZ 9020
+
+
 #define LEN_INFO_IMAGE 4
 #define LEN_INFO_LABEL 2
 
