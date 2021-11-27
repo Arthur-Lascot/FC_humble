@@ -3,8 +3,10 @@
 #include <err.h>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
+#include <SDL/SDL_rotozoom.h>
 #include "base_function_on_pict.h"
 #include <math.h>
+#include <string.h>
 #include "square.h"
 
 int mediane;
@@ -441,11 +443,15 @@ List* square_line(SDL_Surface* image_surface)
     return result;
 }
 
-SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
+SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
+        char* sudoku)
 {
     Element* current_column = column->last;
     Element* current_line;
     Uint32 red = SDL_MapRGB(image_surface->format,255,0,0);
+    Uint32 black = SDL_MapRGB(image_surface->format,0,0,0);
+    int i = -1;
+    int isNotBlank = 0;
     while(current_column != NULL)
     {
         int left = *((int*)(((tuple3*)(current_column->key))->item1));
@@ -453,8 +459,57 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
         current_line = line->last;
         while(current_line != NULL)
         {
+	    i++;
             int high = *((int*)(((tuple3*)(current_line->key))->item1));
             int low = *((int*)(((tuple3*)(current_line->key))->item2));
+            SDL_Rect square;
+            square.x = left+2;
+            square.y = high+2;
+            square.h = low - high;
+            square.w = right - left;
+            SDL_Surface* newImage = SDL_CreateRGBSurface(0,square.w,square.h
+			    ,32,0,0,0,0);
+            int k=0;
+            if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
+                SDL_Surface* image28x28 = zoomSurface(newImage,
+		0.28,0.28, SMOOTHING_ON);
+                int* Case = calloc(28*28,sizeof(int));
+                for (int i =0;i<27;i++)
+                {
+	                for(int j=0;j<27;j++)
+	                {   
+		                Uint32 pixel;
+		                Uint8 r,g,b;
+		                pixel = get_pixel(image28x28,i,j);
+		                SDL_GetRGB(pixel,image28x28->format,&r,&g,&b);
+		                if(r!=255&&g!=255&&b!=255)
+		                {
+                            		Case[k] = 0;
+		                }
+                        	else{
+                            		isNotBlank=1;
+                            		Case[k] = 1;
+                        	}
+                        	k++;
+	                }
+                }
+		for(int i=0;i<54;i++)
+		{
+			k++;
+			printf("%i\n",k);
+			Case[k]=0;
+		}
+                if(isNotBlank==1){
+                    isNotBlank=0;
+                    //sudoku[i] = fonction neurone
+                }
+                else{
+                    sudoku[i]='_';
+                }
+		SDL_FreeSurface(image28x28);
+		free(Case);
+            }
+	    SDL_FreeSurface(newImage);
             for(int i = high;i<low;i++)
             {
                 put_pixel(image_surface,left,i,red);
@@ -488,7 +543,6 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
     free(line);
     int w = image_surface->w;
     int h = image_surface->h;
-    Uint32 black = SDL_MapRGB(image_surface->format,0,0,0);
     for (int i =0;i<w;i++)
     {
 	    for(int j=0;j<h;j++)
@@ -505,5 +559,3 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
     }
     return image_surface;
 }
-
-

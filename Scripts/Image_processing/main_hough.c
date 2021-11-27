@@ -11,6 +11,7 @@
 
 int main()
 {
+    char* sudoku = malloc(81*sizeof(char));
     SDL_Surface* image_surface;
     init_sdl();
     image_surface = load_image("../../Ressources/image_01.jpeg");
@@ -27,13 +28,13 @@ int main()
     printf("Square line called\n");
     List* line = square_line(image_surface);
     printf("DrawSquare called\n");
-    image_surface = DrawSquare(image_surface,column,line);
+    image_surface = DrawSquare(image_surface,column,line,sudoku);
     printf("End of drawing\n");
     display_image(image_surface);
     wait_for_keypressed();
     //printf("Key pressed\n");
     SDL_FreeSurface(image_surface);
-    image_surface = load_image("../../Ressources/image_03.jpeg");
+   /* image_surface = load_image("../../Ressources/image_03.jpeg");
     display_image(image_surface);
     wait_for_keypressed();
     SDL_FreeSurface(image_surface);
@@ -73,6 +74,6 @@ int main()
     wait_for_keypressed();
     //printf("Key pressed\n");
     SDL_FreeSurface(image_surface);
-    printf("Done\n");
+    printf("Done\n");*/
     return 0;
 }
