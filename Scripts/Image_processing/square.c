@@ -471,9 +471,8 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
             SDL_Surface* newImage = SDL_CreateRGBSurface(0,square.w,square.h
 			    ,32,0,0,0,0);
             if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
-                image28x28 = zoomSurface(newImage, (double)newImage->w/28,
-                        (double)newImage->h/28, SMOOTHING_ON);
-                SDL_FreeSurface(newImage);
+                SDL_Surface* image28x28 = zoomSurface(newImage,
+		0.28,0.28, SMOOTHING_ON);
                 for (int i =0;i<image28x28->w;i++)
                 {
 	                for(int j=0;j<image28x28->h;j++)
@@ -494,13 +493,17 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
                 }
                 if(isNotBlank==1){
                     isNotBlank=0;
+		    printf("%ix%i\n",image28x28->h,image28x28->w);
+		    display_image(image28x28);
+		    wait_for_keypressed();
                     //sudoku[i] = fonction neurone
                 }
                 else{
                     sudoku[i]='_';
                 }
+		SDL_FreeSurface(image28x28);
             }
-	        SDL_FreeSurface(image28x28);
+	    SDL_FreeSurface(newImage);
             for(int i = high;i<low;i++)
             {
                 put_pixel(image_surface,left,i,red);

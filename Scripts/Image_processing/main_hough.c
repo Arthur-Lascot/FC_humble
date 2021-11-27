@@ -11,7 +11,7 @@
 
 int main()
 {
-    char* sudoku = calloc(81,sizeof(char));
+    char* sudoku = malloc(81*sizeof(char));
     SDL_Surface* image_surface;
     init_sdl();
     image_surface = load_image("../../Ressources/image_01.jpeg");
