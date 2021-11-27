@@ -3,6 +3,7 @@
 #include <err.h>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
+#include <SDL/SDL_rotozoom.h>
 #include "base_function_on_pict.h"
 #include <math.h>
 #include <string.h>
@@ -470,21 +471,24 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
             SDL_Surface* newImage = SDL_CreateRGBSurface(0,square.w,square.h
 			    ,32,0,0,0,0);
             if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
-                for (int i =0;i<newImage->w;i++)
+                image28x28 = zoomSurface(newImage, (double)newImage->w/28,
+                        (double)newImage->h/28, SMOOTHING_ON);
+                SDL_FreeSurface(newImage);
+                for (int i =0;i<image28x28->w;i++)
                 {
-	                for(int j=0;j<newImage->h;j++)
+	                for(int j=0;j<image28x28->h;j++)
 	                {
 		                Uint32 pixel;
 		                Uint8 r,g,b;
-		                pixel = get_pixel(newImage,i,j);
-		                SDL_GetRGB(pixel,newImage->format,&r,&g,&b);
+		                pixel = get_pixel(image28x28,i,j);
+		                SDL_GetRGB(pixel,image28x28->format,&r,&g,&b);
 		                if(r!=255&&g!=255&&b!=255)
 		                {
-			                put_pixel(newImage,i,j,white);
+			                put_pixel(image28x28,i,j,white);
 		                }
                         else{
                             isNotBlank=1;
-                            put_pixel(newImage,i,j,black);
+                            put_pixel(image28x28,i,j,black);
                         }
 	                }
                 }
@@ -496,7 +500,7 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
                     sudoku[i]='_';
                 }
             }
-	    SDL_FreeSurface(newImage);
+	        SDL_FreeSurface(image28x28);
             for(int i = high;i<low;i++)
             {
                 put_pixel(image_surface,left,i,red);
