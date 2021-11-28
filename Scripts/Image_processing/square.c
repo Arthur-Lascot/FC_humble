@@ -448,7 +448,7 @@ void format(SDL_Surface* src,double* dst)
 {
     double moy = 0;
     int j =0;
-    for(int i=0;i<28*28,i++;)
+    for(int i=0;i<28*28;i++)
     {
         for(int k=0;k<4;k++)
         {
@@ -496,7 +496,6 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
             square.w = right - left;
             SDL_Surface* newImage = SDL_CreateRGBSurface(0,square.w,square.h
                     ,32,0,0,0,0);
-            int k=0;
             if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
                 SDL_Surface* image112x112 = zoomSurface(newImage,
                         1.12,1.12, SMOOTHING_ON);
