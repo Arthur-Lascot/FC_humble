@@ -444,8 +444,9 @@ List* square_line(SDL_Surface* image_surface)
     free(ecart_clean);
     return result;
 }
-void format(SDL_Surface* src,double* dst)
+int format(SDL_Surface* src,double* dst)
 {
+    int res =0;
     double moy = 0;
     int j =0;
     for(int i=0;i<28*28;i++)
@@ -466,9 +467,12 @@ void format(SDL_Surface* src,double* dst)
             j++;
         }
         moy/=4;
+	if(moy!=0){res = 1;}
+	printf("%f\n",moy);
         dst[i]=moy;
         moy =0;
     }
+    return res;
 }
 SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
         char* sudoku)
@@ -500,16 +504,16 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
                 SDL_Surface* image112x112 = zoomSurface(newImage,
                         1.12,1.12, SMOOTHING_ON);
                 double* Case = calloc(28*28,sizeof(double));
-                format(image112x112,Case);
+                isNotBlank= format(image112x112,Case);
                 
-                for (int i=0; i<784; i++) 
+               /* for (int i=0; i<784; i++) 
                 {
-                    if (Case[i] >= 0.5f)
-                        printf("1 ");
+                    if (Case[i] > 0)
+                        printf("%f",Case[i]);
                     else 
                         printf("  ");
                     if ((i+1) % 28 == 0) putchar('\n');
-                }
+                }*/
 
 
                 if(isNotBlank==1){
