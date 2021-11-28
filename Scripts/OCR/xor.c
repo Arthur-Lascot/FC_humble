@@ -321,7 +321,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
                     printf("\n==============> EPOCH N°%i <===============\n",n);
 
                 //Forward
-                int result = forward(res,n,1,0);
+                int result = forward(res,n,1,0,NULL);
 
                 //BackProp
                 backprop(result,n);
@@ -368,7 +368,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
             }
             */
 
-            int result = forward(res,1,0,0);
+            int result = forward(res,1,0,0,img);
             free(res);
             printf("RESULT : %i\n",result);
             return result;
@@ -383,7 +383,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
                     if (j%1000 == 0)
                         printf("\n============> EPOCH N°%i <=============\n",j);
   
-                    int result = forward(res,j,0,1);
+                    int result = forward(res,j,0,1,NULL);
                     if (result == test_label[j])
                         rate++;
                 }

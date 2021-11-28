@@ -49,7 +49,7 @@ int max_index(double output[NUMOUTPUTS])
     return 0;
 }
 
-int forward(double *res,int n,int train,int test)
+int forward(double *res,int n,int train,int test,double image[SIZE])
 {
     int img = 0;
     if (train)

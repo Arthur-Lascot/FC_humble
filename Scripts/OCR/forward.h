@@ -1,6 +1,8 @@
 #ifndef FORWARD_H
 #define FORWARD_H
 
-int forward(double* res,int n, int train,int test);
+#include "reader.h"
+
+int forward(double* res,int n, int train,int test,double image[SIZE]);
 
 #endif
