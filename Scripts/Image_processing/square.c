@@ -502,6 +502,7 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
                         1.12,1.12, SMOOTHING_ON);
                 double* Case = calloc(28*28,sizeof(double));
                 format(image112x112,Case);
+                
                 for (int i=0; i<784; i++) 
                 {
                     if (Case[i] >= 0.5f)

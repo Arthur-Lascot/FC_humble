@@ -9,8 +9,8 @@
 int main(int argc,char** argv)
 {
     //====> Initialization <====//
-    if (argc != 2 && argc != 3)
-        errx(1,"Usage: path [image]");
+    if (argc != 2)
+        errx(1,"Usage: path");
 
     char *path = argv[1]; 
 
@@ -24,8 +24,6 @@ int main(int argc,char** argv)
         if (filenet == NULL)
             errx(1,"Error : Could not write the network file");
     }
-    if (argc == 3)
-        printf("Extracting Image...\n");
 
     xr(reading,filenet,NULL);
 

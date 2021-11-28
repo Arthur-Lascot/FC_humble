@@ -4,8 +4,9 @@
 #include <time.h>
 #include <err.h>
 
-#include <sys/types.h>
-#include <sys/stat.h>
+//#include <sys/types.h>
+//#include <sys/stat.h>
+
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -344,6 +345,8 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
         if (filenet == NULL)
         {
             FILE *defaul = fopen("../OCR/_firstNet_","r");
+            if (defaul == NULL)
+                errx(1,"Could not open the default file");
             read_net(defaul);
         }
         else
