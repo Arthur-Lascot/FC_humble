@@ -446,6 +446,7 @@ List* square_line(SDL_Surface* image_surface)
 }
 void format(SDL_Surface* src,double* dst)
 {
+    double moy = 0;
     int j =0;
     for(int i=0;i<28*28,i++;)
     {
@@ -466,6 +467,7 @@ void format(SDL_Surface* src,double* dst)
         }
         moy/=4;
         dst[i]=moy;
+        moy =0;
     }
 }
 SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
@@ -521,7 +523,7 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
                 else{
                     sudoku[i]='0';
                 }
-                SDL_FreeSurface(image28x28);
+                SDL_FreeSurface(image112x112);
                 free(Case);
             }
             SDL_FreeSurface(newImage);
