@@ -444,7 +444,30 @@ List* square_line(SDL_Surface* image_surface)
     free(ecart_clean);
     return result;
 }
-
+void format(SDL_Surface* src,double* dst)
+{
+    int j =0;
+    for(int i=0;i<28*28,i++;)
+    {
+        for(int k=0;k<4;k++)
+        {
+            Uint32 pixel;
+            Uint8 r,g,b;
+            pixel = get_pixel(src,j%112,j/112);
+            SDL_GetRGB(pixel,src->format,&r,&g,&b);
+            if(r!=255||g!=255||b!=255)
+            {
+                moy +=0;
+            }
+            else{
+                moy+=1;
+            }
+            j++;
+        }
+        moy/=4;
+        dst[i]=moy;
+    }
+}
 SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
         char* sudoku)
 {
@@ -473,37 +496,10 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
                     ,32,0,0,0,0);
             int k=0;
             if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
-                SDL_Surface* image28x28 = zoomSurface(newImage,
-                        0.28,0.28, SMOOTHING_ON);
+                SDL_Surface* image112x112 = zoomSurface(newImage,
+                        1.12,1.12, SMOOTHING_ON);
                 double* Case = calloc(28*28,sizeof(double));
-                for (int i =0;i<27;i++)
-                {
-                    for(int j=0;j<27;j++)
-                    {   
-                        Uint32 pixel;
-                        Uint8 r,g,b;
-                        pixel = get_pixel(image28x28,j,i);
-                        SDL_GetRGB(pixel,image28x28->format,&r,&g,&b);
-                        if(r!=255||g!=255||b!=255)
-                        {
-                            Case[k] = 0;
-                        }
-                        else{
-                            isNotBlank=1;
-                            Case[k] = 1;
-                        }
-                        k++;
-                    }
-                    Case[k] = 0;
-                    k++;
-                }
-                for(int i=0;i<28;i++)
-                {
-                    Case[k]=0;
-                    k++;
-                }
-               
-                    
+                format(image112x112,Case);
                 for (int i=0; i<784; i++) 
                 {
                     if (Case[i] >= 0.5f)
