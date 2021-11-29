@@ -512,10 +512,10 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
             SDL_Surface* newImage = SDL_CreateRGBSurface(0,square.w,square.h
                     ,32,0,0,0,0);
             if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
-                SDL_Surface* image112x112 = 
-                rotozoomSurfaceXY(newImage,0,112/newImage->w,112/newImage->h, 1);
+                double zoomx = 112/(double) newImage->w;
+                double zoomy = 112/(double) newImage->h;
 
-                //zoomSurface(newImage,112/newImage->w,112/newImage->h, 1);
+                SDL_Surface* image112x112 = zoomSurface(newImage,zoomx,zoomy,0);
                 double* Case = calloc(28*28,sizeof(double));
                 isNotBlank= format(image112x112,Case);
                 
