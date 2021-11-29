@@ -20,7 +20,7 @@
 //Characteristic for the Neuron Network
 
 #define NUMINPUTS 784
-#define NUMHIDNEURONS 64
+#define NUMHIDNEURONS 98
 #define NUMOUTPUTS 9
 
 //static const int epoch = 10001;
@@ -98,11 +98,11 @@ int research_input(char* input1, char* input2)
 //Generate a random number between 0.25f and 0.75f;
 double random_double()
 {
-    double res = rand() % 101;
+    double res = rand() % 201;
 
     if (res == 0)
         return 0;
-    return (res/100);
+    return ((res/100)-1);
 }
 
 //Generate a random number between 0 and 3 (4);
@@ -313,7 +313,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
         init_network();
         //print_value_net();
 
-        while (n < 150001)
+        while (n < 2.5*60000)
         { 
             if (train_label[n%TRAIN_DATA] != 0)
             {
