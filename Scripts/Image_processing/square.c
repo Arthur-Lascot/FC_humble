@@ -446,6 +446,25 @@ List* square_line(SDL_Surface* image_surface)
     free(ecart_clean);
     return result;
 }
+void fillHole(double* dst)
+{
+    int acc =0;
+    for(int i=28;i<27;i+=28)
+    {
+        for(int j=1;j<27)
+        {
+            if(dst[i+28+j]==1){acc+=1;}
+            if(dst[i-28+j]==1){acc+=1;}
+            if(dst[i+j+1]==1){acc+=1;}
+            if(dst[i+j-1]==1){acc+=1;}
+            if(acc>=3)
+            {
+                dst[i+j]=1;
+            }
+            acc=0;
+        }
+    }
+}
 int format(SDL_Surface* src,double* dst)
 {
     int res =0;
@@ -485,18 +504,17 @@ int format(SDL_Surface* src,double* dst)
             if (moy>0.10 && moy < 0.50) 
             {
                 moy+=0.50;
-	            printf("%f\n",moy);
             }
             else if (moy >= 0.50) 
             {
                 moy = 1;
-	            printf("%f\n",moy);
             }
         }
                 dst[i]=moy;
         moy =0;
         i++;
     }
+    fillHole(dst);
     return res;
 }
 SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
@@ -527,7 +545,6 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
             if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
                 double zoomx = 112/(double) newImage->w;
                 double zoomy = 112/(double) newImage->h;
-
                 SDL_Surface* image112x112 = zoomSurface(newImage,zoomx,zoomy,0);
                 double* Case = calloc(28*28,sizeof(double));
                 isNotBlank= format(image112x112,Case);
