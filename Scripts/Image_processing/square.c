@@ -449,30 +449,36 @@ int format(SDL_Surface* src,double* dst)
     int res =0;
     double moy = 0;
     int i = 0;
-    for(int j=0;j<112*112;i++)
+    int j =0;
+    int m = 3;
+    while(j<112*112 && m<112)
     {
         for(int k=0;k<4;k++)
         {
-            Uint32 pixel;
-            Uint8 r,g,b;
-	    printf("i : j%112: %i   j/112: %i\n",j%112,j/112);
-            pixel = get_pixel(src,j%112,j/112);
-            SDL_GetRGB(pixel,src->format,&r,&g,&b);
-            if(r!=255||g!=255||b!=255)
+            for(int l=0;l<4)
             {
-                moy +=0;
-            }
-            else{
-		printf("there is a one\n");
-                moy+=1;
+                Uint32 pixel;
+                Uint8 r,g,b;
+                pixel = get_pixel(src,j%112,m +(-3+l);
+                SDL_GetRGB(pixel,src->format,&r,&g,&b);
+                if(r!=255||g!=255||b!=255)
+                {
+                    moy +=0;
+                }
+                else{
+		            //printf("there is a one\n");
+                    moy+=1;
+                }
             }
             j++;
         }
+        if(j%112==0){m +=4;}
         moy/=(4*4);
-	if(moy!=0){res = 1;}
-	printf("%f\n",moy);
+	    if(moy!=0){res = 1;}
+	    //printf("%f\n",moy);
         dst[i]=moy;
         moy =0;
+        i++;
     }
     return res;
 }
