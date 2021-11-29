@@ -506,10 +506,18 @@ int format(SDL_Surface* src,double* dst)
             if (moy>0.10 && moy < 0.50) 
             {
                 moy+=0.50;
+<<<<<<< Updated upstream
+=======
+	            //printf("%f\n",moy);
+>>>>>>> Stashed changes
             }
             else if (moy >= 0.50) 
             {
                 moy = 1;
+<<<<<<< Updated upstream
+=======
+	            //printf("%f\n",moy);
+>>>>>>> Stashed changes
             }
         }
                 dst[i]=moy;
@@ -572,6 +580,10 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                     sudoku[i] = (char)xr(1,NULL,Case);
                 }
                 else{
+<<<<<<< Updated upstream
+=======
+                    //printf("I=%i\n",i);
+>>>>>>> Stashed changes
                     sudoku[i]='0';
                 }
                 SDL_FreeSurface(image112x112);

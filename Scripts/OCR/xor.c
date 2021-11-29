@@ -342,21 +342,27 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
     {
         double rate = 0.0f;
 
+        FILE *defaul;
         if (filenet == NULL)
         {
-            FILE *defaul = fopen("../OCR/_firstNet_","r");
+            defaul = fopen("../OCR/_firstNet_","r");
             if (defaul == NULL)
                 errx(1,"Could not open the default file");
             read_net(defaul);
         }
         else
+        {
             read_net(filenet);
-        //print_value_net();
+        }
+        
+        for (int j = 0; j<NUMOUTPUTS;j++)
+        {
+            printf("OutPutLayBias[%i] = %f  ",j,outputLayBias[j]);
+        }
         printf("\nReading .../\n\n");
 
         if (img != NULL)
         {
-            printf("Ici");
             /*
             for (int i=0; i<784; i++) 
             {
@@ -369,8 +375,8 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
             */
 
             int result = forward(res,1,0,0,img);
+            printf("RESULT : %i => %f\n",result,*res);
             free(res);
-            printf("RESULT : %i\n",result);
             return result;
         }
         else 
