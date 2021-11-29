@@ -301,7 +301,8 @@ List* square_line(SDL_Surface* image_surface)
             pixel = get_pixel(image_surface,x,i);
             SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
             i++;
-            if(i == ec_type)
+	    {
+	      	    if(i == ec_type)
             {
                 x += 1;
                 i = y;
@@ -449,14 +450,15 @@ List* square_line(SDL_Surface* image_surface)
 void fillHole(double* dst)
 {
     int acc =0;
-    for(int i=28;i<27;i+=28)
+    for(int i=28;i<27*27;i+=28)
     {
-        for(int j=1;j<27)
+        for(int j=1;j<27;j++)
         {
-            if(dst[i+28+j]==1){acc+=1;}
-            if(dst[i-28+j]==1){acc+=1;}
-            if(dst[i+j+1]==1){acc+=1;}
-            if(dst[i+j-1]==1){acc+=1;}
+            if(dst[i+28+j]>=0.5){acc+=1;}
+            if(dst[i-28+j]>=0.5){acc+=1;}
+            if(dst[i+j+1]>=0.5){acc+=1;}
+            if(dst[i+j-1]>=0.5){acc+=1;}
+	    printf("acc : %i",acc);
             if(acc>=3)
             {
                 dst[i+j]=1;
@@ -570,7 +572,6 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                     sudoku[i] = (char)xr(1,NULL,Case);
                 }
                 else{
-                    printf("I=%i\n",i);
                     sudoku[i]='0';
                 }
                 SDL_FreeSurface(image112x112);
