@@ -9,9 +9,11 @@
 #include <string.h>
 #include "square.h"
 
-//#include "../OCR/xor.h"
+#include "../OCR/xor.h"
 
 int mediane;
+extern char sudoku[];
+
 
 void quicksort(int number[],int first,int last){
     int i, j, pivot, temp;
@@ -460,7 +462,7 @@ int format(SDL_Surface* src,double* dst)
             {
                 Uint32 pixel;
                 Uint8 r,g,b;
-                printf(" %i/%i ",j%112,m+(-3+l));
+                //printf(" %i/%i ",j%112,m+(-3+l));
                 pixel = get_pixel(src,j%112,m +(-3+l));
                 SDL_GetRGB(pixel,src->format,&r,&g,&b);
                 if(r!=255||g!=255||b!=255)
@@ -477,16 +479,27 @@ int format(SDL_Surface* src,double* dst)
         }
         if(j%112==0){m +=4;}
         moy/=(4*4);
-	    if(moy!=0){res = 1;}
-	    //printf("%f\n",moy);
-        dst[i]=moy;
+	    if(moy!=0)
+        {
+            res = 1;
+            if (moy>0.10 && moy < 0.50) 
+            {
+                moy+=0.50;
+	            printf("%f\n",moy);
+            }
+            else if (moy >= 0.50) 
+            {
+                moy = 1;
+	            printf("%f\n",moy);
+            }
+        }
+                dst[i]=moy;
         moy =0;
         i++;
     }
     return res;
 }
-SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
-        char* sudoku)
+SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
 {
     Element* current_column = column->last;
     Element* current_line;
@@ -519,25 +532,28 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
                 double* Case = calloc(28*28,sizeof(double));
                 isNotBlank= format(image112x112,Case);
                 
-               /* for (int i=0; i<784; i++) 
-                {
-                    if (Case[i] > 0)
-                        printf("%f",Case[i]);
-                    else 
-                        printf("  ");
-                    if ((i+1) % 28 == 0) putchar('\n');
-                }*/
-
+                
 
                 if(isNotBlank==1){
                     isNotBlank=0;
                     
-                    //display_image(image28x28);
+                    //display_image(image112x112);
                     //wait_for_keypressed();
 
-                   // sudoku[i] = (char)xr(1,NULL,Case);
+
+                    for (int i=0; i<784; i++) 
+                    {
+                        if (Case[i] > 0.5)
+                            printf("1 ");
+                        else 
+                            printf("  ");
+                        if ((i+1) % 28 == 0) putchar('\n');
+                    }
+    
+                    sudoku[i] = (char)xr(1,NULL,Case);
                 }
                 else{
+                    printf("I=%i\n",i);
                     sudoku[i]='0';
                 }
                 SDL_FreeSurface(image112x112);
