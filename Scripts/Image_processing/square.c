@@ -451,21 +451,24 @@ int format(SDL_Surface* src,double* dst)
     int i = 0;
     int j =0;
     int m = 3;
+    printf("\nDim %i/%i \n",src->w,src->h);
     while(j<112*112 && m<112)
     {
         for(int k=0;k<4;k++)
         {
-            for(int l=0;l<4)
+            for(int l=0;l<4;l++)
             {
                 Uint32 pixel;
                 Uint8 r,g,b;
-                pixel = get_pixel(src,j%112,m +(-3+l);
+                printf(" %i/%i ",j%112,m+(-3+l));
+                pixel = get_pixel(src,j%112,m +(-3+l));
                 SDL_GetRGB(pixel,src->format,&r,&g,&b);
                 if(r!=255||g!=255||b!=255)
                 {
                     moy +=0;
                 }
-                else{
+                else
+                {
 		            //printf("there is a one\n");
                     moy+=1;
                 }
@@ -509,8 +512,10 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
             SDL_Surface* newImage = SDL_CreateRGBSurface(0,square.w,square.h
                     ,32,0,0,0,0);
             if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
-                SDL_Surface* image112x112 = zoomSurface(newImage,
-                        1.12,1.12, SMOOTHING_ON);
+                SDL_Surface* image112x112 = 
+                rotozoomSurfaceXY(newImage,0,112/newImage->w,112/newImage->h, 1);
+
+                //zoomSurface(newImage,112/newImage->w,112/newImage->h, 1);
                 double* Case = calloc(28*28,sizeof(double));
                 isNotBlank= format(image112x112,Case);
                 
