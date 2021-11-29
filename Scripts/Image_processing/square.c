@@ -9,7 +9,7 @@
 #include <string.h>
 #include "square.h"
 
-#include "../OCR/xor.h"
+//#include "../OCR/xor.h"
 
 int mediane;
 
@@ -448,13 +448,14 @@ int format(SDL_Surface* src,double* dst)
 {
     int res =0;
     double moy = 0;
-    int j =0;
-    for(int i=0;i<28*28;i++)
+    int i = 0;
+    for(int j=0;j<112*112;i++)
     {
         for(int k=0;k<4;k++)
         {
             Uint32 pixel;
             Uint8 r,g,b;
+	    printf("i : j%112: %i   j/112: %i\n",j%112,j/112);
             pixel = get_pixel(src,j%112,j/112);
             SDL_GetRGB(pixel,src->format,&r,&g,&b);
             if(r!=255||g!=255||b!=255)
@@ -462,11 +463,12 @@ int format(SDL_Surface* src,double* dst)
                 moy +=0;
             }
             else{
+		printf("there is a one\n");
                 moy+=1;
             }
             j++;
         }
-        moy/=4;
+        moy/=(4*4);
 	if(moy!=0){res = 1;}
 	printf("%f\n",moy);
         dst[i]=moy;
@@ -522,7 +524,7 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
                     //display_image(image28x28);
                     //wait_for_keypressed();
 
-                    sudoku[i] = (char)xr(1,NULL,Case);
+                   // sudoku[i] = (char)xr(1,NULL,Case);
                 }
                 else{
                     sudoku[i]='0';

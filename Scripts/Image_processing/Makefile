@@ -11,7 +11,7 @@ all: main_hough display
 
 display: display.o
 
-main_hough: main_hough.o base_function_on_pict.o Hough.o tools.o canny.o square.o ../OCR/xor.o
+main_hough: main_hough.o base_function_on_pict.o Hough.o tools.o canny.o square.o #../OCR/xor.o
     
 main_hough.o: Hough.h base_function_on_pict.h tools.h canny.h square.h 
 
