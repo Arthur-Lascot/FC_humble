@@ -14,7 +14,6 @@ unsigned int max_value;
 unsigned int* hough_first(SDL_Surface* first_surface)
 {
     SDL_Surface* image_surface = canny(first_surface);
-    display_image(image_surface);
     int img_w = image_surface->w; //width
     int img_h = image_surface->h; //height
 
@@ -233,6 +232,19 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
             }
             SDL_Surface *rotated_image = rotozoomSurface(first_surface,torotate,1,0);
             SDL_FreeSurface(image_surface);
+	    Element* currentPlace = (houghList->last);
+	    while(currentPlace!=NULL)
+	    {
+		tuple3* temp = currentPlace->key;
+		free(temp->item1);
+		free(temp->item2);
+		currentPlace = currentPlace->previous;
+		free(houghList->last->key);
+		del(houghList);
+	    }
+	    free(houghList);
+	    free(hough);
+	    free(nb_angle);
             return hough_line(hough_first(rotated_image),rotated_image,0);
         }
     }
@@ -247,7 +259,6 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
 
     ///////////entering drawing part///////////////
     Element* currentPlace = (houghList->last);
-    SDL_Surface* image_surface_temp = image_surface;
     int i = 0;
     while(currentPlace!=NULL)
     {
@@ -607,7 +618,7 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
               printf("x1 = %i\n",x1);
               printf("y1 = %i\n",y1);*/
             //printf("teta = %i",teta);
-            image_surface_temp = drawline(x2,y2,x1,y1,image_surface_temp);
+        drawline(x2,y2,x1,y1,image_surface);
         //printf("We drew a line");
         i+=1;
         currentPlace = currentPlace->previous;
@@ -615,7 +626,8 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
         del(houghList);
     }
     free(hough);
+    SDL_FreeSurface(first_surface);
     free(houghList);
-    return image_surface_temp;
+    return image_surface;
 }
 

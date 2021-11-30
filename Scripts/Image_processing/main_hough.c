@@ -32,7 +32,7 @@ int main()
     printf("Square line called\n");
     List* line = square_line(image_surface);
     printf("DrawSquare called\n");
-    image_surface = DrawSquare(image_surface,column,line);
+    DrawSquare(image_surface,column,line);
     printf("End of drawing\n");
     display_image(image_surface);
     wait_for_keypressed();

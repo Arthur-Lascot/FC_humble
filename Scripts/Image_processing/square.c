@@ -25,7 +25,7 @@ void quicksort(int number[],int first,int last){
 
         while(i<j){
             while(number[i]<=number[pivot]&&i<last)
-                i++;
+	    	i++;
             while(number[j]>number[pivot])
                 j--;
             if(i<j){
@@ -53,7 +53,7 @@ void quick_sort_custom(List* list,int temp[])
         current = current->previous;
         i++;
     }
-    quicksort(temp,temp[0],temp[len(list)-1]);
+    quicksort(temp,/*temp[0]*/0,/*temp[*/len(list)-1/*]*/);
 }
 List* square_column(SDL_Surface* image_surface)
 {
@@ -461,10 +461,26 @@ void fillHole(double* dst)
             if(dst[i+j-1]>=0.5){acc+=1;}
             if(acc>=3)
             {
-                dst[i+j]=1;
+                dst[i+j]=0.90;
             }
+	    if(acc<=1)
+	    {
+		dst[i+j]=0;
+	    }
             acc=0;
         }
+    }
+    for(int i=0;i<28;i++)
+    {
+	    dst[i]=0;
+    }
+    for(int i=0;i<28*28;i+=28)
+    {
+	    dst[i]=0;
+    }
+    for(int i=27;i<28*28;i+=28)
+    {
+	    dst[i]=0;
     }
 }
 int format(SDL_Surface* src,double* dst)
@@ -523,7 +539,7 @@ int format(SDL_Surface* src,double* dst)
     fillHole(dst);
     return res;
 }
-SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
+void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
 {
     Element* current_column = column->last;
     Element* current_line;
@@ -542,10 +558,10 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
             int high = *((int*)(((tuple3*)(current_line->key))->item1));
             int low = *((int*)(((tuple3*)(current_line->key))->item2));
             SDL_Rect square;
-            square.x = left+2;
-            square.y = high+2;
-            square.h = low - high;
-            square.w = right - left;
+            square.x = left+4;
+            square.y = high+4;
+            square.h = low - high -4;
+            square.w = right - left -4;
             SDL_Surface* newImage = SDL_CreateRGBSurface(0,square.w,square.h
                     ,32,0,0,0,0);
             if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
@@ -573,7 +589,7 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                         if ((i+1) % 28 == 0) putchar('\n');
                     }
 
-                    sudoku[i] = (char)xr(1,NULL,Case);
+                   // sudoku[i] = (char)xr(1,NULL,Case);
                 }
                 else{
                     //printf("I=%i\n",i);
@@ -630,5 +646,4 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
             }
         }
     }
-    return image_surface;
 }
