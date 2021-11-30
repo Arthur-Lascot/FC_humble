@@ -24,7 +24,7 @@ int main()
     SDL_FreeSurface(image_surface);
     image_surface = canny("../../Ressources/image_01.jpeg");
     printf("Key pressed\n");
-    image_surface = hough_line(hough(image_surface),image_surface);
+    image_surface = hough_line(hough_first(image_surface),image_surface,1);
     display_image(image_surface);
     wait_for_keypressed();
     printf("Square column called\n");
