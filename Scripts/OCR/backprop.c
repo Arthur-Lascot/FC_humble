@@ -7,7 +7,7 @@
 
 
 #define NUMINPUTS 784
-#define NUMHIDNEURONS 64
+#define NUMHIDNEURONS 98
 #define NUMOUTPUTS 9
 
 

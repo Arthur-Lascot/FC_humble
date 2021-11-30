@@ -4,8 +4,9 @@
 #include <time.h>
 #include <err.h>
 
-#include <sys/types.h>
-#include <sys/stat.h>
+//#include <sys/types.h>
+//#include <sys/stat.h>
+
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -19,7 +20,7 @@
 //Characteristic for the Neuron Network
 
 #define NUMINPUTS 784
-#define NUMHIDNEURONS 64
+#define NUMHIDNEURONS 98
 #define NUMOUTPUTS 9
 
 //static const int epoch = 10001;
@@ -97,11 +98,11 @@ int research_input(char* input1, char* input2)
 //Generate a random number between 0.25f and 0.75f;
 double random_double()
 {
-    double res = rand() % 101;
+    double res = rand() % 201;
 
     if (res == 0)
         return 0;
-    return (res/100);
+    return ((res/100)-1);
 }
 
 //Generate a random number between 0 and 3 (4);
@@ -295,6 +296,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
       }
       printf("Num Zero : %i",numz);
      */
+    double* res = malloc(sizeof(double));
 
 
     //=========================//
@@ -311,7 +313,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
         init_network();
         //print_value_net();
 
-        while (n < 150001)
+        while (n < 2.5*60000)
         { 
             if (train_label[n%TRAIN_DATA] != 0)
             {
@@ -319,8 +321,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
                     printf("\n==============> EPOCH N°%i <===============\n",n);
 
                 //Forward
-                double *res;
-                int result = forward(res,n,1,0);
+                int result = forward(res,n,1,0,NULL);
 
                 //BackProp
                 backprop(result,n);
@@ -340,13 +341,30 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
     if (reading)
     {
         double rate = 0.0f;
-        read_net(filenet);
-        //print_value_net();
+
+        FILE *defaul;
+        if (filenet == NULL)
+        {
+            printf("Default File\n");
+            defaul = fopen("../OCR/test","r");
+            if (defaul == NULL)
+                errx(1,"Could not open the default file");
+            read_net(defaul);
+            for (int j = 0; j<NUMOUTPUTS;j++)
+            {
+                printf("OutPutLayBias[%i] = %f  ",j,outputLayBias[j]);
+            }
+        }
+        else
+        {
+            read_net(filenet);
+        }
+        
         printf("\nReading .../\n\n");
 
         if (img != NULL)
         {
-            printf("Ici");
+            /*
             for (int i=0; i<784; i++) 
             {
                 if (image[i] >= 0.5f)
@@ -355,10 +373,12 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
                     printf("  ");
                 if ((i+1) % 28 == 0) putchar('\n');
             }
+            */
 
-
-            double* res;
-            int result = forward(res,1,0,0);
+            int result = forward(res,1,0,0,img);
+            printf("RESULT : %i => %f\n",result,*res);
+            free(res);
+            return result;
         }
         else 
         {
@@ -369,10 +389,8 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
                 {
                     if (j%1000 == 0)
                         printf("\n============> EPOCH N°%i <=============\n",j);
-
-
-                    double* res;  
-                    int result = forward(res,j,0,1);
+  
+                    int result = forward(res,j,0,1,NULL);
                     if (result == test_label[j])
                         rate++;
                 }
@@ -397,7 +415,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
     }
 
     printf("Done\n");
-
+    free(res);
     return 1;
 }
 

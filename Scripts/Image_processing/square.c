@@ -9,34 +9,38 @@
 #include <string.h>
 #include "square.h"
 
+#include "../OCR/xor.h"
+
 int mediane;
+extern char sudoku[];
+
 
 void quicksort(int number[],int first,int last){
-   int i, j, pivot, temp;
+    int i, j, pivot, temp;
 
-   if(first<last){
-      pivot=first;
-      i=first;
-      j=last;
+    if(first<last){
+        pivot=first;
+        i=first;
+        j=last;
 
-      while(i<j){
-         while(number[i]<=number[pivot]&&i<last)
-            i++;
-         while(number[j]>number[pivot])
-            j--;
-         if(i<j){
-            temp=number[i];
-            number[i]=number[j];
-            number[j]=temp;
-         }
-      }
+        while(i<j){
+            while(number[i]<=number[pivot]&&i<last)
+                i++;
+            while(number[j]>number[pivot])
+                j--;
+            if(i<j){
+                temp=number[i];
+                number[i]=number[j];
+                number[j]=temp;
+            }
+        }
 
-      temp=number[pivot];
-      number[pivot]=number[j];
-      number[j]=temp;
-      quicksort(number,first,j-1);
-      quicksort(number,j+1,last);
-   }
+        temp=number[pivot];
+        number[pivot]=number[j];
+        number[j]=temp;
+        quicksort(number,first,j-1);
+        quicksort(number,j+1,last);
+    }
 }
 
 void quick_sort_custom(List* list,int temp[])
@@ -150,10 +154,10 @@ List* square_column(SDL_Surface* image_surface)
         }
         else
         {
-        free((int*)(((tuple3*)(current_ecart->key))->item3));
-        free((int*)(((tuple3*)(current_ecart->key))->item2));
-        free((int*)(((tuple3*)(current_ecart->key))->item1));
-        free(((tuple3*)(current_ecart->key)));
+            free((int*)(((tuple3*)(current_ecart->key))->item3));
+            free((int*)(((tuple3*)(current_ecart->key))->item2));
+            free((int*)(((tuple3*)(current_ecart->key))->item1));
+            free(((tuple3*)(current_ecart->key)));
         }
         current_ecart = current_ecart->previous;
         del(dist);
@@ -182,7 +186,7 @@ List* square_column(SDL_Surface* image_surface)
             }
             else
             {
-                
+
                 free((int*)(((tuple3*)(current_ecart->key))->item3));
                 free((int*)(((tuple3*)(current_ecart->key))->item2));
                 free((int*)(((tuple3*)(current_ecart->key))->item1));
@@ -194,7 +198,7 @@ List* square_column(SDL_Surface* image_surface)
         }
         else
         {
-	    if(neighbour_ecart==NULL){errx(1,"neighbour ==NULL");}
+            if(neighbour_ecart==NULL){errx(1,"neighbour ==NULL");}
             int value = *((int*)(((tuple3*)(neighbour_ecart->key))->item3));
             if(value<median+ec_type&&value>median-ec_type)
             {
@@ -220,29 +224,29 @@ List* square_column(SDL_Surface* image_surface)
         }
     }
     if(compteur != 9)
-        {
-            errx(1,"you didn't detect a sudoku (column)");
-        }
-        else
-        {
-            while(current_ecart!=neighbour_ecart)
-            {
-                add(result,current_ecart->key);
-                current_ecart=current_ecart->previous;
-                del(ecart_clean);
-            }
-            while(current_ecart!=NULL)
-            {
-
-                free((int*)(((tuple3*)(current_ecart->key))->item3));
-                free((int*)(((tuple3*)(current_ecart->key))->item2));
-                free((int*)(((tuple3*)(current_ecart->key))->item1));
-                free(((tuple3*)(current_ecart->key)));
-                current_ecart = current_ecart->previous;
-                del(ecart_clean);
-            }
+    {
+        errx(1,"you didn't detect a sudoku (column)");
     }
-    
+    else
+    {
+        while(current_ecart!=neighbour_ecart)
+        {
+            add(result,current_ecart->key);
+            current_ecart=current_ecart->previous;
+            del(ecart_clean);
+        }
+        while(current_ecart!=NULL)
+        {
+
+            free((int*)(((tuple3*)(current_ecart->key))->item3));
+            free((int*)(((tuple3*)(current_ecart->key))->item2));
+            free((int*)(((tuple3*)(current_ecart->key))->item1));
+            free(((tuple3*)(current_ecart->key)));
+            current_ecart = current_ecart->previous;
+            del(ecart_clean);
+        }
+    }
+
     free(ecart_clean);
     return result;
 }
@@ -297,20 +301,21 @@ List* square_line(SDL_Surface* image_surface)
             pixel = get_pixel(image_surface,x,i);
             SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
             i++;
-            if(i == ec_type)
             {
-                x += 1;
-                i = y;
-                pixel = get_pixel(image_surface,x,i);
-                SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
-                if(r!=0||g!=255||b!=0)
+                if(i == ec_type)
                 {
-                    y = 0;
-                    oof = 1;
+                    x += 1;
+                    i = y;
+                    pixel = get_pixel(image_surface,x,i);
+                    SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
+                    if(r!=0||g!=255||b!=0)
+                    {
+                        y = 0;
+                        oof = 1;
+                    }
                 }
             }
-        }
-    }while(oof == 1);
+        }}while(oof == 1);
     high = y;
     low=y+1;
     //switch left -> high, right -> low, x-> y 
@@ -353,10 +358,10 @@ List* square_line(SDL_Surface* image_surface)
         }
         else
         {
-        free((int*)(((tuple3*)(current_ecart->key))->item3));
-        free((int*)(((tuple3*)(current_ecart->key))->item2));
-        free((int*)(((tuple3*)(current_ecart->key))->item1));
-        free(((tuple3*)(current_ecart->key)));
+            free((int*)(((tuple3*)(current_ecart->key))->item3));
+            free((int*)(((tuple3*)(current_ecart->key))->item2));
+            free((int*)(((tuple3*)(current_ecart->key))->item1));
+            free(((tuple3*)(current_ecart->key)));
         }
         current_ecart = current_ecart->previous;
         del(dist);
@@ -417,34 +422,108 @@ List* square_line(SDL_Surface* image_surface)
             }
         }
     }
-        if(compteur != 9)
+    if(compteur != 9)
+    {
+        errx(1,"you didn't detect a sudoku (line)");
+    }
+    else
+    {
+        while(current_ecart!=neighbour_ecart)
         {
-            errx(1,"you didn't detect a sudoku (line)");
+            add(result,current_ecart->key);
+            current_ecart=current_ecart->previous;
+            del(ecart_clean);
         }
-        else
+        while(current_ecart!=NULL)
         {
-            while(current_ecart!=neighbour_ecart)
-            {
-                add(result,current_ecart->key);
-                current_ecart=current_ecart->previous;
-                del(ecart_clean);
-            }
-            while(current_ecart!=NULL)
-            {
-                free((int*)(((tuple3*)(current_ecart->key))->item3));
-                free((int*)(((tuple3*)(current_ecart->key))->item2));
-                free((int*)(((tuple3*)(current_ecart->key))->item1));
-                free(((tuple3*)(current_ecart->key)));
-                current_ecart = current_ecart->previous;
-                del(ecart_clean);
-            }
+            free((int*)(((tuple3*)(current_ecart->key))->item3));
+            free((int*)(((tuple3*)(current_ecart->key))->item2));
+            free((int*)(((tuple3*)(current_ecart->key))->item1));
+            free(((tuple3*)(current_ecart->key)));
+            current_ecart = current_ecart->previous;
+            del(ecart_clean);
         }
+    }
     free(ecart_clean);
     return result;
 }
 
-SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
-        char* sudoku)
+void fillHole(double* dst)
+{
+    int acc =0;
+    for(int i=28;i<27*27;i+=28)
+    {
+        for(int j=1;j<27;j++)
+        {
+            if(dst[i+28+j]>=0.5){acc+=1;}
+            if(dst[i-28+j]>=0.5){acc+=1;}
+            if(dst[i+j+1]>=0.5){acc+=1;}
+            if(dst[i+j-1]>=0.5){acc+=1;}
+            if(acc>=3)
+            {
+                dst[i+j]=1;
+            }
+            acc=0;
+        }
+    }
+}
+int format(SDL_Surface* src,double* dst)
+{
+    int res =0;
+    double moy = 0;
+    int i = 0;
+    int j =0;
+    int m = 3;
+    printf("\nDim %i/%i \n",src->w,src->h);
+    while(j<112*112 && m<112)
+    {
+        for(int k=0;k<4;k++)
+        {
+            for(int l=0;l<4;l++)
+            {
+                Uint32 pixel;
+                Uint8 r,g,b;
+                //printf(" %i/%i ",j%112,m+(-3+l));
+                pixel = get_pixel(src,j%112,m +(-3+l));
+                SDL_GetRGB(pixel,src->format,&r,&g,&b);
+                if(r!=255||g!=255||b!=255)
+                {
+                    moy +=0;
+                }
+                else
+                {
+                    //printf("there is a one\n");
+                    moy+=1;
+                }
+            }
+            j++;
+        }
+        if(j%112==0){m +=4;}
+        moy/=(4*4);
+        if(moy!=0)
+        {
+            res = 1;
+            
+            if (moy>0.10 && moy < 0.50) 
+            {
+                moy+=0.40;
+                //printf("%f\n",moy);
+            }
+            else if (moy >= 0.60) 
+            {
+                moy = 1;
+                //printf("%f\n",moy);
+            }
+            
+        }
+        dst[i]=moy;
+        moy =0;
+        i++;
+    }
+    fillHole(dst);
+    return res;
+}
+SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
 {
     Element* current_column = column->last;
     Element* current_line;
@@ -459,7 +538,7 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
         current_line = line->last;
         while(current_line != NULL)
         {
-	    i++;
+            i++;
             int high = *((int*)(((tuple3*)(current_line->key))->item1));
             int low = *((int*)(((tuple3*)(current_line->key))->item2));
             SDL_Rect square;
@@ -468,48 +547,42 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
             square.h = low - high;
             square.w = right - left;
             SDL_Surface* newImage = SDL_CreateRGBSurface(0,square.w,square.h
-			    ,32,0,0,0,0);
-            int k=0;
+                    ,32,0,0,0,0);
             if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
-                SDL_Surface* image28x28 = zoomSurface(newImage,
-		0.28,0.28, SMOOTHING_ON);
-                int* Case = calloc(28*28,sizeof(int));
-                for (int i =0;i<27;i++)
-                {
-	                for(int j=0;j<27;j++)
-	                {   
-		                Uint32 pixel;
-		                Uint8 r,g,b;
-		                pixel = get_pixel(image28x28,i,j);
-		                SDL_GetRGB(pixel,image28x28->format,&r,&g,&b);
-		                if(r!=255&&g!=255&&b!=255)
-		                {
-                            		Case[k] = 0;
-		                }
-                        	else{
-                            		isNotBlank=1;
-                            		Case[k] = 1;
-                        	}
-                        	k++;
-	                }
-                }
-		for(int i=0;i<54;i++)
-		{
-			k++;
-			printf("%i\n",k);
-			Case[k]=0;
-		}
+                double zoomx = 112/(double) newImage->w;
+                double zoomy = 112/(double) newImage->h;
+                SDL_Surface* image112x112 = zoomSurface(newImage,zoomx,zoomy,0);
+                double* Case = calloc(28*28,sizeof(double));
+                isNotBlank= format(image112x112,Case);
+
+
+
                 if(isNotBlank==1){
                     isNotBlank=0;
-                    //sudoku[i] = fonction neurone
+
+                    //display_image(image112x112);
+                    //wait_for_keypressed();
+
+
+                    for (int i=0; i<784; i++) 
+                    {
+                        if (Case[i] > 0)
+                            printf("1 ");
+                        else 
+                            printf("  ");
+                        if ((i+1) % 28 == 0) putchar('\n');
+                    }
+
+                    sudoku[i] = (char)xr(1,NULL,Case);
                 }
                 else{
-                    sudoku[i]='_';
+                    //printf("I=%i\n",i);
+                    sudoku[i]='0';
                 }
-		SDL_FreeSurface(image28x28);
-		free(Case);
+                SDL_FreeSurface(image112x112);
+                free(Case);
             }
-	    SDL_FreeSurface(newImage);
+            SDL_FreeSurface(newImage);
             for(int i = high;i<low;i++)
             {
                 put_pixel(image_surface,left,i,red);
@@ -545,17 +618,17 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line,
     int h = image_surface->h;
     for (int i =0;i<w;i++)
     {
-	    for(int j=0;j<h;j++)
-	    {
-		    Uint32 pixel;
-		    Uint8 r,g,b;
-		    pixel = get_pixel(image_surface,i,j);
-		    SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
-		    if(r==0 && g==255 && b==0)
-		    {
-			    put_pixel(image_surface,i,j,black);
-		    }
-	    }
+        for(int j=0;j<h;j++)
+        {
+            Uint32 pixel;
+            Uint8 r,g,b;
+            pixel = get_pixel(image_surface,i,j);
+            SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
+            if(r==0 && g==255 && b==0)
+            {
+                put_pixel(image_surface,i,j,black);
+            }
+        }
     }
     return image_surface;
 }

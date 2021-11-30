@@ -9,9 +9,13 @@
 #include "square.h"
 #include "tools.h"
 
+
+char sudoku[81];
+
+
 int main()
 {
-    char* sudoku = malloc(81*sizeof(char));
+    //char* sudoku = malloc(81*sizeof(char));
     SDL_Surface* image_surface;
     init_sdl();
     image_surface = load_image("../../Ressources/image_01.jpeg");
@@ -28,7 +32,7 @@ int main()
     printf("Square line called\n");
     List* line = square_line(image_surface);
     printf("DrawSquare called\n");
-    image_surface = DrawSquare(image_surface,column,line,sudoku);
+    image_surface = DrawSquare(image_surface,column,line);
     printf("End of drawing\n");
     display_image(image_surface);
     wait_for_keypressed();

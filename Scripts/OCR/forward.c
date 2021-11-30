@@ -9,7 +9,7 @@
 
 
 #define NUMINPUTS 784
-#define NUMHIDNEURONS 64
+#define NUMHIDNEURONS 98
 #define NUMOUTPUTS 9
 
 
@@ -49,7 +49,7 @@ int max_index(double output[NUMOUTPUTS])
     return 0;
 }
 
-int forward(double *res,int n,int train,int test)
+int forward(double *res,int n,int train,int test,double image[SIZE])
 {
     int img = 0;
     if (train)
@@ -112,7 +112,7 @@ output : 0 if sigmoid(activation) <= 0.5
         }
         outputLay[i] /= totsum;
     }
-    
+   
     *res = outputLay[imax-1];
 
     if (train)
