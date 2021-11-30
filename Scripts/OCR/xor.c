@@ -345,20 +345,21 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
         FILE *defaul;
         if (filenet == NULL)
         {
-            defaul = fopen("../OCR/_firstNet_","r");
+            printf("Default File\n");
+            defaul = fopen("../OCR/test","r");
             if (defaul == NULL)
                 errx(1,"Could not open the default file");
             read_net(defaul);
+            for (int j = 0; j<NUMOUTPUTS;j++)
+            {
+                printf("OutPutLayBias[%i] = %f  ",j,outputLayBias[j]);
+            }
         }
         else
         {
             read_net(filenet);
         }
         
-        for (int j = 0; j<NUMOUTPUTS;j++)
-        {
-            printf("OutPutLayBias[%i] = %f  ",j,outputLayBias[j]);
-        }
         printf("\nReading .../\n\n");
 
         if (img != NULL)

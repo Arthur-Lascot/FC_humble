@@ -301,21 +301,21 @@ List* square_line(SDL_Surface* image_surface)
             pixel = get_pixel(image_surface,x,i);
             SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
             i++;
-	    {
-	      	    if(i == ec_type)
             {
-                x += 1;
-                i = y;
-                pixel = get_pixel(image_surface,x,i);
-                SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
-                if(r!=0||g!=255||b!=0)
+                if(i == ec_type)
                 {
-                    y = 0;
-                    oof = 1;
+                    x += 1;
+                    i = y;
+                    pixel = get_pixel(image_surface,x,i);
+                    SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
+                    if(r!=0||g!=255||b!=0)
+                    {
+                        y = 0;
+                        oof = 1;
+                    }
                 }
             }
-        }
-    }while(oof == 1);
+        }}while(oof == 1);
     high = y;
     low=y+1;
     //switch left -> high, right -> low, x-> y 
@@ -447,6 +447,7 @@ List* square_line(SDL_Surface* image_surface)
     free(ecart_clean);
     return result;
 }
+
 void fillHole(double* dst)
 {
     int acc =0;
@@ -458,7 +459,6 @@ void fillHole(double* dst)
             if(dst[i-28+j]>=0.5){acc+=1;}
             if(dst[i+j+1]>=0.5){acc+=1;}
             if(dst[i+j-1]>=0.5){acc+=1;}
-	    printf("acc : %i",acc);
             if(acc>=3)
             {
                 dst[i+j]=1;
@@ -492,7 +492,7 @@ int format(SDL_Surface* src,double* dst)
                 }
                 else
                 {
-		            //printf("there is a one\n");
+                    //printf("there is a one\n");
                     moy+=1;
                 }
             }
@@ -500,27 +500,23 @@ int format(SDL_Surface* src,double* dst)
         }
         if(j%112==0){m +=4;}
         moy/=(4*4);
-	    if(moy!=0)
+        if(moy!=0)
         {
             res = 1;
+            
             if (moy>0.10 && moy < 0.50) 
             {
-                moy+=0.50;
-<<<<<<< Updated upstream
-=======
-	            //printf("%f\n",moy);
->>>>>>> Stashed changes
+                moy+=0.40;
+                //printf("%f\n",moy);
             }
-            else if (moy >= 0.50) 
+            else if (moy >= 0.60) 
             {
                 moy = 1;
-<<<<<<< Updated upstream
-=======
-	            //printf("%f\n",moy);
->>>>>>> Stashed changes
+                //printf("%f\n",moy);
             }
+            
         }
-                dst[i]=moy;
+        dst[i]=moy;
         moy =0;
         i++;
     }
@@ -558,32 +554,29 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                 SDL_Surface* image112x112 = zoomSurface(newImage,zoomx,zoomy,0);
                 double* Case = calloc(28*28,sizeof(double));
                 isNotBlank= format(image112x112,Case);
-                
-                
+
+
 
                 if(isNotBlank==1){
                     isNotBlank=0;
-                    
+
                     //display_image(image112x112);
                     //wait_for_keypressed();
 
 
                     for (int i=0; i<784; i++) 
                     {
-                        if (Case[i] > 0.5)
+                        if (Case[i] > 0)
                             printf("1 ");
                         else 
                             printf("  ");
                         if ((i+1) % 28 == 0) putchar('\n');
                     }
-    
+
                     sudoku[i] = (char)xr(1,NULL,Case);
                 }
                 else{
-<<<<<<< Updated upstream
-=======
                     //printf("I=%i\n",i);
->>>>>>> Stashed changes
                     sudoku[i]='0';
                 }
                 SDL_FreeSurface(image112x112);
