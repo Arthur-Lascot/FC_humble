@@ -169,6 +169,15 @@ output : 0 if sigmoid(activation) <= 0.5
         }
 
     }
+    else 
+    {
+        printf("RESULT : %i => %f \n",imax,outputLay[imax-1]);
+        for (int j = 0 ; j < numOutputs; j++)
+        {
+            printf(" %i Res => %f\n",j+1,outputLay[j]);
+        }
+    }
+
     return imax;
 
 }

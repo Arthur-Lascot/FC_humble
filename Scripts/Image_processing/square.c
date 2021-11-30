@@ -450,19 +450,41 @@ List* square_line(SDL_Surface* image_surface)
 
 void fillHole(double* dst)
 {
-    int acc =0;
+    double acc =0;
+    int neighbours = 0;
     for(int i=28;i<27*27;i+=28)
     {
         for(int j=1;j<27;j++)
         {
-            if(dst[i+28+j]>=0.5){acc+=1;}
-            if(dst[i-28+j]>=0.5){acc+=1;}
-            if(dst[i+j+1]>=0.5){acc+=1;}
-            if(dst[i+j-1]>=0.5){acc+=1;}
-            if(acc>=3)
+            
+            
+            if(dst[i+28+j]>=0.3)
             {
-                dst[i+j]=1;
+                acc+=dst[i+28+j];
+                neighbours++;
             }
+            if(dst[i-28+j]>=0.3)
+            {
+                acc+=dst[i+28+j];
+                neighbours++;
+            }
+            if(dst[i+j+1]>=0.3)
+            {
+                acc+=dst[i+j+1];
+                neighbours++;
+            }
+            if(dst[i+j-1]>=0.3)
+            {
+                acc+=dst[i+j-1];
+                neighbours++;;
+            }
+            
+            if(neighbours>=3)
+            {
+                dst[i+j] = acc/neighbours;
+            }
+            
+            neighbours = 0;
             acc=0;
         }
     }
@@ -503,13 +525,18 @@ int format(SDL_Surface* src,double* dst)
         if(moy!=0)
         {
             res = 1;
+            /*
+            moy *= 2;
+            if (moy > 1)
+                moy = 1;
+            */
             
             if (moy>0.10 && moy < 0.50) 
             {
-                moy+=0.40;
+                moy+=0.30;
                 //printf("%f\n",moy);
             }
-            else if (moy >= 0.60) 
+            else if (moy >= 0.70) 
             {
                 moy = 1;
                 //printf("%f\n",moy);
@@ -566,8 +593,10 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
 
                     for (int i=0; i<784; i++) 
                     {
-                        if (Case[i] > 0)
+                        if (Case[i] > 0.75)
                             printf("1 ");
+                        else if (Case[i] > 0.5)
+                            printf("0 ");
                         else 
                             printf("  ");
                         if ((i+1) % 28 == 0) putchar('\n');
