@@ -67,13 +67,16 @@ List* square_column(SDL_Surface* image_surface)
     int w = image_surface->w;
     int h = image_surface->h;
     int ec_type;
+    int ec2_type;
     if(w>h)
     {
         ec_type = (int)round(w/100);
+        ec2_type = (int)round(w/200);
     }
     else
     {
         ec_type = (int)round(h/100);
+        ec2_type = (int)round(h/200);
     }
     Uint32 pixel;
     Uint8 r,g,b;
@@ -200,7 +203,7 @@ List* square_column(SDL_Surface* image_surface)
         {
             if(neighbour_ecart==NULL){errx(1,"neighbour ==NULL");}
             int value = *((int*)(((tuple3*)(neighbour_ecart->key))->item3));
-            if(value<median+ec_type&&value>median-ec_type)
+            if(value<median+ec2_type&&value>median-ec2_type)
             {
 
                 neighbour_ecart = neighbour_ecart->previous;
@@ -269,13 +272,16 @@ List* square_line(SDL_Surface* image_surface)
     int h = image_surface->h;
     int w = image_surface->w;
     int ec_type;
+    int ec2_type;
     if(w>h)
     {
         ec_type = (int)round(w/100);
+        ec2_type = (int)round(w/200);
     }
     else
     {
         ec_type = (int)round(h/100);
+        ec2_type = (int)round(h/200);
     }
 
     Uint32 pixel;
@@ -401,7 +407,7 @@ List* square_line(SDL_Surface* image_surface)
         else
         {
             int value = *((int*)(((tuple3*)(neighbour_ecart->key))->item3));
-            if(value<median+ec_type&&value>median-ec_type)
+            if(value<median+ec2_type&&value>median-ec2_type)
             {
                 neighbour_ecart = neighbour_ecart->previous;
                 compteur +=1;

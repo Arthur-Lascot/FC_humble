@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
+#include "SDL/SDL_rotozoom.h"
 #include "base_function_on_pict.h"
 #include "canny.h"
 #include "square.h"
@@ -18,7 +19,8 @@ int main()
     //char* sudoku = malloc(81*sizeof(char));
     SDL_Surface* image_surface;
     init_sdl();
-    image_surface = load_image("../../Ressources/image_10.jpeg");
+    image_surface = load_image("../../Ressources/image_01.jpeg");
+    image_surface = rotozoomSurface(image_surface,22,1,0);
     display_image(image_surface);
     wait_for_keypressed();
     //SDL_FreeSurface(image_surface);
