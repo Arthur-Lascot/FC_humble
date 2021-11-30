@@ -10,6 +10,7 @@
 
 int nbwhite;
 int nbblack;
+unsigned int max_value;
 unsigned int* hough_first(SDL_Surface* first_surface)
 {
     SDL_Surface* image_surface = canny(first_surface);
@@ -29,6 +30,8 @@ unsigned int* hough_first(SDL_Surface* first_surface)
         (unsigned int*)calloc(size,sizeof(unsigned int));
     nbwhite = 0;
     nbblack = 0;
+    max_value = 0;
+    unsigned int tempo = 0;
     //the accumulator, with calloc,
     //that create a memory gestion table
     //with a size of height * width of the accu,
@@ -52,6 +55,11 @@ unsigned int* hough_first(SDL_Surface* first_surface)
                     //calculs of ro, formula : x*cos(teta) + y*sin(teta)
 
                     (*(accum + (int)((round(ro + roMax) * 180.0) + teta))) ++;
+                    tempo = *(accum+(int)((round(ro+roMax)*180.0)+teta));
+                    if(tempo>max_value)
+                    {
+                        max_value = tempo;
+                    }
                     //access the right value(round of ro bring to positive
                     //*180(from a ro to another) + teta (the angle)), then
                     //add 1 to the density in this case
@@ -88,16 +96,14 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
     printf("Called hough_line\n");
     int w = image_surface->w; //width
     int h = image_surface->h; //height
-    unsigned int threshold_min;
+    unsigned int threshold_min = max_value*0.4;
     unsigned int threshold_max;
     if(h < w)
     {
-        threshold_min = (int)round(w/2);
         threshold_max = h;
     }
     else
     {
-        threshold_min = (int)round(h/2);
         threshold_max = w;
     }
     double roMax =  (sqrt(w*w + h*h));
@@ -205,14 +211,16 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
         int curr = 0;
         unsigned int count = 0;
         double torotate = 0;
+        int tempo = 0;
         while(count<90 && curr == 0)
         {
             if(nb_angle[count]>=9 && nb_angle[count+90]>=9)
             {
-                curr = count;
+                tempo = count;
             }
             count +=1;
         }
+        curr = tempo;
         if(curr!= 0)
         {
             if(curr < 46)
