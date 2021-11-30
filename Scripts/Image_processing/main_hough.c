@@ -18,11 +18,11 @@ int main()
     //char* sudoku = malloc(81*sizeof(char));
     SDL_Surface* image_surface;
     init_sdl();
-    image_surface = load_image("../../Ressources/image_01.jpeg");
+    image_surface = load_image("../../Ressources/image_09.jpeg");
     display_image(image_surface);
     wait_for_keypressed();
-    SDL_FreeSurface(image_surface);
-    image_surface = canny("../../Ressources/image_01.jpeg");
+    //SDL_FreeSurface(image_surface);
+    //image_surface = canny("../../Ressources/image_09.jpeg");
     printf("Key pressed\n");
     image_surface = hough_line(hough_first(image_surface),image_surface,1);
     display_image(image_surface);

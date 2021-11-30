@@ -5,6 +5,6 @@
 #include <SDL/SDL.h>
 
 SDL_Surface* grayscalebis(SDL_Surface* image_surface);
-SDL_Surface* canny(char* my_image);
+SDL_Surface* canny(SDL_Surface* image_surface);
 
 #endif

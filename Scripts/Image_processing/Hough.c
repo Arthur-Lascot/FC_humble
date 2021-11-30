@@ -6,11 +6,14 @@
 #include <math.h>
 #include <stdio.h>
 #include "tools.h"
+#include "canny.h"
 
 int nbwhite;
 int nbblack;
-unsigned int* hough_first(SDL_Surface* image_surface)
+unsigned int* hough_first(SDL_Surface* first_surface)
 {
+    SDL_Surface* image_surface = canny(first_surface);
+    display_image(image_surface);
     int img_w = image_surface->w; //width
     int img_h = image_surface->h; //height
 
@@ -71,14 +74,17 @@ unsigned int* hough_first(SDL_Surface* image_surface)
        }
        }
      */
-
+    SDL_FreeSurface(image_surface);
     printf("Check done");
     return accum;
 }
 
-SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* image_surface,
+SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
         int to_rotate)
 {
+    SDL_Surface* image_surface = canny(first_surface);
+    display_image(image_surface);
+    wait_for_keypressed();
     printf("Called hough_line\n");
     int w = image_surface->w; //width
     int h = image_surface->h; //height
@@ -211,13 +217,14 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* image_surface,
         {
             if(curr < 46)
             {
-                torotate = -curr;
+                torotate = curr;
             }
             else
             {
-                torotate = 90-curr;
+                torotate = curr-90;
             }
-            SDL_Surface *rotated_image = rotozoomSurface(image_surface,torotate,1,0);
+            SDL_Surface *rotated_image = rotozoomSurface(first_surface,torotate,1,0);
+            SDL_FreeSurface(image_surface);
             return hough_line(hough_first(rotated_image),rotated_image,0);
         }
     }
@@ -262,14 +269,10 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* image_surface,
             y1 = (int)(ro/sin(tetaR));
             y2 = (int)((ro-(w-1)*cos(tetaR))/sin(tetaR));
         }
-        else
+        /*
+        else if(teta<=5 || (teta >= 85 && teta<=95))
         {
-            i+=1;
-            currentPlace = currentPlace->previous;
-            free(temp);
-            del(houghList);
-            continue;
-            /*
+            
                x1 = (int)(ro/cos(tetaR));
                if(x1 >= 0 && x1<w)
                {
@@ -377,10 +380,19 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* image_surface,
 
 
                }
-               */
+        
 
         }//fin du else
+        */
+        else
+        {
+            i+=1;
+            currentPlace = currentPlace->previous;
+            free(temp);
+            del(houghList);
+            continue;
 
+        }
         /*
            if(x1 == 0)
            {
