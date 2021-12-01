@@ -4,51 +4,95 @@
 #include <stdio.h>
 #include "../Image_processing/base_function_on_pict.h"
 
-int init_numbers(SDL_Surface* grid, char sudoku[])
+int init_numbers(SDL_Surface* grid  ,char sudoku[])
 {
     display_image(grid);
     wait_for_keypressed();
-    
+
     SDL_Surface* result;
-    SDL_Surface* one_B = load_image("../../Ressources/result/1_black.png");
-    SDL_Surface* two_B = load_image("../../Ressources/result/2_black.png");
-    SDL_Surface* three_B = load_image("../../Ressources/result/3_black.png");
-    SDL_Surface* four_B = load_image("../../Ressources/result/4_black.png");
-    SDL_Surface* five_B = load_image("../../Ressources/result/5_black.png");
-    SDL_Surface* six_B = load_image("../../Ressources/result/6_black.png");
-    SDL_Surface* seven_B = load_image("../../Ressources/result/7_black.png");
-    SDL_Surface* eight_B = load_image("../../Ressources/result/8_black.png");
-    SDL_Surface* nine_B = load_image("../../Ressources/result/9_black.png");
-
-    int h_number = one_B->h;
+    SDL_Surface* number = load_image("../../Ressources/result/1_black.png");
+    int h_number = number->h;
+    SDL_FreeSurface(number);
     int h_square = grid->h/9;
-    double coeff = (double)h_square/(double)h_number -2;
+    double coeff = -0.2-(double)h_number/(double)h_square;
     result  = zoomSurface(grid,coeff,coeff,0);
-    h_square = grid->h/9;
+    h_square = result->h/9;
     SDL_Rect rect;
-    rect1.x= 1;
-    rect1.y= 1;
-    rect1.w= h_square -1;
-    rect1.h= h_square -1;
-    SDL_BlitSurface(one_B,NULL,grid,result,);
-    rect.x=1+h_square;
-    rect.y= rect.x;;
-    rect.w=2*h_square -1;
-    rect.h= rect.w;
-    SDL_BlitSurface(two_B,NULL,grid,result,);
+    rect.x= 32;
+    rect.y= 10;
+    rect.w= h_square;
+    rect.h= h_square;
+    for (int i = 0;i<9;i++)
+    {
+        for(int j = 0; j<9;j++)
+        {
+            switch(sudoku[i*9+j])
+            {
+                case '1':
+                    number = load_image("../../Ressources/result/1_black.png");
+                    SDL_BlitSurface(number,NULL,result,&rect);
+                    SDL_FreeSurface(number);
+                    break;
+                case '2':
+                    number = load_image("../../Ressources/result/2_black.png");
+                    SDL_BlitSurface(number,NULL,result,&rect);
+                    SDL_FreeSurface(number);
+                    break;
 
+                case '3':
+                    number = load_image("../../Ressources/result/3_black.png");
+                    SDL_BlitSurface(number,NULL,result,&rect);
+                    SDL_FreeSurface(number);
+                    break;
+
+                case '4':
+                    number = load_image("../../Ressources/result/4_black.png");
+                    SDL_BlitSurface(number,NULL,result,&rect);
+                    SDL_FreeSurface(number);
+                    break;
+
+                case '5':
+                    number = load_image("../../Ressources/result/5_black.png");
+                    SDL_BlitSurface(number,NULL,result,&rect);
+                    SDL_FreeSurface(number);
+                    break;
+
+                case '6':
+                    number = load_image("../../Ressources/result/6_black.png");
+                    SDL_BlitSurface(number,NULL,result,&rect);
+                    SDL_FreeSurface(number);
+                    break;
+
+                case '7':
+                    number = load_image("../../Ressources/result/7_black.png");
+                    SDL_BlitSurface(number,NULL,result,&rect);
+                    SDL_FreeSurface(number);
+                    break;
+
+                case '8':
+                    number = load_image("../../Ressources/result/8_black.png");
+                    SDL_BlitSurface(number,NULL,result,&rect);
+                    SDL_FreeSurface(number);
+                    break;
+
+                case '9':
+                    number = load_image("../../Ressources/result/9_black.png");
+                    SDL_BlitSurface(number,NULL,result,&rect);
+                    SDL_FreeSurface(number);
+                    break;
+
+                default:
+                    break;
+            }
+        rect.x += h_square;
+        }
+        rect.x -= 9*(h_square);
+        rect.y += h_square;
+    }
     display_image(result);
     wait_for_keypressed();
 
-    SDL_FreeSurface(one_B);
-    SDL_FreeSurface(two_B);
-    SDL_FreeSurface(three_B);
-    SDL_FreeSurface(four_B);
-    SDL_FreeSurface(five_B);
-    SDL_FreeSurface(six_B);
-    SDL_FreeSurface(seven_B);
-    SDL_FreeSurface(eight_B);
-    SDL_FreeSurface(nine_B);
+    //SDL_FreeSurface(number);
     SDL_FreeSurface(grid);
     SDL_FreeSurface(result);
     return 0;
@@ -57,5 +101,6 @@ int init_numbers(SDL_Surface* grid, char sudoku[])
 int main()
 {
     SDL_Surface* grid = load_image("../../Ressources/result/empty_grid.jpg");
-    return init_numbers(grid);
+    char test[] = "123456789123456789123456789123456789123456789123456789123456789123456789123456789";
+    return init_numbers(grid,test);
 }
