@@ -93,7 +93,7 @@ int len (List *list)
 ///////////////////////// LIST PART END HERE ////////////////////
 ////////////////////////////////////////////////////////////////
 
-SDL_Surface* drawline(int x1,int y1,int x2,int y2,SDL_Surface* image_surface)
+void drawline(int x1,int y1,int x2,int y2,SDL_Surface* image_surface)
 {
 	int dx = x2-x1;
 	int dy = y2-y1;
@@ -142,6 +142,5 @@ SDL_Surface* drawline(int x1,int y1,int x2,int y2,SDL_Surface* image_surface)
 			error+= previous;
 		}
 	}
-	return image_surface;
 }
 
