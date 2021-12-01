@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <SDL.h>
 
-SDL_Surface* grayscale(char* path); 
+SDL_Surface* filtre(char * path); 
 
 #endif
 

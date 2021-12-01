@@ -10,9 +10,11 @@ LDLIBS= `pkg-config --libs sdl SDL_image` -lSDL_gfx
 all: base_function_on_pict grayscale rotation
 
 
+flougaussien.o: base_function_on_pict.o flougaussien.o 
+
 grayscale: base_function_on_pict.o grayscale.o
 
-otsu_function : base_function_on_pict.o grayscale.o otsu_function.o
+otsu_function : flougaussien.o base_function_on_pict.o grayscale.o otsu_function.o
 
 rotation: base_function_on_pict.o rotation.o
 
@@ -26,5 +28,5 @@ clean:
 	${RM} *.o
 	${RM} *.d
 	${RM} otsu_function
-	${RM} grayscale ${RM} rotation
+	${RM} grayscale ${RM} rotation ${RM} flougaussien
 # END

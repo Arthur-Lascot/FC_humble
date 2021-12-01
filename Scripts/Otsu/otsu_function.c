@@ -5,6 +5,7 @@
 #include "SDL/SDL_image.h"                                                      
 #include "base_function_on_pict.h"                                              
 #include "grayscale.h"
+#include "flougaussien.h"
 #include <assert.h>
 
 
@@ -78,33 +79,16 @@ int find_treshold (int* histo ,int nb_pixel, int weigth_tot)
 
 
 
-SDL_Surface* binarisation (char* path)                                          
+SDL_Surface* binarisation (SDL_Surface* gray_pict)                                          
 {   
-    /*int* histo[256];                  
-    for (int i = 0 ; i <= 255 ; i++)                                            
-    {                                                                           
-        histo[i] = 0; //initialize the histo at  for each color               
-    }                                                                           
-    for ( int i = 0 ; i < gray_pict->w ; i++)                                       
-    {                                                                           
-        for (int j = 0 ; j < gray_pict->h ; j++)                                
-        {                                                                   
-            Uint32 pixelt = get_pixel(image , i , j);                   
-            Uint8 r, g, b;                                              
-            SDL_GetRGB(pixelt, image->format, &r, &g, &b);              
-            histo[(Uint)r] +=1;                                               
-        }                                                                   
-    }                                                                           
-    return histo ;                                                              
-}    */
-    SDL_Surface* gray_pict = grayscale (path);
     int nbpixel = gray_pict->w *gray_pict->h;
+ 
     int* histo = histo_def(gray_pict);
  
     int weigthtot = weigth_tot_def(histo);
-    
-   
+       
     int seuil = find_treshold(histo,nbpixel,weigthtot);
+    
     for ( int i = 0 ; i < gray_pict->w ; i++)                                   
     {                                                                           
         for (int j = 0 ; j < gray_pict->h ; j++)                            
@@ -130,20 +114,48 @@ SDL_Surface* binarisation (char* path)
     return gray_pict;
 }
 
-int main()
+SDL_Surface * filtre()
 {
     SDL_Surface* image_surface;
 
 
-    char* path =    ("../../Ressources/image_03.jpeg");                         
+    char* path =    ("../../Ressources/image_02.jpeg");                         
     init_sdl();
+    
     image_surface=load_image(path);
     display_image(image_surface);
+    
+    wait_for_keypressed();
 
     SDL_FreeSurface(image_surface);
-    wait_for_keypressed();
-    image_surface = binarisation(path);
+    
+    image_surface = grayscale (path);
     display_image(image_surface);
+
     wait_for_keypressed();
+
+    flougaussien(image_surface);
+    flougaussien(image_surface);
+    flougaussien(image_surface);
+    flougaussien(image_surface);
+    flougaussien(image_surface);
+
+
+    display_image(image_surface);
+
+    wait_for_keypressed();
+
+
+    binarisation(image_surface);
+    display_image(image_surface);
+    
+    wait_for_keypressed();
+    
+    return image_surface;
     SDL_FreeSurface(image_surface);
+}
+
+int main()
+{
+    return 1;
 }
