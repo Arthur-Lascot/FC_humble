@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "../Image_processing/base_function_on_pict.h"
 
-int init_numbers(SDL_Surface* grid)
+int init_numbers(SDL_Surface* grid, char sudoku[])
 {
     display_image(grid);
     wait_for_keypressed();
@@ -24,6 +24,18 @@ int init_numbers(SDL_Surface* grid)
     int h_square = grid->h/9;
     double coeff = (double)h_square/(double)h_number -2;
     result  = zoomSurface(grid,coeff,coeff,0);
+    h_square = grid->h/9;
+    SDL_Rect rect;
+    rect1.x= 1;
+    rect1.y= 1;
+    rect1.w= h_square -1;
+    rect1.h= h_square -1;
+    SDL_BlitSurface(one_B,NULL,grid,result,);
+    rect.x=1+h_square;
+    rect.y= rect.x;;
+    rect.w=2*h_square -1;
+    rect.h= rect.w;
+    SDL_BlitSurface(two_B,NULL,grid,result,);
 
     display_image(result);
     wait_for_keypressed();
