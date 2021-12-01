@@ -42,7 +42,7 @@ SDL_Surface* canny(SDL_Surface* first_surface)
     SDL_Surface* image_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
     SDL_Surface* max_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
     SDL_Surface* thresh_surface=SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
-
+    
     SDL_BlitSurface(first_surface,NULL,image_surface,NULL);
     SDL_BlitSurface(first_surface,NULL,max_surface,NULL);
     SDL_BlitSurface(first_surface,NULL,thresh_surface,NULL);
@@ -81,7 +81,7 @@ SDL_Surface* canny(SDL_Surface* first_surface)
                 pixel1 = get_pixel(image_surface,i-1,j);
                 SDL_GetRGB(pixel1,image_surface->format,&r,&g,&b);
                 four = r*2;
-                six = 0;
+		six = 0;
                 pixel1 = get_pixel(image_surface,i-1,j+1);
                 SDL_GetRGB(pixel1,image_surface->format,&r,&g,&b);
                 seven = r;
