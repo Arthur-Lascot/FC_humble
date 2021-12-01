@@ -287,6 +287,22 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
 
     //First tenth train:
     // 5-0-4-1-9-2-1-3-1-4 
+    /*
+    for (int j = 89900; j < 90000 ; j++)
+    {
+
+        for (int i=0; i<784; i++) 
+        {
+            if (train_double[j][i] > 0.75)
+                printf("1 ");
+            else if (train_double[j][i] > 0.5)
+                printf("  ");
+            else 
+                printf("  ");
+            if ((i+1) % 28 == 0) putchar('\n');
+        }
+    }
+    */
 
     /*int numz = 0;
       for (int i = 0; i<TEST_DATA;i++)
@@ -313,7 +329,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
         init_network();
         //print_value_net();
 
-        while (n < 2.5*60000)
+        while (n < 2.5*TRAIN_DATA)
         { 
             if (train_label[n%TRAIN_DATA] != 0)
             {
@@ -346,7 +362,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
         if (filenet == NULL)
         {
             printf("Default File\n");
-            defaul = fopen("../OCR/test","r");
+            defaul = fopen("../OCR/defaultnet","r");
             if (defaul == NULL)
                 errx(1,"Could not open the default file");
             read_net(defaul);
@@ -359,21 +375,21 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
         {
             read_net(filenet);
         }
-        
+
         printf("\nReading .../\n\n");
 
         if (img != NULL)
         {
             /*
-            for (int i=0; i<784; i++) 
-            {
-                if (image[i] >= 0.5f)
-                    printf("1 ");
-                else 
-                    printf("  ");
-                if ((i+1) % 28 == 0) putchar('\n');
-            }
-            */
+               for (int i=0; i<784; i++) 
+               {
+               if (image[i] >= 0.5f)
+               printf("1 ");
+               else 
+               printf("  ");
+               if ((i+1) % 28 == 0) putchar('\n');
+               }
+             */
 
             int result = forward(res,1,0,0,img);
             printf("RESULT : %i => %f\n",result,*res);
@@ -382,14 +398,13 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
         }
         else 
         {
-            printf("Here");
             for (int j = 0 ; j < TEST_DATA ; j++)
             {
                 if (test_label[j] != 0)
                 {
                     if (j%1000 == 0)
                         printf("\n============> EPOCH N°%i <=============\n",j);
-  
+
                     int result = forward(res,j,0,1,NULL);
                     if (result == test_label[j])
                         rate++;
@@ -400,6 +415,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
                         printf("SKIPPED !");
                 }
             }
+            printf("Number Success : %f\n",rate);
             rate = (rate/TEST_DATAZ)*100;
             printf("\n===============> RESULT <===============\n");
             printf("%f/100 SUCESS RATE ",rate);

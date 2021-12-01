@@ -14,10 +14,10 @@ int main(int argc,char** argv)
 
     char *path = argv[1]; 
 
-    FILE *filenet = NULL;//fopen("test","r");
+    FILE *filenet = fopen(path,"r");
 
     int reading = 1; //Reading or Writing a file
-    /*
+    
     if (filenet == NULL)
     {
         filenet = fopen(path,"w");
@@ -25,7 +25,7 @@ int main(int argc,char** argv)
         if (filenet == NULL)
             errx(1,"Error : Could not write the network file");
     }
-    */
+    
     xr(reading,filenet,NULL);
 
 }
