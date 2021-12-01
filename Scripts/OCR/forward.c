@@ -58,9 +58,9 @@ int forward(double *res,int n,int train,int test,double image[SIZE])
         img = n%TEST_DATA;
 
     /*
-    if (n%1000 == 0 && !train)
-        printf("Img : %i => Label %i\n",img,test_label[img]);
-    */
+       if (n%1000 == 0 && !train)
+       printf("Img : %i => Label %i\n",img,test_label[img]);
+     */
     /* Try solving */
     /* 
 Comments : 
@@ -112,13 +112,28 @@ output : 0 if sigmoid(activation) <= 0.5
         }
         outputLay[i] /= totsum;
     }
-   
+
     *res = outputLay[imax-1];
 
     if (train)
     {
-        if (n%1000 == 0 || n%1000 == 1)
+        if (n%1000 == 0) //|| n%1000 == 1)
         {
+            if (n%3 == 1)
+            {
+                for (int i=0; i<784; i++) 
+                {
+                    if (train_double[img][i] > 0.75)
+                        printf("1 ");
+                    else if (train_double[img][i] > 0.5)
+                        printf("  ");
+                    else 
+                        printf("  ");
+                    if ((i+1) % 28 == 0) putchar('\n');
+                }
+
+            }
+
             printf("RESULT : %i => %f \n",imax,outputLay[imax-1]);
             printf("    |  Expected : %d\n",train_label[img]);
             if (n != 0)
@@ -141,7 +156,7 @@ output : 0 if sigmoid(activation) <= 0.5
             }
         }
     }
-    
+
     else if (test)
     {
         if (n%1000 == 0 || n%1000 == 1)

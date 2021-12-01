@@ -457,7 +457,6 @@ void fillHole(double* dst)
         for(int j=1;j<27;j++)
         {
             
-            
             if(dst[i+28+j]>=0.3)
             {
                 acc+=dst[i+28+j];
@@ -476,19 +475,62 @@ void fillHole(double* dst)
             if(dst[i+j-1]>=0.3)
             {
                 acc+=dst[i+j-1];
-                neighbours++;;
+                neighbours++;
             }
             
+             
             if(neighbours>=3)
             {
                 dst[i+j] = acc/neighbours;
             }
+            
+            //dst[i+j] = neighbours*0.20;
             
             neighbours = 0;
             acc=0;
         }
     }
 }
+
+void adjust(double *dst)
+{
+    int neighbours = 0;
+    for(int i=28;i<27*27;i+=28)
+    {
+        for(int j=1;j<27;j++)
+        {
+            
+            if(dst[i+28+j]>=0.3)
+            {
+                neighbours++;
+            }
+            if(dst[i-28+j]>=0.3)
+            {
+                neighbours++;
+            }
+            if(dst[i+j+1]>=0.3)
+            {
+                neighbours++;
+            }
+            if(dst[i+j-1]>=0.3)
+            {
+                neighbours++;
+            }
+            
+             
+            if(neighbours>=3)
+            {
+                dst[i+j] = 0.80;
+            }
+            
+            //dst[i+j] = neighbours*0.20;
+            
+            neighbours = 0;
+        }
+    }
+}
+
+
 int format(SDL_Surface* src,double* dst)
 {
     int res =0;
@@ -531,11 +573,12 @@ int format(SDL_Surface* src,double* dst)
                 moy = 1;
             */
             
-            if (moy>0.10 && moy < 0.50) 
+            if (moy>0.10 && moy < 0.70) 
             {
                 moy+=0.30;
                 //printf("%f\n",moy);
             }
+            
             else if (moy >= 0.70) 
             {
                 moy = 1;
@@ -547,9 +590,33 @@ int format(SDL_Surface* src,double* dst)
         moy =0;
         i++;
     }
-    fillHole(dst);
+    for (int j = 0; j <28*28;j++)
+    {
+        adjust(dst);
+    }
     return res;
 }
+
+
+void writenet(FILE *path,double sudo[31][784],int num[31])
+{
+    for (int j = 0; j < 31; j++)
+    {
+        if (num[j] != 0)
+        {
+            for (int i= 0 ;i < 784; i++)
+            {
+                //printf("%lf",sudo[j][i]);
+                fprintf(path,"%lf\n",sudo[j][i]);
+            }
+        }
+    }
+
+    fclose(path);
+}
+
+
+
 SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
 {
     Element* current_column = column->last;
@@ -558,6 +625,12 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
     Uint32 black = SDL_MapRGB(image_surface->format,0,0,0);
     int i = -1;
     int isNotBlank = 0;
+    /*
+    FILE *f = fopen("number2","w");
+    double sudo[81][784];
+    int num[81];
+    int c = 0;
+    */
     while(current_column != NULL)
     {
         int left = *((int*)(((tuple3*)(current_column->key))->item1));
@@ -583,14 +656,10 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                 isNotBlank= format(image112x112,Case);
 
 
-
                 if(isNotBlank==1){
                     isNotBlank=0;
 
-                    //display_image(image112x112);
-                    //wait_for_keypressed();
-
-
+                        
                     for (int i=0; i<784; i++) 
                     {
                         if (Case[i] > 0.75)
@@ -603,11 +672,22 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                     }
 
                     sudoku[i] = (char)xr(1,NULL,Case);
+                    display_image(image112x112);
+                    wait_for_keypressed();
+                    /*
+                    for(int h = 0;h < 784; h++)
+                    {
+                        sudo[c][h] = Case[h];
+                    }
+                    num[c] = sudoku[i];
+                    c++;
+                    */
                 }
                 else{
                     //printf("I=%i\n",i);
                     sudoku[i]='0';
                 }
+                
                 SDL_FreeSurface(image112x112);
                 free(Case);
             }
@@ -659,5 +739,18 @@ SDL_Surface* DrawSquare(SDL_Surface* image_surface,List* column,List* line)
             }
         }
     }
+    
+    /*
+    if (num[1] != 0)
+    {
+        printf("Not 0");
+        for (int j = 0; j<784;j++)
+        {
+            printf("%lf",sudo[1][j]);
+        }
+    }
+    */
+    //writenet(f,sudo,num);
+   
     return image_surface;
 }
