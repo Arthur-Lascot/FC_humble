@@ -19,39 +19,41 @@ int main()
     //char* sudoku = malloc(81*sizeof(char));
     SDL_Surface* image_surface;
     init_sdl();
-    image_surface = load_image("../../Ressources/image_06.jpeg");
+    image_surface = load_image("../../Ressources/image_03.jpeg");
     /*int height = image_surface->h;
-    int width = image_surface->w;
-    double coeff = 1;
-    if(height>width)
-    {
-        if(height>800)
-        {
-            coeff = 800/(double)height;
-            image_surface = zoomSurface(image_surface,coeff,coeff,0);
-        }
-    }
-    else
-    {
-        if (width>800)
-        {
-            coeff = 800/(double)height;
-            image_surface = zoomSurface(image_surface,coeff,coeff,0);
+      int width = image_surface->w;
+      double coeff = 1;
+      if(height>width)
+      {
+      if(height>800)
+      {
+      coeff = 800/(double)height;
+      image_surface = zoomSurface(image_surface,coeff,coeff,0);
+      }
+      }
+      else
+      {
+      if (width>800)
+      {
+      coeff = 800/(double)height;
+      image_surface = zoomSurface(image_surface,coeff,coeff,0);
 
-        }
-    }
-    */
+      }
+      }
+     */
     //image_surface = rotozoomSurface(image_surface,22,1,0);
     display_image(image_surface);
     wait_for_keypressed();
     image_surface = grayscalebis(image_surface);
     display_image(image_surface);
     wait_for_keypressed();
-    /*
+   /* mean_filter(image_surface);
     mean_filter(image_surface);
+    mean_filter(image_surface);
+    mean_filter(image_surface);
+
     display_image(image_surface);
-    wait_for_keypressed();
-    */
+    wait_for_keypressed();*/
     //SDL_FreeSurface(image_surface);
     //image_surface = canny("../../Ressources/image_09.jpeg");
     printf("Key pressed\n");
@@ -79,7 +81,7 @@ int main()
 
         }
     }
-    
+
     display_image(init_surface);
     wait_for_keypressed();
     free(init_surface);
@@ -110,7 +112,7 @@ int main()
 
         }
     }
-    
+
     display_image(init_surface);
     wait_for_keypressed();
     free(init_surface);
@@ -119,24 +121,24 @@ int main()
     //wait_for_keypressed()i;
     //printf("Key pressed\n");
     SDL_FreeSurface(image_surface);
-   /* image_surface = load_image("../../Ressources/image_03.jpeg");
-    display_image(image_surface);
-    wait_for_keypressed();
-    SDL_FreeSurface(image_surface);
-    image_surface = canny("../../Ressources/image_03.jpeg");
-    printf("Key pressed\n");
-    image_surface = hough_line(hough(image_surface),image_surface);
-    display_image(image_surface);
-    wait_for_keypressed();
-    printf("Square column called\n");
-    column = square_column(image_surface);
-    printf("Square line called\n");
-    line = square_line(image_surface);
-    printf("DrawSquare called\n");
-    image_surface = DrawSquare(image_surface,column,line);
-    printf("End of drawing\n");
-    display_image(image_surface);
-    wait_for_keypressed();
+    /* image_surface = load_image("../../Ressources/image_03.jpeg");
+       display_image(image_surface);
+       wait_for_keypressed();
+       SDL_FreeSurface(image_surface);
+       image_surface = canny("../../Ressources/image_03.jpeg");
+       printf("Key pressed\n");
+       image_surface = hough_line(hough(image_surface),image_surface);
+       display_image(image_surface);
+       wait_for_keypressed();
+       printf("Square column called\n");
+       column = square_column(image_surface);
+       printf("Square line called\n");
+       line = square_line(image_surface);
+       printf("DrawSquare called\n");
+       image_surface = DrawSquare(image_surface,column,line);
+       printf("End of drawing\n");
+       display_image(image_surface);
+       wait_for_keypressed();
     //printf("Key pressed\n");
     SDL_FreeSurface(image_surface);
     image_surface = load_image("../../Ressources/image_08.jpg");

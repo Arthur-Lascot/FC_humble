@@ -66,57 +66,65 @@ int mean_filter(SDL_Surface* init_surface)
     SDL_Surface* image_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
     SDL_BlitSurface(init_surface,NULL,image_surface,NULL);
     Uint8 r,g,b;
-    int sum = 0;
     int nb_value = 0;
     int new_value = 0;
+    int M[9];
+    int x = 0;
     Uint32 pixel;
     for(int i = 0;i<2;i++)
     {
         for(int j = 0;j<2;j++)
         {
-            pixel = get_pixel(image_surface,i,j);
-            SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
-            sum += r;
+            pixel = get_pixel(init_surface,i,j);
+            SDL_GetRGB(pixel,init_surface->format,&r,&g,&b);
+            M[x]= r;
+            x++;
             nb_value ++;
         }
     }
-    new_value = sum/nb_value;
+    quickSort(M,0,nb_value-1);
+    new_value = M[nb_value/2];
     pixel = SDL_MapRGB(image_surface->format,new_value,new_value,new_value);
     put_pixel(image_surface,0,0,pixel);
     nb_value = 0;
+    x = 0;
     for(int j = 1;j<height-1;j++)
     {
         for(int k = -1;k<2;k++)
         {
             for(int i = 0;i<2;i++)
             {
-                pixel = get_pixel(image_surface,i,j+k);
-                SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
-                sum+= r;
-                nb_value ++;
+                pixel = get_pixel(init_surface,i,j+k);
+                SDL_GetRGB(pixel,init_surface->format,&r,&g,&b);
+                M[x]= r;
+                x++;
+                 nb_value ++;
             }
         }
-
-        new_value = sum/nb_value;
+        quickSort(M,0,nb_value-1);
+        new_value = M[nb_value/2];
         pixel = SDL_MapRGB(image_surface->format,new_value,new_value,new_value);
         put_pixel(image_surface,0,j,pixel);
         nb_value = 0;
+        x=0;
     }
     for(int i = 0;i<2;i++)
     {
         for(int j = -1;j<1;j++)
         {
-            pixel = get_pixel(image_surface,i,height-1+j);
-            SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
-            sum += r;
+            pixel = get_pixel(init_surface,i,height-1+j);
+            SDL_GetRGB(pixel,init_surface->format,&r,&g,&b);
+            M[x] = r;
+            x++;
             nb_value ++;
         }
     }
-    new_value = sum/nb_value;
+    quickSort(M,0,nb_value-1);
+    new_value = M[nb_value/2];
     pixel = SDL_MapRGB(image_surface->format,new_value,new_value,new_value);
     put_pixel(image_surface,0,height-1,pixel);
     nb_value = 0;
-
+    x =0;
     for(int i = 1;i<width-1;i++)
     {
         for(int j = 0;j<height;j++)
@@ -127,9 +135,10 @@ int mean_filter(SDL_Surface* init_surface)
                 {
                     for(int l = 0;l<2;l++)
                     {
-                        pixel = get_pixel(image_surface,i+k,j+l);
-                        SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
-                        sum += r;
+                        pixel = get_pixel(init_surface,i+k,j+l);
+                        SDL_GetRGB(pixel,init_surface->format,&r,&g,&b);
+                        M[x]= r;
+                        x++;
                         nb_value ++;
                     }
                 }
@@ -137,9 +146,10 @@ int mean_filter(SDL_Surface* init_surface)
                 {
                     for(int l = -1;l<1;l++)
                     {
-                        pixel = get_pixel(image_surface,i+k,j+l);
-                        SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
-                        sum += r;
+                        pixel = get_pixel(init_surface,i+k,j+l);
+                        SDL_GetRGB(pixel,init_surface->format,&r,&g,&b);
+                        M[x] = r;
+                        x++;
                         nb_value ++;
                     }
                 }
@@ -147,66 +157,77 @@ int mean_filter(SDL_Surface* init_surface)
                 {
                     for(int l = -1;l<2;l++)
                     {
-                        pixel = get_pixel(image_surface,i+k,j+l);
-                        SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
-                        sum += r;
+                        pixel = get_pixel(init_surface,i+k,j+l);
+                        SDL_GetRGB(pixel,init_surface->format,&r,&g,&b);
+                        M[x] = r;
+                        x++;
                         nb_value ++;
-
                     }
                 }
             }
-            new_value = sum/nb_value;
+            quickSort(M,0,nb_value-1);
+            new_value = M[nb_value/2];
             pixel = SDL_MapRGB(image_surface->format,new_value,new_value,new_value);
             put_pixel(image_surface,i,j,pixel);
             nb_value = 0;
+            x = 0;
         }
     }
     for(int i = -1;i<1;i++)
     {
         for(int j = 0;j<2;j++)
         {
-            pixel = get_pixel(image_surface,width-1+i,j);
-            SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
-            sum += r;
+            pixel = get_pixel(init_surface,width-1+i,j);
+            SDL_GetRGB(pixel,init_surface->format,&r,&g,&b);
+            M[x] = r;
+            x++;
             nb_value ++;
         }
     }
-    new_value = sum/nb_value;
+    quickSort(M,0,nb_value-1);
+    new_value = M[nb_value/2];
     pixel = SDL_MapRGB(image_surface->format,new_value,new_value,new_value);
     put_pixel(image_surface,width-1,0,pixel);
     nb_value = 0;
+    x = 0;
     for(int j = 1;j<height-1;j++)
     {
         for(int k = -1;k<2;k++)
         {
             for(int i = -1;i<1;i++)
             {
-                pixel = get_pixel(image_surface,width-1+i,j+k);
-                SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
-                sum += r;
+                pixel = get_pixel(init_surface,width-1+i,j+k);
+                SDL_GetRGB(pixel,init_surface->format,&r,&g,&b);
+                M[x]= r;
+                x++;
                 nb_value ++;
             }
         }
 
-        new_value = sum/nb_value;
+        quickSort(M,0,nb_value-1);
+        new_value = M[nb_value/2];
         pixel = SDL_MapRGB(image_surface->format,new_value,new_value,new_value);
         put_pixel(image_surface,width-1,j,pixel);
         nb_value = 0;
+        x= 0;
     }
     for(int i = -1;i<1;i++)
     {
         for(int j = -1;j<1;j++)
         {
-            pixel = get_pixel(image_surface,width-1+i,height-1+j);
-            SDL_GetRGB(pixel,image_surface->format,&r,&g,&b);
-            sum += r;
+            pixel = get_pixel(init_surface,width-1+i,height-1+j);
+            SDL_GetRGB(pixel,init_surface->format,&r,&g,&b);
+            M[x]= r;
+            x++;
             nb_value ++;
         }
     }
-    new_value = sum/nb_value;
+    quickSort(M,0,nb_value-1);
+    new_value = M[nb_value/2];
     pixel = SDL_MapRGB(image_surface->format,new_value,new_value,new_value);
     put_pixel(image_surface,width-1,height-1,pixel);
     nb_value = 0;
+    x = 0;
     SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
     SDL_FreeSurface(image_surface);
 
