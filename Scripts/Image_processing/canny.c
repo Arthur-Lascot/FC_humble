@@ -28,11 +28,10 @@ SDL_Surface* grayscalebis(SDL_Surface* image_surface)
 }
 
 
-SDL_Surface* canny(char* my_image)
+SDL_Surface* canny(SDL_Surface* first_surface)
 {
-    SDL_Surface* image_surface = load_image(my_image);
-    int width = image_surface->w;
-    int height = image_surface->h;
+    int width = first_surface->w;
+    int height = first_surface->h;
     Uint32 pixel1,pixel2,pixel3;
     int one,two,three,threebis,four,five,six,seven,sevenbis,eight,nine,fivebis;
     int sum;
@@ -40,12 +39,13 @@ SDL_Surface* canny(char* my_image)
     int highThreshold;
     int lowThreshold;
     double * directions = (double *) calloc(width*height,sizeof(double));
+    SDL_Surface* image_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+    SDL_Surface* max_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+    SDL_Surface* thresh_surface=SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
     
-    SDL_Surface* max_surface;
-    SDL_Surface* thresh_surface;
-    
-    max_surface = load_image(my_image);
-    thresh_surface = load_image(my_image);
+    SDL_BlitSurface(first_surface,NULL,image_surface,NULL);
+    SDL_BlitSurface(first_surface,NULL,max_surface,NULL);
+    SDL_BlitSurface(first_surface,NULL,thresh_surface,NULL);
     max_surface = grayscalebis(max_surface);
     thresh_surface = grayscalebis(thresh_surface);
 
@@ -81,7 +81,7 @@ SDL_Surface* canny(char* my_image)
                 pixel1 = get_pixel(image_surface,i-1,j);
                 SDL_GetRGB(pixel1,image_surface->format,&r,&g,&b);
                 four = r*2;
-                six = 0;
+		six = 0;
                 pixel1 = get_pixel(image_surface,i-1,j+1);
                 SDL_GetRGB(pixel1,image_surface->format,&r,&g,&b);
                 seven = r;
