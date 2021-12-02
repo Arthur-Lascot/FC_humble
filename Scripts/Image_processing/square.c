@@ -534,7 +534,7 @@ int format(SDL_Surface* src,double* dst)
     int i = 0;
     int j =0;
     int m = 3;
-    printf("\nDim %i/%i \n",src->w,src->h);
+   // printf("\nDim %i/%i \n",src->w,src->h);
     while(j<112*112 && m<112)
     {
         for(int k=0;k<4;k++)
@@ -603,7 +603,7 @@ void writenet(FILE *path,double sudo[31][784],int num[31])
             for (int i= 0 ;i < 784; i++)
             {
                 //printf("%lf",sudo[j][i]);
-                fprintf(path,"%lf\n",sudo[j][i]);
+               // fprintf(path,"%lf\n",sudo[j][i]);
             }
         }
     }
@@ -615,7 +615,7 @@ void writenet(FILE *path,double sudo[31][784],int num[31])
 
 void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
 {
-    Element* current_line = column->last;
+    Element* current_line = line->last;
     Element* current_column;
     Uint32 red = SDL_MapRGB(image_surface->format,255,0,0);
     Uint32 black = SDL_MapRGB(image_surface->format,0,0,0);
@@ -631,7 +631,7 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
     {
         int high = *((int*)(((tuple3*)(current_line->key))->item1));
         int low = *((int*)(((tuple3*)(current_line->key))->item2));
-        current_column = line->last;
+        current_column = column->last;
         while(current_column != NULL)
         {
             i++;
@@ -656,7 +656,7 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                     isNotBlank=0;
 
                         
-                    for (int i=0; i<784; i++) 
+             /*       for (int i=0; i<784; i++) 
                     {
                         if (Case[i] > 0.75)
                             printf("1 ");
@@ -665,11 +665,10 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                         else 
                             printf("  ");
                         if ((i+1) % 28 == 0) putchar('\n');
-                    }
-
-                    sudoku[i] = (char)xr(1,NULL,Case);
-                    display_image(image112x112);
-                    wait_for_keypressed();
+                    }*/
+                    sudoku[i] ='1'/* (char)xr(1,NULL,Case)*/;
+                   // display_image(image112x112);
+                   // wait_for_keypressed();
                     /*
                     for(int h = 0;h < 784; h++)
                     {
@@ -680,7 +679,7 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                     */
                 }
                 else{
-                    //printf("I=%i\n",i);
+                   // printf("\nI=%i\n",i);
                     sudoku[i]='.';
                 }
                 
@@ -698,24 +697,24 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                 put_pixel(image_surface,j,high,red);
                 put_pixel(image_surface,j,low,red);
             }
-            current_line = current_line->previous;
+            current_column = current_column->previous;
         }
-        free((int*)(((tuple3*)(current_column->key))->item1));
-        free((int*)(((tuple3*)(current_column->key))->item2));
-        free((int*)(((tuple3*)(current_column->key))->item3));
-        free(current_column->key);
-        current_column = current_column->previous;
-        del(column);
-    }
-    current_line = line->last;
-    while(current_line!=NULL)
-    {
         free((int*)(((tuple3*)(current_line->key))->item1));
         free((int*)(((tuple3*)(current_line->key))->item2));
         free((int*)(((tuple3*)(current_line->key))->item3));
         free(current_line->key);
         current_line = current_line->previous;
         del(line);
+    }
+    current_column = column->last;
+    while(current_column!=NULL)
+    {
+        free((int*)(((tuple3*)(current_column->key))->item1));
+        free((int*)(((tuple3*)(current_column->key))->item2));
+        free((int*)(((tuple3*)(current_column->key))->item3));
+        free(current_column->key);
+        current_column = current_column->previous;
+        del(column);
     }
     free(column);
     free(line);
@@ -758,11 +757,13 @@ void WriteFile(FILE *entry_sudoku, char sudoku[])
         {
             fputs(" ",entry_sudoku);
         }
-        char square = sudoku[81-i];
+        char square = sudoku[80-i];
+	printf("\nsquare = %c\n",square[80]);
         fputs(square,entry_sudoku); 
         if(i%9==0)
         {
             fputs("\n",entry_sudoku);
         }
     }
+    fclose(entry_sudoku);
 }
