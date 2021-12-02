@@ -615,8 +615,8 @@ void writenet(FILE *path,double sudo[31][784],int num[31])
 
 void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
 {
-    Element* current_column = column->last;
-    Element* current_line;
+    Element* current_line = column->last;
+    Element* current_column;
     Uint32 red = SDL_MapRGB(image_surface->format,255,0,0);
     Uint32 black = SDL_MapRGB(image_surface->format,0,0,0);
     int i = -1;
@@ -627,16 +627,16 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
     int num[81];
     int c = 0;
     */
-    while(current_column != NULL)
+    while(current_line != NULL)
     {
-        int left = *((int*)(((tuple3*)(current_column->key))->item1));
-        int right = *((int*)(((tuple3*)(current_column->key))->item2));
-        current_line = line->last;
-        while(current_line != NULL)
+        int high = *((int*)(((tuple3*)(current_line->key))->item1));
+        int low = *((int*)(((tuple3*)(current_line->key))->item2));
+        current_column = line->last;
+        while(current_column != NULL)
         {
             i++;
-            int high = *((int*)(((tuple3*)(current_line->key))->item1));
-            int low = *((int*)(((tuple3*)(current_line->key))->item2));
+            int left = *((int*)(((tuple3*)(current_column->key))->item1));
+            int right = *((int*)(((tuple3*)(current_column->key))->item2));
             SDL_Rect square;
             square.x = left+4;
             square.y = high+4;
@@ -681,7 +681,7 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                 }
                 else{
                     //printf("I=%i\n",i);
-                    sudoku[i]='0';
+                    sudoku[i]='.';
                 }
                 
                 SDL_FreeSurface(image112x112);
@@ -748,4 +748,21 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
     */
     //writenet(f,sudo,num);
    
+}
+
+void WriteFile(FILE *entry_sudoku, char sudoku[])
+{
+    for(int i=0;i<81;i++)
+    {
+        if(i!=0 && i%3==0 && i%9!=0)
+        {
+            fputs(" ",entry_sudoku);
+        }
+        char square = sudoku[81-i];
+        fputs(square,entry_sudoku); 
+        if(i%9==0)
+        {
+            fputs("\n",entry_sudoku);
+        }
+    }
 }
