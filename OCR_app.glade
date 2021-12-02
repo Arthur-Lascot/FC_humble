@@ -85,6 +85,7 @@
                     <property name="halign">center</property>
                     <property name="filter">filefilter2</property>
                     <property name="title" translatable="yes"/>
+                    <signal name="file-set" handler="on_Net_chooser_file_set" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -201,7 +202,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="Rot_man">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
@@ -257,7 +258,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="OCR_step">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
@@ -319,7 +320,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton">
+                  <object class="GtkCheckButton" id="Print_step">
                     <property name="label" translatable="yes">Afficher les étapes</property>
                     <property name="height_request">50</property>
                     <property name="visible">True</property>
