@@ -232,6 +232,7 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
             }
             SDL_Surface *rotated_image = rotozoomSurface(first_surface,torotate,1,0);
             SDL_FreeSurface(image_surface);
+	    SDL_FreeSurface(first_surface);
 	    Element* currentPlace = (houghList->last);
 	    while(currentPlace!=NULL)
 	    {
@@ -239,7 +240,7 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
 		free(temp->item1);
 		free(temp->item2);
 		currentPlace = currentPlace->previous;
-		free(houghList->last->key);
+		free(temp);
 		del(houghList);
 	    }
 	    free(houghList);

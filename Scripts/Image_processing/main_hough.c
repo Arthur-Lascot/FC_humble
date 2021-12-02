@@ -17,10 +17,11 @@ char *entrySudo = "entrySudo";
 int main()
 {
     //char* sudoku = malloc(81*sizeof(char));
-    SDL_Surface* image_surface;
+    SDL_Surface* image_surface1;
     init_sdl();
-    image_surface = load_image("../../Ressources/image_01.jpeg");
- //   image_surface = rotozoomSurface(image_surface,22,1,0);
+    image_surface1 = load_image("../../Ressources/image_01.jpeg");
+    SDL_Surface* image_surface = rotozoomSurface(image_surface1,22,1,0);
+    SDL_FreeSurface(image_surface1);
     display_image(image_surface);
     wait_for_keypressed();
     //SDL_FreeSurface(image_surface);
