@@ -33,6 +33,15 @@ typedef struct Menu
     GtkWidget *Solver_button;
 } Menu;
 
+typedef struct MainArea
+{
+    GtkWidget *Name_sudoku;
+    //Page 1
+    GtkWidget *Image_sudoku;
+    //Page 2
+    GtkWidget *Sudoku_file;
+} MainArea;
+
 int main(int argc, char *argv[])
 {
     gtk_init(&argc, &argv);
@@ -62,6 +71,14 @@ int main(int argc, char *argv[])
     GtkWidget *Solver_button = GTK_WIDGET(gtk_builder_get_object(builder,"Solver_button"));
     /// === MENU ===
 
+    /// === Main Area ===
+    GtkWidget *Image_sudoku=GTK_WIDGET(gtk_builder_get_object(builder,"Image_sudoku"));
+    GtkWidget *Name_sudoku=GTK_WIDGET(gtk_builder_get_object(builder,"Name_sudoku"));
+    GtkWidget *Sudoku_file=GTK_WIDGET(gtk_builder_get_object(builder,"Sudoku_file"));
+
+    /// === Main Area ===
+ 
+
     Menu menu = 
     {
         .Menu_box = Menu_box,
@@ -81,6 +98,10 @@ int main(int argc, char *argv[])
         .Solver_button = Solver_button,
     };
 
+    MainArea area =
+    {
+        .Image_sudoku = Image_sudoku,
+    };
 
     gtk_widget_show(MainWindow);
 
@@ -102,7 +123,57 @@ void on_Net_chooser_file_set(GtkFileChooserButton *fi)
     printf("Folder Name = %s\n",gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fi)));
 }
 
+void on_Net_button_clicked(GtkButton *b)
+{
+    printf("Create Network\n");
+}
 
+void on_Net_test_clicked(GtkButton *b)
+{
+    printf("Test Network\n");
+}
 
+void on_Rot_left_clicked(GtkButton *b)
+{
+    printf("Rotation Left\n");
+}
 
+void on_Rot_right_clicked(GtkButton *b)
+{
+    printf("Rotation Right\n");
+}
 
+void on_Auto_rot_clicked(GtkButton *b)
+{
+    printf("Auto Rotation\n");
+}
+
+void on_Print_line_clicked(GtkButton *b)
+{
+    printf("Print Line\n");
+}
+
+void on_Print_case_clicked(GtkButton *b)
+{
+    printf("Print Case\n");
+}
+
+void on_OCR_button_clicked(GtkButton *b)
+{
+    printf("OCR...\n");
+}
+
+void on_Solver_button_clicked(GtkButton *b)
+{
+    printf("Solver...\n");
+}
+
+void on_Print_step_toggled(GtkButton *b)
+{
+    printf("Print Step\n");
+}
+
+void on_Case_clicked(GtkButton *b)
+{
+    printf("Case clicked\n");
+}

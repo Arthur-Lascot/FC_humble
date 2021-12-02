@@ -19,8 +19,6 @@
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">OCR</property>
     <property name="resizable">False</property>
-    <property name="default_width">1090</property>
-    <property name="default_height">800</property>
     <child type="titlebar">
       <placeholder/>
     </child>
@@ -123,6 +121,7 @@
                         <property name="margin_left">14</property>
                         <property name="margin_right">21</property>
                         <property name="image_position">right</property>
+                        <signal name="clicked" handler="on_Net_button_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -147,6 +146,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="halign">center</property>
+                    <signal name="clicked" handler="on_Net_test_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -214,6 +214,7 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="halign">center</property>
+                        <signal name="clicked" handler="on_Rot_left_clicked" swapped="no"/>
                         <child>
                           <object class="GtkImage">
                             <property name="visible">True</property>
@@ -236,6 +237,7 @@
                         <property name="receives_default">True</property>
                         <property name="halign">center</property>
                         <property name="always_show_image">True</property>
+                        <signal name="clicked" handler="on_Rot_right_clicked" swapped="no"/>
                         <child>
                           <object class="GtkImage">
                             <property name="visible">True</property>
@@ -273,6 +275,7 @@
                         <property name="receives_default">True</property>
                         <property name="halign">center</property>
                         <property name="margin_top">4</property>
+                        <signal name="clicked" handler="on_Auto_rot_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -289,6 +292,7 @@
                         <property name="receives_default">True</property>
                         <property name="halign">center</property>
                         <property name="margin_top">4</property>
+                        <signal name="clicked" handler="on_Print_line_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -305,6 +309,7 @@
                         <property name="receives_default">True</property>
                         <property name="halign">center</property>
                         <property name="margin_top">4</property>
+                        <signal name="clicked" handler="on_Print_case_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -329,6 +334,7 @@
                     <property name="halign">center</property>
                     <property name="margin_bottom">4</property>
                     <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="on_Print_step_toggled" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -350,6 +356,7 @@
                         <property name="receives_default">True</property>
                         <property name="margin_left">4</property>
                         <property name="margin_bottom">8</property>
+                        <signal name="clicked" handler="on_OCR_button_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -366,6 +373,7 @@
                         <property name="margin_left">8</property>
                         <property name="margin_right">4</property>
                         <property name="margin_bottom">8</property>
+                        <signal name="clicked" handler="on_Solver_button_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -397,6 +405,76 @@
           <object class="GtkFixed">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <child>
+              <object class="GtkStack" id="Stack">
+                <property name="width_request">660</property>
+                <property name="height_request">630</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkImage" id="Image_sudoku">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="stock">gtk-missing-image</property>
+                  </object>
+                  <packing>
+                    <property name="name">page0</property>
+                    <property name="title" translatable="yes">Image Sudoku</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkFixed">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkEntry" id="Sudoku_file">
+                        <property name="width_request">500</property>
+                        <property name="height_request">500</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                      </object>
+                      <packing>
+                        <property name="x">14</property>
+                        <property name="y">59</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="name">page1</property>
+                    <property name="title" translatable="yes">OCR Sudoku</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="x">10</property>
+                <property name="y">60</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkStackSwitcher" id="Switcher">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="icon_size">0</property>
+                <property name="stack">Stack</property>
+              </object>
+              <packing>
+                <property name="x">14</property>
+                <property name="y">14</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="Name_sudoku">
+                <property name="width_request">300</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="margin_right">15</property>
+              </object>
+              <packing>
+                <property name="x">430</property>
+                <property name="y">14</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="resize">True</property>
