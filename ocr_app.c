@@ -3,9 +3,11 @@
 
 
 GtkWidget *MainWindow;
-GtkWidget *Fixed_one;
-GtkWidget *Button_one;
-GtkWidget *Label_one;
+
+GtkWidget *Menu_box;
+
+GtkWidget *Image_chooser;
+
 GtkBuilder *builder;
 
 int main(int argc, char *argv[])
@@ -19,9 +21,9 @@ int main(int argc, char *argv[])
 
     gtk_builder_connect_signals(builder,NULL);
     
-    Fixed_one = GTK_WIDGET(gtk_builder_get_object(builder,"Fixed_one"));
-    Button_one = GTK_WIDGET(gtk_builder_get_object(builder,"Button_one"));
-    Label_one = GTK_WIDGET(gtk_builder_get_object(builder,"Label_one"));
+    Menu_box = GTK_WIDGET(gtk_builder_get_object(builder,"Menu_box"));
+    Image_chooser = GTK_WIDGET(gtk_builder_get_object(builder,"Image_chooser"));
+    
 
     gtk_widget_show(MainWindow);
 
@@ -31,7 +33,15 @@ int main(int argc, char *argv[])
 
 }
 
-void on_Button_one_clicked(GtkButton *button)
+void on_Image_chooser_file_set(GtkFileChooserButton *fi)
 {
-    gtk_label_set_text(GTK_LABEL(Label_one), (const gchar*) "90.6%" );
+    printf("File Name = %s\n",gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)));
+    printf("Folder Name = %s\n",gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fi)));
 }
+
+
+
+
+
+
+
