@@ -9,6 +9,7 @@
 #include "canny.h"
 #include "square.h"
 #include "tools.h"
+#include "../Solver/solver.h"
 
 
 char sudoku[81];
@@ -39,6 +40,7 @@ int main()
     wait_for_keypressed();
     FILE *entry_sudoku = fopen(entrySudo,"w");
     WriteFile(entry_sudoku,sudoku);
+    solveMain("entrySudo");
     //printf("Key pressed\n");
     SDL_FreeSurface(image_surface);
    /* image_surface = load_image("../../Ressources/image_03.jpeg");

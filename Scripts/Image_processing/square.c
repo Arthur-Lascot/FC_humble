@@ -666,7 +666,7 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                             printf("  ");
                         if ((i+1) % 28 == 0) putchar('\n');
                     }*/
-                    sudoku[i] ='1'/* (char)xr(1,NULL,Case)*/;
+                    sudoku[i] ='1';/*(char)xr(1,NULL,Case);*/
                    // display_image(image112x112);
                    // wait_for_keypressed();
                     /*
@@ -758,12 +758,16 @@ void WriteFile(FILE *entry_sudoku, char sudoku[])
             fputs(" ",entry_sudoku);
         }
         char square = sudoku[80-i];
-	printf("\nsquare = %c\n",square[80]);
-        fputs(square,entry_sudoku); 
-        if(i%9==0)
+        fputc(square,entry_sudoku); 
+        if((i+1)%9==0 && i!=0)
         {
             fputs("\n",entry_sudoku);
         }
+	if((i+1)%27==0)
+	{
+	    printf("allo");
+	    fputs("\n",entry_sudoku);
+	}
     }
     fclose(entry_sudoku);
 }
