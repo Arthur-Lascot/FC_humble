@@ -655,7 +655,7 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                 if(isNotBlank==1){
                     isNotBlank=0;
 
-                        
+                   /*     
                     for (int i=0; i<784; i++) 
                     {
                         if (Case[i] > 0.75)
@@ -666,10 +666,10 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                             printf("  ");
                         if ((i+1) % 28 == 0) putchar('\n');
                     }
-
+*/
                     sudoku[i] = (char)xr(1,NULL,Case);
-                    display_image(image112x112);
-                    wait_for_keypressed();
+                   // display_image(image112x112);
+                   // wait_for_keypressed();
                     /*
                     for(int h = 0;h < 784; h++)
                     {

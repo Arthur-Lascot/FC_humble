@@ -114,7 +114,7 @@ output : 0 if sigmoid(activation) <= 0.5
     }
 
     *res = outputLay[imax-1];
-
+/*
     if (train)
     {
         if (n%1000 == 0) //|| n%1000 == 1)
@@ -192,7 +192,7 @@ output : 0 if sigmoid(activation) <= 0.5
             printf(" %i Res => %f\n",j+1,outputLay[j]);
         }
     }
-
+*/
     return imax;
 
 }

@@ -11,17 +11,19 @@ all: main_hough display
 
 display: display.o
 
-main_hough: main_hough.o base_function_on_pict.o Hough.o tools.o canny.o square.o# ../OCR/xor.o ../OCR/forward.o ../OCR/backprop.o ../OCR/network_tools.o ../OCR/reader.o
+main_hough: main_hough.o base_function_on_pict.o Hough.o tools.o canny.o square.o mean_filter.o  ../OCR/xor.o ../OCR/forward.o ../OCR/backprop.o ../OCR/network_tools.o ../OCR/reader.o
     
-main_hough.o: Hough.h base_function_on_pict.h tools.h canny.h square.h 
+main_hough.o: Hough.h base_function_on_pict.h tools.h canny.h square.h mean_filter.h
 
 Hough.o: tools.h base_function_on_pict.h
 
-square.o:base_function_on_pict.h tools.h square.h #../OCR/xor.h ../OCR/forward.h ../OCR/backprop.h ../OCR/network_tools.h ../OCR/reader.h
+square.o:base_function_on_pict.h tools.h square.h ../OCR/xor.h ../OCR/forward.h ../OCR/backprop.h ../OCR/network_tools.h ../OCR/reader.h
 
 base_function_on_pict.o: base_function_on_pict.h
 
 canny.o: base_function_on_pict.h
+
+mean_filter.o: mean_filter.h
 
 clean:
 	${RM} *.o
