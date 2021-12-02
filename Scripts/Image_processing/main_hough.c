@@ -13,9 +13,11 @@
 
 
 char sudoku[81];
+char sudokuSolved[81];
 char *entrySudo = "entrySudo";
 int main()
 {
+    SDL_Surface* grid = load_image("../../Ressources/result/empty_grid.jpg");
     //char* sudoku = malloc(81*sizeof(char));
     SDL_Surface* image_surface1;
     init_sdl();
@@ -41,7 +43,12 @@ int main()
     wait_for_keypressed();
     FILE *entry_sudoku = fopen(entrySudo,"w");
     WriteFile(entry_sudoku,sudoku);
+    free(entry_sudoku);
     solveMain("entrySudo");
+    FILE *entry_sudoku = fopen("entrySudo.result","r");
+    readFile(entry_sudoku);
+    init_numbers(grid,sudoku);
+    fill_numbers(grid,sudokuSolved,sudoku);
     //printf("Key pressed\n");
     SDL_FreeSurface(image_surface);
    /* image_surface = load_image("../../Ressources/image_03.jpeg");

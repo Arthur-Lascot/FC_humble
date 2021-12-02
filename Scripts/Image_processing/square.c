@@ -771,3 +771,17 @@ void WriteFile(FILE *entry_sudoku, char sudoku[])
     }
     fclose(entry_sudoku);
 }
+
+void readFile(File *toRead,char sudoku[])
+{
+    int i = 0;
+    char ch;
+    while((ch = fgetc(fp)) != EOF)
+    {
+        if(ch!=" " && ch!='\n')
+        {
+            sudoku[i]=ch;
+            i++;
+        }
+    }
+}
