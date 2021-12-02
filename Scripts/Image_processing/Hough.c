@@ -288,8 +288,8 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
             y1 = (int)(ro/sin(tetaR));
             y2 = (int)((ro-(w-1)*cos(tetaR))/sin(tetaR));
         }
-        /*
-        else if(teta<=5 || (teta >= 85 && teta<=95))
+      /* 
+        else if(teta<=4 || (teta >= 86 && teta<=94))
         {
             
                x1 = (int)(ro/cos(tetaR));

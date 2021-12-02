@@ -20,7 +20,7 @@ int main()
     SDL_Surface* image_surface;
     init_sdl();
     image_surface = load_image("../../Ressources/image_06.jpeg");
-    int height = image_surface->h;
+    /*int height = image_surface->h;
     int width = image_surface->w;
     double coeff = 1;
     if(height>width)
@@ -40,21 +40,49 @@ int main()
 
         }
     }
+    */
     //image_surface = rotozoomSurface(image_surface,22,1,0);
     display_image(image_surface);
     wait_for_keypressed();
     image_surface = grayscalebis(image_surface);
     display_image(image_surface);
-    /*wait_for_keypressed();
+    wait_for_keypressed();
+    /*
     mean_filter(image_surface);
     display_image(image_surface);
-    wait_for_keypressed();*/
+    wait_for_keypressed();
+    */
     //SDL_FreeSurface(image_surface);
     //image_surface = canny("../../Ressources/image_09.jpeg");
     printf("Key pressed\n");
     image_surface = hough_line(hough_first(image_surface),image_surface,1);
-    display_image(image_surface);
+    int height = image_surface->h;
+    int width = image_surface->w;
+    double coeff = 1;
+    SDL_Surface* init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+    SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
+
+    if(height>width)
+    {
+        if(height>800)
+        {
+            coeff = 800/(double)height;
+            init_surface = zoomSurface(init_surface,coeff,coeff,0);
+        }
+    }
+    else
+    {
+        if (width>800)
+        {
+            coeff = 800/(double)height;
+            init_surface = zoomSurface(init_surface,coeff,coeff,0);
+
+        }
+    }
+    
+    display_image(init_surface);
     wait_for_keypressed();
+    free(init_surface);
     printf("Square column called\n");
     List* column = square_column(image_surface);
     printf("Square line called\n");
@@ -62,8 +90,33 @@ int main()
     printf("DrawSquare called\n");
     DrawSquare(image_surface,column,line);
     printf("End of drawing\n");
-    display_image(image_surface);
+    init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+    SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
+
+    if(height>width)
+    {
+        if(height>800)
+        {
+            coeff = 800/(double)height;
+            init_surface = zoomSurface(init_surface,coeff,coeff,0);
+        }
+    }
+    else
+    {
+        if (width>800)
+        {
+            coeff = 800/(double)height;
+            init_surface = zoomSurface(init_surface,coeff,coeff,0);
+
+        }
+    }
+    
+    display_image(init_surface);
     wait_for_keypressed();
+    free(init_surface);
+
+    //display_image(image_surface);
+    //wait_for_keypressed()i;
     //printf("Key pressed\n");
     SDL_FreeSurface(image_surface);
    /* image_surface = load_image("../../Ressources/image_03.jpeg");

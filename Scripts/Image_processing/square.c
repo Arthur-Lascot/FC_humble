@@ -71,12 +71,12 @@ List* square_column(SDL_Surface* image_surface)
     if(w>h)
     {
         ec_type = (int)round(w/100);
-        ec2_type = (int)round(w/200);
+        ec2_type = (int)round(w/100);
     }
     else
     {
         ec_type = (int)round(h/100);
-        ec2_type = (int)round(h/200);
+        ec2_type = (int)round(h/150);
     }
     Uint32 pixel;
     Uint8 r,g,b;
