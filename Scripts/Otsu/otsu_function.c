@@ -9,7 +9,93 @@
 #include <assert.h>
 
 
+SDL_Surface* otsuadapt (SDL_Surface* image , int t)
+{
+    int sum = 0 ;
+    int s = image -> h /16;
+    int intimg[image ->w * image -> h];
+    for (int i  = 0 ; i < image -> w ; i++)
+    {
+        for (int j = 0; j < image-> h ; j++)
+        {
+            Uint32 pix = get_pixel(image , i  , j); 
+            Uint8 r, g, b;                                                  
+            SDL_GetRGB(pix, image -> format, &r, &g, &b);      
+            sum += r;
+            if (i == 0)
+            {
+                intimg[i*image->h + j] = sum;
+            }
+            else
+            {
+                intimg[i*image->h + j] = sum+ intimg[(i-1)*image->h +j];
 
+            }
+        }
+    }
+    for ( int i = 1 ; i < image -> w ; i++)
+    {
+        for (int j = 1 ;j < image-> h ; j++)
+        {
+            int x1=0;
+            int x2=0;
+            int y1=0;
+            int y2=0;
+            if ( i <= s)
+            {
+                x1 = i;
+            }
+            else
+            {
+                x1 = i-s;
+            }
+            if ( j <= s)
+            {
+                y1 = j;
+            }
+            else
+            {
+                y1 = j-s;
+            }
+            if ( i + s >= image -> w)
+            {
+                x2 = i;
+            }
+            else
+            {
+                x2 = i + s;
+            }
+            if (j + s >= image->h)
+            {
+                y2 = j;
+            }
+            else
+            {
+                y2 = j+s;
+            }
+            int count  = (x2 - x1) * (y2 -y1);
+            sum =intimg[y2 +x2 *image->h] -intimg[y2 + (x1-1)*image->h]-intimg[y1-1 + x2 *image->h] +intimg[y1-1 + (x1-1)*image->h];
+            Uint32 pix = get_pixel(image , i  , j); 
+            Uint8 r, g, b;                                                  
+            SDL_GetRGB(pix, image -> format, &r, &g, &b);            
+            //printf("sum = %u \n",sum); 
+            if (r * count <= (sum *t/100))
+            {
+                Uint32 npixel=SDL_MapRGB(image->format, 0 , 0, 0);
+                put_pixel(image, i, j, npixel);
+            }
+            else
+            {
+                Uint32 npixel=SDL_MapRGB(image->format, 255 , 255 , 255);
+                put_pixel(image, i, j, npixel);
+            }
+            
+           
+        }
+        
+    }
+    return image;
+}
 
 int* histo_def ( SDL_Surface* image )   /*define the grayscale's histo */            
 {                                                                               
@@ -114,48 +200,58 @@ SDL_Surface* binarisation (SDL_Surface* gray_pict)
     return gray_pict;
 }
 
-SDL_Surface * filtre()
+SDL_Surface* filtre(char* lien , int t)
 {
     SDL_Surface* image_surface;
 
-
-    char* path =    ("../../Ressources/image_02.jpeg");                         
     init_sdl();
     
-    image_surface=load_image(path);
-    display_image(image_surface);
+    //image_surface=load_image(path);
+    //display_image(image_surface);
     
-    wait_for_keypressed();
+    //wait_for_keypressed();
 
-    SDL_FreeSurface(image_surface);
+    //SDL_FreeSurface(image_surface);
     
-    image_surface = grayscale (path);
-    display_image(image_surface);
+    image_surface = grayscale (lien);
+    //display_image(image_surface);
 
-    wait_for_keypressed();
+    //wait_for_keypressed();
 
-    flougaussien(image_surface);
-    flougaussien(image_surface);
-    flougaussien(image_surface);
-    flougaussien(image_surface);
-    flougaussien(image_surface);
-
-
-    display_image(image_surface);
-
-    wait_for_keypressed();
+    //flougaussien(image_surface);
+    //flougaussien(image_surface);
+    //flougaussien(image_surface);
+    //flougaussien(image_surface);
+    //flougaussien(image_surface);
+    //flougaussien(image_surface);
 
 
-    binarisation(image_surface);
-    display_image(image_surface);
+
+
+    //display_image(image_surface);
+
+    //wait_for_keypressed();
+
+
+    return otsuadapt(image_surface,t);
+    //display_image(image_surface);
     
-    wait_for_keypressed();
+    //wait_for_keypressed();
     
-    return image_surface;
-    SDL_FreeSurface(image_surface);
+    //return image_surface;
+    //SDL_FreeSurface(image_surface);
 }
 
 int main()
 {
+    SDL_Surface* image_surface;
+
+    init_sdl();
+    image_surface = filtre("../../Ressources/image_03.jpeg" ,90);
+    display_image(image_surface);
+
+    wait_for_keypressed();
+    SDL_FreeSurface(image_surface);
+
     return 1;
 }

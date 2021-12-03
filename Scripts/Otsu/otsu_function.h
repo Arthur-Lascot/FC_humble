@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <SDL.h>
 
+SLD_Surface* otsuadapt (SDL_Surface* image;)
 SDL_Surface* filtre(char * path); 
 
 #endif
