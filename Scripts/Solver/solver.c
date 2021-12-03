@@ -377,13 +377,8 @@ char* concat(const char *s1, const char *s2)
 }
 
 //Main function 
-int main(int argc, char** argv)
+int solveMain(char * path)
 {
-	if (argc != 2)
-		errx(1,"Error : Solver must have 2 arguments");
-	
-	char *path = argv[1];
-
 	FILE *gridtxt = fopen(path,"r");
 	if (gridtxt == NULL)
 		errx(1,"Error : Could not open file %s",path);

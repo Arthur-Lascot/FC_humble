@@ -11,6 +11,8 @@
 #include "tools.h"
 #include "mean_filter.h"
 #include "filtering.h"
+#include "../Solver/solver.h"
+#include "../Solver/grid_construct.h"
 
 char sudoku[81];
 
@@ -52,34 +54,17 @@ double gauss7[49]={
 
 int gauss7W=1003;
 
+char sudokuSolved[81];
+char *entrySudo = "entrySudo";
 int main()
 {
+    SDL_Surface* grid = load_image("../../Ressources/result/empty_grid.jpg");
     //char* sudoku = malloc(81*sizeof(char));
-    SDL_Surface* image_surface;
+    SDL_Surface* image_surface1;
     init_sdl();
-    image_surface = load_image("../../Ressources/image_03.jpeg");
-    /*int height = image_surface->h;
-      int width = image_surface->w;
-      double coeff = 1;
-      if(height>width)
-      {
-      if(height>800)
-      {
-      coeff = 800/(double)height;
-      image_surface = zoomSurface(image_surface,coeff,coeff,0);
-      }
-      }
-      else
-      {
-      if (width>800)
-      {
-      coeff = 800/(double)height;
-      image_surface = zoomSurface(image_surface,coeff,coeff,0);
-
-      }
-      }
-     */
-    //image_surface = rotozoomSurface(image_surface,22,1,0);
+    image_surface1 = load_image("../../Ressources/image_01.jpeg");
+    SDL_Surface* image_surface = rotozoomSurface(image_surface1,22,1,0);
+    SDL_FreeSurface(image_surface1);
     display_image(image_surface);
     wait_for_keypressed();
     image_surface = grayscalebis(image_surface);
@@ -160,6 +145,13 @@ int main()
 
     //display_image(image_surface);
     //wait_for_keypressed()i;
+    FILE *entry_sudoku = fopen(entrySudo,"w");
+    WriteFile(entry_sudoku,sudoku);
+    solveMain("entrySudo");
+    entry_sudoku = fopen("entrySudo.result","r");
+    readFile(entry_sudoku);
+    init_numbers(grid,sudoku);
+    fill_numbers(grid,sudokuSolved,sudoku);
     //printf("Key pressed\n");
     SDL_FreeSurface(image_surface);
     /* image_surface = load_image("../../Ressources/image_03.jpeg");
