@@ -70,7 +70,7 @@ int main()
     image_surface = grayscalebis(image_surface);
     display_image(image_surface);
     wait_for_keypressed();
-    for (int i = 0;i<1;i++)
+    for (int i = 0;i<0;i++)
     {
         applicate_filter(image_surface,gauss7,7,gauss7W); 
     }

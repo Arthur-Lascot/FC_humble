@@ -10,10 +10,6 @@ void applicate_filter(SDL_Surface* image_surface, double M[], int KS,int weight)
     int height = image_surface->h;
     SDL_Surface* work_surface=SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
     double res = 0;
-    for(int m = 0; m<KS*KS;m++)
-    {
-        S[m]=M[m];
-    }
     SDL_BlitSurface(image_surface,NULL,work_surface,NULL);
     Uint32 pixel;
     Uint8 r,g,b;
