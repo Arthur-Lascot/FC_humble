@@ -1,8 +1,8 @@
 CC = gcc
-CPPFLAGS = `pkg-config --cflags sdl` -MMD
+CPPFLAGS = `pkg-config --cflags sdl gtk+-3.0` -rdynamic -MMD
 CFLAGS = -Wall -Wextra -Wpedantic -std=c99 -O3 -g -fsanitize=address 
 LDFLAGS = -fsanitize=address
-LDFLIBS = `pkg-config --libs sdl SDL_image gtk+-3.0` -lm -lSDL_gfx -export_dynamic
+LDLIBS = `pkg-config --libs sdl SDL_image gtk+-3.0` -lm -lSDL_gfx -rdynamic
 
 
 SRCS = $(wildcard Scripts/*.c) $(wildcard Scripts/**/*.c)
