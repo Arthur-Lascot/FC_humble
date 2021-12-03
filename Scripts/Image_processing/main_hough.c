@@ -149,7 +149,7 @@ int main()
     WriteFile(entry_sudoku,sudoku);
     solveMain("entrySudo");
     entry_sudoku = fopen("entrySudo.result","r");
-    readFile(entry_sudoku);
+    readFile(entry_sudoku,sudokuSolved);
     init_numbers(grid,sudoku);
     fill_numbers(grid,sudokuSolved,sudoku);
     //printf("Key pressed\n");
