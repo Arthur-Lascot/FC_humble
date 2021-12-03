@@ -1,11 +1,10 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TRAIN_IMAGE "./Ressources/TrainingSet/train-images.idx3-ubyte"
-#define TRAIN_LABEL "./Ressources/TrainingSet/train-labels.idx1-ubyte"
-#define TEST_IMAGE "./Ressources/TestSet/t10k-images.idx3-ubyte"
-#define TEST_LABEL "./Ressources/TestSet/t10k-labels.idx1-ubyte"
+#define TRAIN_IMAGE "./../../Ressources/TrainingSet/train-images.idx3-ubyte"
+#define TRAIN_LABEL "./../../Ressources/TrainingSet/train-labels.idx1-ubyte"
+#define TEST_IMAGE "./../../Ressources/TestSet/t10k-images.idx3-ubyte"
+#define TEST_LABEL "./../../Ressources/TestSet/t10k-labels.idx1-ubyte"
 
 #define SIZE 784 
 #define TRAIN_DATA 120000

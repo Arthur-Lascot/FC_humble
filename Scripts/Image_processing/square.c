@@ -667,7 +667,8 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                         if ((i+1) % 28 == 0) putchar('\n');
                     }
 */
-                    sudoku[i] = (char)xr(1,NULL,Case);
+                    sudoku[i] = (char)xr(1,NULL,Case) + '0';
+                    printf("Case done : %c\n",sudoku[i]);
                    // display_image(image112x112);
                    // wait_for_keypressed();
                     /*

@@ -290,7 +290,7 @@ int valid_sudoku()
 
 
 //Read the file with a grid
-void read(FILE *gridtxt)
+void read_sudo(FILE *gridtxt)
 {
 	int ch;
 	int y = 0;
@@ -341,7 +341,7 @@ void read(FILE *gridtxt)
 }
 
 //Write a file with the result
-void write(FILE *gridres)
+void write_sudo(FILE *gridres)
 {
 	for (int y = 0; y < 9 ; y++)
 	{
@@ -383,7 +383,7 @@ int solveMain(char * path)
 	if (gridtxt == NULL)
 		errx(1,"Error : Could not open file %s",path);
 
-	read(gridtxt);
+	read_sudo(gridtxt);
     
     
     if (!valid_sudoku())
@@ -398,7 +398,7 @@ int solveMain(char * path)
 	if (gridres == NULL)
 		errx(1,"Error : Could not write the result file");
 
-	write(gridres);
+	write_sudo(gridres);
 	free(fileres);
 	
     //print();

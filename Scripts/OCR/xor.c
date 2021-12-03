@@ -379,7 +379,7 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
         if (filenet == NULL)
         {
             printf("Default File\n");
-            defaul = fopen("./obj/defaultnet.netOCR","r");
+            defaul = fopen("./../../obj/test.netOCR","r");
             if (defaul == NULL)
                 errx(1,"Could not open the default file");
             read_net(defaul);

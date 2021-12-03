@@ -12,7 +12,7 @@ void read_mnist_image(char *path,int size_data,unsigned char image_char[][SIZE])
     int f_data = open(path,O_RDONLY);
 
     if (f_data == -1)
-        errx(1,"Cannot open the file");
+        errx(1,"Cannot open the file image");
 
     //Get the info of the file
     int info_image[LEN_INFO_IMAGE];
@@ -32,7 +32,7 @@ void read_mnist_label(char *path,int size_data,unsigned char label_char[][1])
     int fd = open(path,O_RDONLY);
 
     if (fd == -1)
-        errx(1,"Cannot open the file");
+        errx(1,"Cannot open the file label");
 
     //Get the info of the file
     int info_label[LEN_INFO_LABEL];
