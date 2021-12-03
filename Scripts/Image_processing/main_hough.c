@@ -10,6 +10,7 @@
 #include "square.h"
 #include "tools.h"
 #include "../Solver/solver.h"
+#include "../Solver/grid_construct.h"
 
 
 char sudoku[81];
@@ -43,9 +44,8 @@ int main()
     wait_for_keypressed();
     FILE *entry_sudoku = fopen(entrySudo,"w");
     WriteFile(entry_sudoku,sudoku);
-    free(entry_sudoku);
     solveMain("entrySudo");
-    FILE *entry_sudoku = fopen("entrySudo.result","r");
+    entry_sudoku = fopen("entrySudo.result","r");
     readFile(entry_sudoku);
     init_numbers(grid,sudoku);
     fill_numbers(grid,sudokuSolved,sudoku);
