@@ -10,5 +10,8 @@ void quick_sort_custom(List* list,int temp[]);
 List* square_column(SDL_Surface* image_surface);
 List* square_line(SDL_Surface* image_surface);
 void DrawSquare(SDL_Surface* image_surface,List* column, List* line);
+void WriteFile(FILE *entry_sudoku,char sudoku[]);
+void readFile(FILE *toRead,char sudoku[]);
+
 
 #endif

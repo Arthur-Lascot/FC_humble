@@ -779,7 +779,7 @@ void readFile(FILE *toRead,char sudoku[])
     int ch;
     while((ch = fgetc(toRead)) != EOF)
     {
-        if(ch!=" " && ch!='\n')
+        if(ch!=' ' && ch!='\n')
         {
             sudoku[i]=ch-48;
             i++;

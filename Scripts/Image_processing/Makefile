@@ -11,11 +11,9 @@ all: main_hough display base_function_on_pict grayscale rotation
 
 display: display.o
 
-main_hough: main_hough.o base_function_on_pict.o Hough.o tools.o canny.o square.o ../Solver/solver.o ../Solver/grid_construct.o ../OCR/xor.o ../OCR/forward.o ../OCR/backprop.o ../OCR/network_tools.o ../OCR/reader.o
-main_hough: main_hough.o base_function_on_pict.o Hough.o tools.o canny.o square.o mean_filter.o filtering.o  ../OCR/xor.o ../OCR/forward.o ../OCR/backprop.o ../OCR/network_tools.o ../OCR/reader.o
+main_hough: main_hough.o base_function_on_pict.o Hough.o tools.o canny.o square.o ../Solver/solver.o ../Solver/grid_construct.o mean_filter.o filtering.o  ../OCR/xor.o ../OCR/forward.o ../OCR/backprop.o ../OCR/network_tools.o ../OCR/reader.o
     
-main_hough.o: Hough.h base_function_on_pict.h tools.h canny.h square.h mean_filter.h filtering.h
-main_hough.o: Hough.h base_function_on_pict.h tools.h canny.h square.h ../Solver/solver.h ../Solver/grid_construct.h
+main_hough.o: Hough.h base_function_on_pict.h tools.h canny.h square.h mean_filter.h filtering.h ../Solver/solver.h ../Solver/grid_construct.h
 
 Hough.o: tools.h base_function_on_pict.h
 
