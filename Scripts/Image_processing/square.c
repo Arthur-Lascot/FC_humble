@@ -775,12 +775,12 @@ void WriteFile(FILE *entry_sudoku, char sudoku[])
 void readFile(FILE *toRead,char sudoku[])
 {
     int i = 0;
-    char ch;
+    int ch;
     while((ch = fgetc(toRead)) != EOF)
     {
         if(ch!=" " && ch!='\n')
         {
-            sudoku[i]=ch;
+            sudoku[i]=ch-48;
             i++;
         }
     }
