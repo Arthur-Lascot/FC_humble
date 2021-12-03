@@ -10,9 +10,47 @@
 #include "square.h"
 #include "tools.h"
 #include "mean_filter.h"
+#include "filtering.h"
 
 char sudoku[81];
 
+double Mean[25]={
+    1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,
+    1.0,1.0,1.0,
+    1.0,1.0,1.0,
+    1.0,1.0,1.0,1.0,1.0,
+    1.0,1.0,1.0,
+    1.0,1.0,1.0
+};
+double gauss3[9]={
+    1,2,1,
+    2,4,2,
+    1,2,1
+};
+
+int gauss3W = 16;
+
+double gauss5[25]={
+1,4,7,4,1,
+4,16,26,16,4,
+7,26,41,26,7,
+4,16,26,16,4,
+1,4,7,4,1
+};
+
+int gauss5W = 273;
+
+double gauss7[49]={
+0,0,1,2,1,0,0,
+0,3,13,22,13,3,0,
+1,13,59,97,59,13,1,
+2,22,97,159,97,22,2,
+1,13,59,97,59,13,1,
+0,3,13,22,13,3,0,
+0,0,1,2,1,0,0
+};
+
+int gauss7W=1003;
 
 int main()
 {
@@ -47,13 +85,16 @@ int main()
     image_surface = grayscalebis(image_surface);
     display_image(image_surface);
     wait_for_keypressed();
-   /* mean_filter(image_surface);
-    mean_filter(image_surface);
-    mean_filter(image_surface);
-    mean_filter(image_surface);
-
+    for (int i = 0;i<1;i++)
+    {
+        applicate_filter(image_surface,gauss7,7,gauss7W); 
+    }
+    for(int i = 0;i<0;i++)
+    {
+        mean_filter(image_surface);
+    }
     display_image(image_surface);
-    wait_for_keypressed();*/
+    wait_for_keypressed();
     //SDL_FreeSurface(image_surface);
     //image_surface = canny("../../Ressources/image_09.jpeg");
     printf("Key pressed\n");
@@ -63,25 +104,25 @@ int main()
     double coeff = 1;
     SDL_Surface* init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
     SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
+    /*
+       if(height>width)
+       {
+       if(height>800)
+       {
+       coeff = 800/(double)height;
+       init_surface = zoomSurface(init_surface,coeff,coeff,0);
+       }
+       }
+       else
+       {
+       if (width>800)
+       {
+       coeff = 800/(double)height;
+       init_surface = zoomSurface(init_surface,coeff,coeff,0);
 
-    if(height>width)
-    {
-        if(height>800)
-        {
-            coeff = 800/(double)height;
-            init_surface = zoomSurface(init_surface,coeff,coeff,0);
-        }
-    }
-    else
-    {
-        if (width>800)
-        {
-            coeff = 800/(double)height;
-            init_surface = zoomSurface(init_surface,coeff,coeff,0);
-
-        }
-    }
-
+       }
+       }
+     */
     display_image(init_surface);
     wait_for_keypressed();
     free(init_surface);
