@@ -59,6 +59,7 @@ void convert_i(int size_d,unsigned char image_char[][SIZE],
     for(int i = 0 ; i < size_d; i++)
     {
         mnist = i%mod;
+        /*
         if (i%3 == 0) //1/3
         {
             for (int j = 0; j < SIZE; j++)
@@ -81,14 +82,14 @@ void convert_i(int size_d,unsigned char image_char[][SIZE],
             }
             haz_bis++;
         }
-        
-        else
+        */
+        //else
+        //{
+        for (int j = 0 ; j < SIZE ;j++)
         {
-            for (int j = 0 ; j < SIZE ;j++)
-            {
-                image[i][j] = (double)image_char[mnist][j]/255.0; 
-            }
+            image[i][j] = (double)image_char[mnist][j]/255.0; 
         }
+        //}
     }
 }
 
@@ -102,8 +103,8 @@ void convert_l(int size_d,unsigned char label_char[size_d][1],int label[size_d])
     for (int i = 0; i<size_d; i++)
     {
         mnist = i%mod;
-        if (i%3 != 0 && i%3 != 1)
-            label[i] = (int)label_char[mnist][0]; 
+        //if (i%3 != 0 && i%3 != 1)
+        label[i] = (int)label_char[mnist][0]; 
     }
 }
 
@@ -172,11 +173,14 @@ void load_data()
         sudo_label_bis[i] = s_label_bis[i];
     }
 
-    FILE *f = fopen("../OCR/number2","r");
-    FILE *f_bis = fopen("../OCR/number1","r");
+    /*
+    FILE *f = fopen("./Scripts/OCR/number2","r");
+    FILE *f_bis = fopen("./Scripts/OCR/number1","r");
+    if (f == NULL || f_bis == NULL)
+        errx(1,"Database default");
     readnet(f,31,30,sudo,1);
     readnet(f_bis,27,27,sudo_bis,0);
-
+    */
    /* 
     for(int j =0; j<27;j++)
     {

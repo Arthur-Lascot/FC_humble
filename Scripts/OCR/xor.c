@@ -280,6 +280,23 @@ void read_net(FILE *path)
     fclose(path);
 }
 
+void new_net(char *path)
+{
+    FILE *filenet = fopen(path,"r");
+
+    int reading = 1; //Reading or Writing a file
+    
+    if (filenet == NULL)
+    {
+        filenet = fopen(path,"w");
+        reading = 0;
+        if (filenet == NULL)
+            errx(1,"Error : Could not write the network file");
+    }
+    xr(reading,filenet,NULL);
+}
+
+
 int xr(int reading,FILE* filenet,double img[NUMINPUTS])
 {
 
@@ -356,13 +373,13 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
     //====> Fetching Part <===//
     if (reading)
     {
-        double rate = 0.0f;
+        rate = 0;
 
         FILE *defaul;
         if (filenet == NULL)
         {
             printf("Default File\n");
-            defaul = fopen("../OCR/defaultnet","r");
+            defaul = fopen("../../obj/defaultnet.netOCR","r");
             if (defaul == NULL)
                 errx(1,"Could not open the default file");
             read_net(defaul);
@@ -439,9 +456,31 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
 
 
 
+/// MAIN ///
+/*
+int main(int argc,char** argv)
+{
+    //====> Initialization <====//
+    if (argc > 2)
+        errx(1,"Usage: path");
 
+    char *path = argv[1]; 
 
+    FILE *filenet = fopen(path,"r");
 
+    int reading = 1; //Reading or Writing a file
+    
+    if (filenet == NULL)
+    {
+        filenet = fopen(path,"w");
+        reading = 0;
+        if (filenet == NULL)
+            errx(1,"Error : Could not write the network file");
+    }
+    
+    xr(reading,filenet,NULL);
 
+}
+*/
 
 

@@ -1,9 +1,14 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
+#include <err.h>
 
+#include "./OCR/xor.h"
+
+// == Network == //
+char pathNet[128]; 
+// === GTK === //
 
 GtkWidget *MainWindow;
-
 GtkBuilder *builder;
 
 typedef struct Menu
@@ -24,10 +29,12 @@ typedef struct Menu
     GtkWidget *Rot_left;
     GtkWidget *Rot_right;
     //OCR_step
+    GtkWidget *Filter_flou;
+    GtkWidget *Filter_otsu;
+    GtkWidget *Filter_canny;
     GtkWidget *Auto_rot;
     GtkWidget *Print_line;
     GtkWidget *Print_case;
-    GtkWidget *Print_step;
     //Solve_buttons
     GtkWidget *OCR_button;
     GtkWidget *Solver_button;
@@ -41,6 +48,26 @@ typedef struct MainArea
     //Page 2
     GtkWidget *Sudoku_file;
 } MainArea;
+
+// === TOOLS === //
+//Function to concat a string
+char* concat(const char *s1, const char *s2)
+{
+    char *result = malloc(strlen(s1) + strlen(s2) + 1); 
+    // +1 for the null-terminator
+    
+    if(result==NULL)                     
+    {
+        errx(1,"Error : Memory not allocated");
+    }
+    strcpy(result, s1);
+    strcat(result, s2);
+    return result;
+}
+
+
+// === TOOLS === //
+
 
 int main(int argc, char *argv[])
 {
@@ -63,10 +90,12 @@ int main(int argc, char *argv[])
     GtkWidget *Net_res = GTK_WIDGET(gtk_builder_get_object(builder,"Net_res"));
     GtkWidget *Rot_left = GTK_WIDGET(gtk_builder_get_object(builder,"Rot_left"));
     GtkWidget *Rot_right = GTK_WIDGET(gtk_builder_get_object(builder,"Rot_right"));
+    GtkWidget *Filter_flou = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_flou"));
+    GtkWidget *Filter_otsu = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_otsu"));
+    GtkWidget *Filter_canny = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_canny"));
     GtkWidget *Auto_rot = GTK_WIDGET(gtk_builder_get_object(builder,"Auto_rot"));
     GtkWidget *Print_line = GTK_WIDGET(gtk_builder_get_object(builder,"Print_line"));
     GtkWidget *Print_case = GTK_WIDGET(gtk_builder_get_object(builder,"Print_case"));
-    GtkWidget *Print_step = GTK_WIDGET(gtk_builder_get_object(builder,"Print_step"));
     GtkWidget *OCR_button = GTK_WIDGET(gtk_builder_get_object(builder,"OCR_button"));
     GtkWidget *Solver_button = GTK_WIDGET(gtk_builder_get_object(builder,"Solver_button"));
     /// === MENU ===
@@ -90,10 +119,12 @@ int main(int argc, char *argv[])
         .Net_res = Net_res,
         .Rot_left = Rot_left,
         .Rot_right = Rot_right,
+        .Filter_flou = Filter_flou,
+        .Filter_otsu = Filter_otsu,
+        .Filter_canny = Filter_canny,
         .Auto_rot = Auto_rot,
         .Print_line = Print_line,
         .Print_case = Print_case,
-        .Print_step = Print_step,
         .OCR_button = OCR_button,
         .Solver_button = Solver_button,
     };
@@ -111,6 +142,12 @@ int main(int argc, char *argv[])
 
 }
 
+void exit_app()
+{
+    printf("Exit app\n");
+    gtk_main_quit();
+}
+
 void on_Image_chooser_file_set(GtkFileChooserButton *fi)
 {
     printf("File Name = %s\n",gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)));
@@ -119,18 +156,36 @@ void on_Image_chooser_file_set(GtkFileChooserButton *fi)
 
 void on_Net_chooser_file_set(GtkFileChooserButton *fi)
 {
+    //pathNet = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)); 
     printf("File Name = %s\n",gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)));
     printf("Folder Name = %s\n",gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fi)));
 }
 
+void on_Net_name_changed(GtkEntry *t)
+{
+    sprintf(pathNet,"./obj/%s.netOCR",gtk_entry_get_text(t));
+    printf("PathNet : %s\n",pathNet); 
+}
+
+
 void on_Net_button_clicked(GtkButton *b)
 {
-    printf("Create Network\n");
+    printf("Net button\n");
+    if(pathNet != NULL && pathNet != "")
+    {   
+        printf("New Net %s\n",pathNet);
+        //new_net(pathNet);
+    }
 }
 
 void on_Net_test_clicked(GtkButton *b)
 {
-    printf("Test Network\n");
+    FILE *fnet = fopen(pathNet,"r");
+    //xr(1,fnet,NULL);
+    printf("Test Network : %f\n",rate);
+    char res[64];
+    sprintf(res,"Resultat : %i/100",(float)rate) ;
+    gtk_label_set_text(GTK_LABEL(menu.Net_res), (const gchar*) res)
 }
 
 void on_Rot_left_clicked(GtkButton *b)
@@ -141,6 +196,21 @@ void on_Rot_left_clicked(GtkButton *b)
 void on_Rot_right_clicked(GtkButton *b)
 {
     printf("Rotation Right\n");
+}
+
+void on_Filter_flou_clicked(GtkButton *b)
+{
+    printf("Filter Flou\n");
+}
+
+void on_Filter_otsu_clicked(GtkButton *b)
+{
+    printf("Filter Otsu\n");
+}
+
+void on_Filter_canny_clicked(GtkButton *b)
+{
+    printf("Filter Canny");
 }
 
 void on_Auto_rot_clicked(GtkButton *b)
@@ -166,11 +236,6 @@ void on_OCR_button_clicked(GtkButton *b)
 void on_Solver_button_clicked(GtkButton *b)
 {
     printf("Solver...\n");
-}
-
-void on_Print_step_toggled(GtkButton *b)
-{
-    printf("Print Step\n");
 }
 
 void on_Case_clicked(GtkButton *b)
