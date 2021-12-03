@@ -98,11 +98,10 @@ int init_numbers(SDL_Surface* grid  ,char sudoku[])
     return 0;
 }
 
-int fill_numbers(SDL_Surface* result  ,char sudoku[]),char oldsudoku[])
+int fill_numbers(SDL_Surface* result  ,char sudoku[],char oldsudoku[])
 {
-    display_image(grid);
-    wait_for_keypressed();
     int h_square = result->h/9;
+    SDL_Surface *number;
     SDL_Rect rect;
     rect.x= 32;
     rect.y= 10;
