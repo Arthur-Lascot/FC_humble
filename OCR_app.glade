@@ -19,6 +19,7 @@
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">OCR</property>
     <property name="resizable">False</property>
+    <signal name="destroy" handler="exit_app" swapped="no"/>
     <child type="titlebar">
       <placeholder/>
     </child>
@@ -103,6 +104,7 @@
                         <property name="can_focus">True</property>
                         <property name="margin_left">18</property>
                         <property name="hexpand">True</property>
+                        <signal name="changed" handler="on_Net_name_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -267,6 +269,57 @@
                     <property name="spacing">6</property>
                     <property name="homogeneous">True</property>
                     <child>
+                      <object class="GtkButton" id="Filter_flou">
+                        <property name="label" translatable="yes">Filtre Flou de Gauss</property>
+                        <property name="width_request">264</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="halign">center</property>
+                        <property name="margin_top">4</property>
+                        <signal name="clicked" handler="on_Filter_flou_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="Filter_otsu">
+                        <property name="label" translatable="yes">Filtre Otsu</property>
+                        <property name="width_request">264</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="halign">center</property>
+                        <property name="margin_top">4</property>
+                        <signal name="clicked" handler="on_Filter_otsu_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="Filter_canny">
+                        <property name="label" translatable="yes">Filtre Canny</property>
+                        <property name="width_request">264</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="halign">center</property>
+                        <property name="margin_top">4</property>
+                        <signal name="clicked" handler="on_Filter_canny_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
                       <object class="GtkButton" id="Auto_rot">
                         <property name="label" translatable="yes">Rotation Automatique</property>
                         <property name="width_request">264</property>
@@ -280,7 +333,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">0</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                     <child>
@@ -297,7 +350,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">1</property>
+                        <property name="position">4</property>
                       </packing>
                     </child>
                     <child>
@@ -314,7 +367,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">2</property>
+                        <property name="position">5</property>
                       </packing>
                     </child>
                   </object>
@@ -322,24 +375,6 @@
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="Print_step">
-                    <property name="label" translatable="yes">Afficher les étapes</property>
-                    <property name="height_request">50</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="halign">center</property>
-                    <property name="margin_bottom">4</property>
-                    <property name="draw_indicator">True</property>
-                    <signal name="toggled" handler="on_Print_step_toggled" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
@@ -407,10 +442,13 @@
             <property name="can_focus">False</property>
             <child>
               <object class="GtkStack" id="Stack">
-                <property name="width_request">660</property>
-                <property name="height_request">630</property>
+                <property name="width_request">720</property>
+                <property name="height_request">700</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="hexpand">False</property>
+                <property name="vexpand">False</property>
+                <property name="transition_type">slide-left</property>
                 <child>
                   <object class="GtkImage" id="Image_sudoku">
                     <property name="visible">True</property>
@@ -423,21 +461,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkFixed">
+                  <object class="GtkEntry" id="Sudoku_file">
+                    <property name="width_request">500</property>
+                    <property name="height_request">500</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkEntry" id="Sudoku_file">
-                        <property name="width_request">500</property>
-                        <property name="height_request">500</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                      </object>
-                      <packing>
-                        <property name="x">14</property>
-                        <property name="y">59</property>
-                      </packing>
-                    </child>
+                    <property name="can_focus">True</property>
                   </object>
                   <packing>
                     <property name="name">page1</property>

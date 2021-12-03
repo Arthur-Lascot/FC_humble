@@ -11,43 +11,37 @@ char pathNet[128];
 GtkWidget *MainWindow;
 GtkBuilder *builder;
 
-typedef struct Menu
-{
-    GtkWidget *Menu_box;
-    GtkWidget *Image_chooser;
-    //Net Box
-    //Net_tile
-    GtkWidget *Net_chooser;
-    //Create_net
-    GtkWidget *Net_name;
-    GtkWidget *Net_button;
-    GtkWidget *Net_test;
-    GtkWidget *Net_res;
-    //Solver
-    //OCR_title
-    //Rot_man
-    GtkWidget *Rot_left;
-    GtkWidget *Rot_right;
-    //OCR_step
-    GtkWidget *Filter_flou;
-    GtkWidget *Filter_otsu;
-    GtkWidget *Filter_canny;
-    GtkWidget *Auto_rot;
-    GtkWidget *Print_line;
-    GtkWidget *Print_case;
-    //Solve_buttons
-    GtkWidget *OCR_button;
-    GtkWidget *Solver_button;
-} Menu;
+GtkWidget *Menu_box;
+GtkWidget *Image_chooser;
+//Net Box
+//Net_tile
+GtkWidget *Net_chooser;
+//Create_net
+GtkWidget *Net_name;
+GtkWidget *Net_button;
+GtkWidget *Net_test;
+GtkWidget *Net_res;
+//Solver
+//OCR_title
+//Rot_man
+GtkWidget *Rot_left;
+GtkWidget *Rot_right;
+//OCR_step
+GtkWidget *Filter_flou;
+GtkWidget *Filter_otsu;
+GtkWidget *Filter_canny;
+GtkWidget *Auto_rot;
+GtkWidget *Print_line;
+GtkWidget *Print_case;
+//Solve_buttons
+GtkWidget *OCR_button;
+GtkWidget *Solver_button;
 
-typedef struct MainArea
-{
-    GtkWidget *Name_sudoku;
-    //Page 1
-    GtkWidget *Image_sudoku;
-    //Page 2
-    GtkWidget *Sudoku_file;
-} MainArea;
+GtkWidget *Name_sudoku;
+//Page 1
+GtkWidget *Image_sudoku;
+//Page 2
+GtkWidget *Sudoku_file;
 
 // === TOOLS === //
 //Function to concat a string
@@ -55,7 +49,7 @@ char* concat(const char *s1, const char *s2)
 {
     char *result = malloc(strlen(s1) + strlen(s2) + 1); 
     // +1 for the null-terminator
-    
+
     if(result==NULL)                     
     {
         errx(1,"Error : Memory not allocated");
@@ -79,60 +73,34 @@ int main(int argc, char *argv[])
     g_signal_connect(MainWindow,"destroy",G_CALLBACK(gtk_main_quit),NULL);
 
     gtk_builder_connect_signals(builder,NULL);
-    
+
     // === MENU ===
-    GtkWidget *Menu_box = GTK_WIDGET(gtk_builder_get_object(builder,"Menu_box"));
-    GtkWidget *Image_chooser = GTK_WIDGET(gtk_builder_get_object(builder,"Image_chooser"));
-    GtkWidget *Net_chooser = GTK_WIDGET(gtk_builder_get_object(builder,"Net_chooser"));
-    GtkWidget *Net_name = GTK_WIDGET(gtk_builder_get_object(builder,"Net_name"));
-    GtkWidget *Net_button = GTK_WIDGET(gtk_builder_get_object(builder,"Net_button"));
-    GtkWidget *Net_test = GTK_WIDGET(gtk_builder_get_object(builder,"Net_test"));
-    GtkWidget *Net_res = GTK_WIDGET(gtk_builder_get_object(builder,"Net_res"));
-    GtkWidget *Rot_left = GTK_WIDGET(gtk_builder_get_object(builder,"Rot_left"));
-    GtkWidget *Rot_right = GTK_WIDGET(gtk_builder_get_object(builder,"Rot_right"));
-    GtkWidget *Filter_flou = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_flou"));
-    GtkWidget *Filter_otsu = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_otsu"));
-    GtkWidget *Filter_canny = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_canny"));
-    GtkWidget *Auto_rot = GTK_WIDGET(gtk_builder_get_object(builder,"Auto_rot"));
-    GtkWidget *Print_line = GTK_WIDGET(gtk_builder_get_object(builder,"Print_line"));
-    GtkWidget *Print_case = GTK_WIDGET(gtk_builder_get_object(builder,"Print_case"));
-    GtkWidget *OCR_button = GTK_WIDGET(gtk_builder_get_object(builder,"OCR_button"));
-    GtkWidget *Solver_button = GTK_WIDGET(gtk_builder_get_object(builder,"Solver_button"));
+    Menu_box = GTK_WIDGET(gtk_builder_get_object(builder,"Menu_box"));
+    Image_chooser = GTK_WIDGET(gtk_builder_get_object(builder,"Image_chooser"));
+    Net_chooser = GTK_WIDGET(gtk_builder_get_object(builder,"Net_chooser"));
+    Net_name = GTK_WIDGET(gtk_builder_get_object(builder,"Net_name"));
+    Net_button = GTK_WIDGET(gtk_builder_get_object(builder,"Net_button"));
+    Net_test = GTK_WIDGET(gtk_builder_get_object(builder,"Net_test"));
+    Net_res = GTK_WIDGET(gtk_builder_get_object(builder,"Net_res"));
+    Rot_left = GTK_WIDGET(gtk_builder_get_object(builder,"Rot_left"));
+    Rot_right = GTK_WIDGET(gtk_builder_get_object(builder,"Rot_right"));
+    Filter_flou = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_flou"));
+    Filter_otsu = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_otsu"));
+    Filter_canny = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_canny"));
+    Auto_rot = GTK_WIDGET(gtk_builder_get_object(builder,"Auto_rot"));
+    Print_line = GTK_WIDGET(gtk_builder_get_object(builder,"Print_line"));
+    Print_case = GTK_WIDGET(gtk_builder_get_object(builder,"Print_case"));
+    OCR_button = GTK_WIDGET(gtk_builder_get_object(builder,"OCR_button"));
+    Solver_button = GTK_WIDGET(gtk_builder_get_object(builder,"Solver_button"));
     /// === MENU ===
 
     /// === Main Area ===
-    GtkWidget *Image_sudoku=GTK_WIDGET(gtk_builder_get_object(builder,"Image_sudoku"));
-    GtkWidget *Name_sudoku=GTK_WIDGET(gtk_builder_get_object(builder,"Name_sudoku"));
-    GtkWidget *Sudoku_file=GTK_WIDGET(gtk_builder_get_object(builder,"Sudoku_file"));
+    Image_sudoku=GTK_WIDGET(gtk_builder_get_object(builder,"Image_sudoku"));
+    Name_sudoku=GTK_WIDGET(gtk_builder_get_object(builder,"Name_sudoku"));
+    Sudoku_file=GTK_WIDGET(gtk_builder_get_object(builder,"Sudoku_file"));
 
     /// === Main Area ===
- 
 
-    Menu menu = 
-    {
-        .Menu_box = Menu_box,
-        .Image_chooser = Image_chooser,
-        .Net_chooser = Net_chooser,
-        .Net_name = Net_name,
-        .Net_button = Net_button,
-        .Net_test = Net_test,
-        .Net_res = Net_res,
-        .Rot_left = Rot_left,
-        .Rot_right = Rot_right,
-        .Filter_flou = Filter_flou,
-        .Filter_otsu = Filter_otsu,
-        .Filter_canny = Filter_canny,
-        .Auto_rot = Auto_rot,
-        .Print_line = Print_line,
-        .Print_case = Print_case,
-        .OCR_button = OCR_button,
-        .Solver_button = Solver_button,
-    };
-
-    MainArea area =
-    {
-        .Image_sudoku = Image_sudoku,
-    };
 
     gtk_widget_show(MainWindow);
 
@@ -171,10 +139,10 @@ void on_Net_name_changed(GtkEntry *t)
 void on_Net_button_clicked(GtkButton *b)
 {
     printf("Net button\n");
-    if(pathNet != NULL && pathNet != "")
+    if(pathNet != NULL) 
     {   
         printf("New Net %s\n",pathNet);
-        //new_net(pathNet);
+        //new_net(&pathNet);
     }
 }
 
@@ -184,8 +152,8 @@ void on_Net_test_clicked(GtkButton *b)
     //xr(1,fnet,NULL);
     printf("Test Network : %f\n",rate);
     char res[64];
-    sprintf(res,"Resultat : %i/100",(float)rate) ;
-    gtk_label_set_text(GTK_LABEL(menu.Net_res), (const gchar*) res)
+    sprintf(res,"Resultat : %i/100",(int)rate);
+    gtk_label_set_text(GTK_LABEL(Net_res), (const gchar*) res);
 }
 
 void on_Rot_left_clicked(GtkButton *b)
