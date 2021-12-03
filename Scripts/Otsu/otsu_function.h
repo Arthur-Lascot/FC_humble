@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include <SDL.h>
 
-SDL_Surface* grayscale(char* path); 
+SLD_Surface* otsuadapt (SDL_Surface* image;)
+SDL_Surface* filtre(char * path); 
 
 #endif
 

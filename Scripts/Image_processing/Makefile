@@ -7,7 +7,7 @@ CFLAGS= -Wall -Wextra -std=c99 -O3 -g -fsanitize=address
 LDFLAGS= -fsanitize=address
 LDLIBS= `pkg-config --libs sdl SDL_image` -lm -lSDL_gfx
 
-all: main_hough display
+all: main_hough display base_function_on_pict grayscale rotation
 
 display: display.o
 
