@@ -139,7 +139,7 @@ int mainHough(int click)
     List* line = square_line(image_surface);
     printf("DrawSquare called\n");
     DrawSquare(image_surface,column,line);
-    SDL_SaveBMP(rotated_image,"../Temp/square.bmp");
+    SDL_SaveBMP(image_surface,"../Temp/square.bmp");
     printf("End of drawing\n");
     init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
     SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
@@ -165,7 +165,7 @@ int mainHough(int click)
     display_image(init_surface);
     wait_for_keypressed();
     SDL_FreeSurface(init_surface);
-    if(click==4){
+    if(click==6){
         SDL_FreeSurface(image_surface);
         return 0;}
 
