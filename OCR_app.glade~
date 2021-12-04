@@ -5,7 +5,7 @@
   <object class="GtkWindow" id="MainWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">OCR</property>
-    <property name="default_width">1200</property>
+    <property name="default_width">1090</property>
     <property name="default_height">-1</property>
     <signal name="destroy" handler="exit_app" swapped="no"/>
     <child type="titlebar">
@@ -34,6 +34,8 @@
                   <object class="GtkEntry" id="Image_chooser">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="margin_left">17</property>
+                    <property name="placeholder_text" translatable="yes">Image Sudoku</property>
                     <signal name="changed" handler="on_Image_chooser_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -48,6 +50,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="margin_right">21</property>
                     <signal name="clicked" handler="on_Image_loader_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -66,27 +69,11 @@
             </child>
             <child>
               <object class="GtkBox" id="Net_box">
-                <property name="height_request">260</property>
+                <property name="height_request">180</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_top">14</property>
                 <property name="orientation">vertical</property>
-                <child>
-                  <object class="GtkLabel" id="Net_title">
-                    <property name="height_request">32</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">8</property>
-                    <property name="label" translatable="yes">Réseau de Neurones</property>
-                    <attributes>
-                      <attribute name="font-desc" value="Sans Bold 14"/>
-                    </attributes>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
@@ -98,6 +85,8 @@
                       <object class="GtkEntry" id="Net_chooser">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="margin_left">17</property>
+                        <property name="placeholder_text" translatable="yes">Réseau de Neurones</property>
                         <signal name="changed" handler="on_Net_chooser_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -112,6 +101,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="margin_right">21</property>
                         <signal name="clicked" handler="on_Net_loader_clicked" swapped="no"/>
                       </object>
                       <packing>
@@ -140,9 +130,10 @@
                         <property name="height_request">32</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="margin_left">18</property>
+                        <property name="margin_left">17</property>
                         <property name="hexpand">True</property>
                         <property name="max_width_chars">64</property>
+                        <property name="placeholder_text" translatable="yes">Nouveau Réseau</property>
                         <signal name="changed" handler="on_Net_name_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -160,7 +151,7 @@
                         <property name="receives_default">True</property>
                         <property name="halign">end</property>
                         <property name="margin_left">14</property>
-                        <property name="margin_right">21</property>
+                        <property name="margin_right">22</property>
                         <property name="image_position">right</property>
                         <signal name="clicked" handler="on_Net_button_clicked" swapped="no"/>
                       </object>
@@ -204,13 +195,14 @@
                       <object class="GtkLabel" id="Net_check">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_top">9</property>
                         <property name="label" translatable="yes">Réseau utilisé :</property>
                         <attributes>
                           <attribute name="font-desc" value="Sans 11"/>
                         </attributes>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
@@ -219,20 +211,21 @@
                       <object class="GtkLabel" id="Net_res">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_top">11</property>
                         <property name="label" translatable="yes">Résultat :</property>
                         <attributes>
-                          <attribute name="font-desc" value="Sans Bold 14"/>
+                          <attribute name="font-desc" value="Sans 14"/>
                         </attributes>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">True</property>
+                    <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">4</property>
                   </packing>
@@ -281,6 +274,7 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="halign">center</property>
+                        <property name="margin_left">17</property>
                         <signal name="clicked" handler="on_Rot_left_clicked" swapped="no"/>
                       </object>
                       <packing>
@@ -297,6 +291,7 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="halign">center</property>
+                        <property name="margin_right">17</property>
                         <property name="always_show_image">True</property>
                         <signal name="clicked" handler="on_Rot_right_clicked" swapped="no"/>
                       </object>
@@ -321,20 +316,82 @@
                     <property name="spacing">6</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkButton" id="Filter_flou">
-                        <property name="label" translatable="yes">Filtre Flou de Gauss</property>
-                        <property name="width_request">264</property>
+                      <object class="GtkBox" id="Filters">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="halign">center</property>
-                        <property name="margin_top">4</property>
-                        <signal name="clicked" handler="on_Filter_flou_clicked" swapped="no"/>
+                        <property name="can_focus">False</property>
+                        <property name="homogeneous">True</property>
+                        <child>
+                          <object class="GtkButton" id="Gauss_1">
+                            <property name="label" translatable="yes">Gauss
+     1</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="halign">center</property>
+                            <property name="margin_top">4</property>
+                            <signal name="clicked" handler="on_Filter_flou_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="Gauss_2">
+                            <property name="label" translatable="yes">Gauss
+    2</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="halign">center</property>
+                            <property name="margin_top">4</property>
+                            <signal name="clicked" handler="on_Filter_flou_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="Gauss_3">
+                            <property name="label" translatable="yes">Gauss
+     3</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="halign">center</property>
+                            <property name="margin_top">4</property>
+                            <signal name="clicked" handler="on_Gauss_3_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="Filter_median">
+                        <property name="label" translatable="yes">Médian</property>
+                        <property name="width_request">264</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="halign">center</property>
+                        <signal name="clicked" handler="on_Filter_median_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
@@ -351,7 +408,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">1</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                     <child>
@@ -368,7 +425,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">2</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                     <child>
@@ -385,7 +442,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">3</property>
+                        <property name="position">4</property>
                       </packing>
                     </child>
                     <child>
@@ -402,7 +459,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">4</property>
+                        <property name="position">5</property>
                       </packing>
                     </child>
                     <child>
@@ -419,7 +476,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">5</property>
+                        <property name="position">6</property>
                       </packing>
                     </child>
                   </object>
@@ -433,16 +490,18 @@
                   <object class="GtkBox" id="Solve_buttons">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="valign">end</property>
                     <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkButton" id="OCR_button">
                         <property name="label" translatable="yes">Traitement</property>
-                        <property name="height_request">90</property>
+                        <property name="height_request">42</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="margin_left">4</property>
-                        <property name="margin_bottom">8</property>
+                        <property name="margin_left">17</property>
+                        <property name="margin_right">1</property>
+                        <property name="margin_bottom">3</property>
                         <signal name="clicked" handler="on_OCR_button_clicked" swapped="no"/>
                       </object>
                       <packing>
@@ -457,9 +516,9 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="margin_left">8</property>
-                        <property name="margin_right">4</property>
-                        <property name="margin_bottom">8</property>
+                        <property name="margin_left">1</property>
+                        <property name="margin_right">21</property>
+                        <property name="margin_bottom">3</property>
                         <signal name="clicked" handler="on_Solver_button_clicked" swapped="no"/>
                       </object>
                       <packing>

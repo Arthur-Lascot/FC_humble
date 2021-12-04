@@ -39,7 +39,10 @@ GtkWidget *Net_res;
 GtkWidget *Rot_left;
 GtkWidget *Rot_right;
 //OCR_step
-GtkWidget *Filter_flou;
+GtkWidget *Gauss_1;
+GtkWidget *Gauss_2;
+GtkWidget *Gauss_3;
+GtkWidget *Filter_median;
 GtkWidget *Filter_otsu;
 GtkWidget *Filter_canny;
 GtkWidget *Auto_rot;
@@ -161,7 +164,10 @@ int main(int argc, char *argv[])
     Net_res = GTK_WIDGET(gtk_builder_get_object(builder,"Net_res"));
     Rot_left = GTK_WIDGET(gtk_builder_get_object(builder,"Rot_left"));
     Rot_right = GTK_WIDGET(gtk_builder_get_object(builder,"Rot_right"));
-    Filter_flou = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_flou"));
+    Gauss_1 = GTK_WIDGET(gtk_builder_get_object(builder,"Gauss_1"));
+    Gauss_1 = GTK_WIDGET(gtk_builder_get_object(builder,"Gauss_2"));
+    Gauss_1 = GTK_WIDGET(gtk_builder_get_object(builder,"Gauss_3"));
+    Filter_median = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_median"));
     Filter_otsu = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_otsu"));
     Filter_canny = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_canny"));
     Auto_rot = GTK_WIDGET(gtk_builder_get_object(builder,"Auto_rot"));
@@ -269,9 +275,24 @@ void on_Rot_right_clicked(GtkButton *b)
     printf("Rotation Right\n");
 }
 
-void on_Filter_flou_clicked(GtkButton *b)
+void on_Gauss_1_clicked(GtkButton *b)
 {
-    printf("Filter Flou\n");
+    printf("Gauss 1\n");
+}
+
+void on_Gauss_2_clicked(GtkButton *b)
+{
+    printf("Gauss 2\n");
+}
+
+void on_Gauss_3_clicked(GtkButton *b)
+{
+    printf("Gauss 3\n");
+}
+
+void on_Filter_median_clicked(GtkButton *b)
+{
+    printf("Filter Median\n");
 }
 
 void on_Filter_otsu_clicked(GtkButton *b)
