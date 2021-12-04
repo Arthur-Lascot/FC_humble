@@ -57,6 +57,7 @@ int gauss7W=1003;
 
 char sudokuSolved[81];
 char *entrySudo = "entrySudo";
+int click = 0;
 int main()
 {
     SDL_Surface* grid = load_image("../../Ressources/result/empty_grid.jpg");
@@ -64,13 +65,21 @@ int main()
     SDL_Surface* image_surface;
     init_sdl();
     image_surface = load_image("../../Ressources/image_06.jpeg");
+    SDL_SaveBMP(image_surface,"../Temp/image.bmp");
     //SDL_Surface* image_surface = rotozoomSurface(image_surface1,22,1,0);
     //SDL_FreeSurface(image_surface1);
     display_image(image_surface);
     wait_for_keypressed();
+    if(click==-1){
+        SDL_FreeSurface(image_surface);
+        return 0;}
     image_surface = grayscalebis(image_surface);
+    SDL_SaveBMP(image_surface,"../Temp/grayscale.bmp");
     display_image(image_surface);
     wait_for_keypressed();
+    if(click==1){
+        SDL_FreeSurface(image_surface);
+        return 0;}
     for (int i = 0;i<0;i++)
     {
         applicate_filter(image_surface,gauss7,7,gauss7W); 
@@ -79,15 +88,25 @@ int main()
     {
         mean_filter(image_surface);
     }
+    SDL_SaveBMP(image_surface,"../Temp/filter.bmp");
     display_image(image_surface);
     wait_for_keypressed();
+    if(click==2){
+        SDL_FreeSurface(image_surface);
+        return 0;}
     //SDL_FreeSurface(image_surface);
     //image_surface = canny("../../Ressources/image_09.jpeg");
     printf("Key pressed\n");
     filtre(image_surface,75);
+    SDL_SaveBMP(image_surface,"../Temp/adaptative.bmp");
     display_image(image_surface);
     wait_for_keypressed();
-    image_surface = hough_line(hough_first(image_surface),image_surface,1);
+    if(click==3){return 0;}
+    image_surface = hough_line(hough_first(image_surface),image_surface,1,click);
+    SDL_SaveBMP(image_surface,"../Temp/hough.bmp");
+    if(click==5){
+        SDL_FreeSurface(image_surface);
+        return 0;}
     int height = image_surface->h;
     int width = image_surface->w;
     double coeff = 1;
@@ -114,13 +133,14 @@ int main()
      */
     display_image(init_surface);
     wait_for_keypressed();
-    free(init_surface);
+    SDL_FreeSurface(init_surface);
     printf("Square column called\n");
     List* column = square_column(image_surface);
     printf("Square line called\n");
     List* line = square_line(image_surface);
     printf("DrawSquare called\n");
     DrawSquare(image_surface,column,line);
+    SDL_SaveBMP(rotated_image,"../Temp/square.bmp");
     printf("End of drawing\n");
     init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
     SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
@@ -145,7 +165,10 @@ int main()
 */
     display_image(init_surface);
     wait_for_keypressed();
-    free(init_surface);
+    SDL_FreeSurface(init_surface);
+    if(click==4){
+        SDL_FreeSurface(image_surface);
+        return 0;}
 
     //display_image(image_surface);
     //wait_for_keypressed()i;

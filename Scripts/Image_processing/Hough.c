@@ -87,7 +87,7 @@ unsigned int* hough_first(SDL_Surface* first_surface)
 }
 
 SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
-        int to_rotate)
+        int to_rotate,int click)
 {
     SDL_Surface* image_surface = canny(first_surface);
     display_image(image_surface);
@@ -231,6 +231,8 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
                 torotate = curr-90;
             }
             SDL_Surface *rotated_image = rotozoomSurface(first_surface,torotate,1,0);
+            SDL_SaveBMP(rotated_image,"../Temp/rotation.bmp");
+            if(click==4){return 0;}
             SDL_FreeSurface(image_surface);
 	    SDL_FreeSurface(first_surface);
 	    Element* currentPlace = (houghList->last);

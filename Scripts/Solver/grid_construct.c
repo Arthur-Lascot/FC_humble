@@ -177,6 +177,7 @@ int fill_numbers(SDL_Surface* result  ,char sudoku[],char oldsudoku[])
         rect.x -= 9*(h_square);
         rect.y += h_square;
     }
+    SDL_SaveBMP(rotated_image,"../Temp/solved.bmp");
     display_image(result);
     wait_for_keypressed();
 
