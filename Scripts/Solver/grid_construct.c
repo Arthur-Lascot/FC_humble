@@ -6,8 +6,8 @@
 
 SDL_Surface* init_numbers(SDL_Surface* grid  ,char sudoku[])
 {
-    display_image(grid);
-    wait_for_keypressed();
+    //display_image(grid);
+    //wait_for_keypressed();
 
     SDL_Surface* result;
     SDL_Surface* number = load_image("../../Ressources/result/1_black.png");
@@ -89,8 +89,8 @@ SDL_Surface* init_numbers(SDL_Surface* grid  ,char sudoku[])
         rect.x -= 9*(h_square);
         rect.y += h_square;
     }
-    display_image(result);
-    wait_for_keypressed();
+    //display_image(result);
+    //wait_for_keypressed();
 
     //SDL_FreeSurface(number);
     SDL_FreeSurface(grid);
@@ -98,7 +98,7 @@ SDL_Surface* init_numbers(SDL_Surface* grid  ,char sudoku[])
     return result;
 }
 
-int fill_numbers(SDL_Surface* result  ,char sudoku[],char oldsudoku[])
+SDL_Surface* fill_numbers(SDL_Surface* result  ,char sudoku[],char oldsudoku[])
 {
     int h_square = result->h/9;
     SDL_Surface *number;
@@ -177,12 +177,10 @@ int fill_numbers(SDL_Surface* result  ,char sudoku[],char oldsudoku[])
         rect.x -= 9*(h_square);
         rect.y += h_square;
     }
-    SDL_SaveBMP(result,"../Temp/solved.bmp");
-    display_image(result);
-    wait_for_keypressed();
+    //display_image(result);
+    //wait_for_keypressed();
 
     //SDL_FreeSurface(number);
-    SDL_FreeSurface(result);
-    return 0;
+    return result;
 }
 

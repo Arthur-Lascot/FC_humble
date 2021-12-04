@@ -388,7 +388,7 @@ int solveMain(char * path)
     
     if (!valid_sudoku())
     {
-        errx(1,"Error : This sudoku grid is wrong");
+        return 404;
     }
 
 	solve();

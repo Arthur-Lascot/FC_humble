@@ -4,6 +4,6 @@
 #include "SDL/SDL_image.h"
 
 SDL_Surface* init_numbers(SDL_Surface *grid,char sudoku[]);
-int fill_numbers(SDL_Surface *result,char sudoku[],char oldSudoku[]);
+SDL_Surface* fill_numbers(SDL_Surface *result,char sudoku[],char oldSudoku[]);
 
 #endif

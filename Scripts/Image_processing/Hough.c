@@ -82,17 +82,22 @@ unsigned int* hough_first(SDL_Surface* first_surface)
        }
      */
     SDL_FreeSurface(image_surface);
-    printf("Check done");
+    //printf("Check done");
     return accum;
 }
 
 SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
         int to_rotate,int click)
 {
+    if(click==8&&to_rotate==0)
+    {
+        return first_surface;
+    }
+
     SDL_Surface* image_surface = canny(first_surface);
-    display_image(image_surface);
-    wait_for_keypressed();
-    printf("Called hough_line\n");
+    //display_image(image_surface);
+    //wait_for_keypressed();
+    //printf("Called hough_line\n");
     int w = image_surface->w; //width
     int h = image_surface->h; //height
     unsigned int threshold_min = max_value*0.4;
@@ -231,25 +236,42 @@ SDL_Surface* hough_line(unsigned int* hough,SDL_Surface* first_surface,
                 torotate = curr-90;
             }
             SDL_Surface* rotated_image = 
-		    rotozoomSurface(first_surface,torotate,1,0);
-            SDL_SaveBMP(rotated_image,"../Temp/rotation.bmp");
-            if(click==4){return 0;}
+                rotozoomSurface(first_surface,torotate,1,0);
             SDL_FreeSurface(image_surface);
-	    SDL_FreeSurface(first_surface);
-	    Element* currentPlace = (houghList->last);
-	    while(currentPlace!=NULL)
-	    {
-		tuple3* temp = currentPlace->key;
-		free(temp->item1);
-		free(temp->item2);
-		currentPlace = currentPlace->previous;
-		free(temp);
-		del(houghList);
-	    }
-	    free(houghList);
-	    free(hough);
-	    free(nb_angle);
+            SDL_FreeSurface(first_surface);
+            Element* currentPlace = (houghList->last);
+            while(currentPlace!=NULL)
+            {
+                tuple3* temp = currentPlace->key;
+                free(temp->item1);
+                free(temp->item2);
+                currentPlace = currentPlace->previous;
+                free(temp);
+                del(houghList);
+            }
+            free(houghList);
+            free(hough);
+            free(nb_angle);
             return hough_line(hough_first(rotated_image),rotated_image,0,click);
+        }
+        else if(click == 8)
+        {
+            SDL_FreeSurface(first_surface);
+            Element* currentPlace = (houghList->last);
+            while(currentPlace!=NULL)
+            {
+                tuple3* temp = currentPlace->key;
+                free(temp->item1);
+                free(temp->item2);
+                currentPlace = currentPlace->previous;
+                free(temp);
+                del(houghList);
+            }
+            free(houghList);
+            free(hough);
+            free(nb_angle);
+
+            return image_surface;
         }
     }
     free(nb_angle);
