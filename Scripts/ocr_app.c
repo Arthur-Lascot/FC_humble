@@ -5,7 +5,8 @@
 #include "./OCR/xor.h"
 
 // == Network == //
-char pathNet[128]; 
+char pathNet[128];
+char pathImg[128];
 // === GTK === //
 
 GtkWidget *MainWindow;
@@ -118,15 +119,15 @@ void exit_app()
 
 void on_Image_chooser_file_set(GtkFileChooserButton *fi)
 {
-    printf("File Name = %s\n",gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)));
-    printf("Folder Name = %s\n",gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fi)));
+    sprintf(pathImg,"%s",gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)));
+    printf("File Name = %s\n",pathImg);
+    gtk_image_set_from_file(GTK_IMAGE(Image_sudoku),pathImg);   
 }
 
 void on_Net_chooser_file_set(GtkFileChooserButton *fi)
 {
-    //pathNet = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)); 
-    printf("File Name = %s\n",gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)));
-    printf("Folder Name = %s\n",gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fi)));
+    sprintf(pathNet,"%s",gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)));
+    printf("File Name = %s\n",pathNet);
 }
 
 void on_Net_name_changed(GtkEntry *t)
@@ -149,11 +150,14 @@ void on_Net_button_clicked(GtkButton *b)
 void on_Net_test_clicked(GtkButton *b)
 {
     FILE *fnet = fopen(pathNet,"r");
-    //xr(1,fnet,NULL);
-    printf("Test Network : %f\n",rate);
-    char res[64];
-    sprintf(res,"Resultat : %i/100",(int)rate);
-    gtk_label_set_text(GTK_LABEL(Net_res), (const gchar*) res);
+    if (fnet != NULL)
+    {
+        //xr(1,fnet,NULL);
+        printf("Test Network : %f\n",rate);
+        char res[64];
+        sprintf(res,"Resultat : %i/100",(int)rate);
+        gtk_label_set_text(GTK_LABEL(Net_res), (const gchar*) res);
+    }
 }
 
 void on_Rot_left_clicked(GtkButton *b)
