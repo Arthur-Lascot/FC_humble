@@ -7,8 +7,8 @@
 
 // == Variables == //
 
-char pathNet[256];
-char pathImg[256];
+char pathNet[45];
+char pathImg[128];
 
 char nameImg[128];
 
@@ -22,13 +22,16 @@ GtkBuilder *builder;
 
 GtkWidget *Menu_box;
 GtkWidget *Image_chooser;
+GtkWidget *Image_loader;
 //Net Box
 //Net_tile
 GtkWidget *Net_chooser;
+GtkWidget *Net_loader;
 //Create_net
 GtkWidget *Net_name;
 GtkWidget *Net_button;
 GtkWidget *Net_test;
+GtkWidget *Net_check;
 GtkWidget *Net_res;
 //Solver
 //OCR_title
@@ -148,10 +151,13 @@ int main(int argc, char *argv[])
     // === MENU ===
     Menu_box = GTK_WIDGET(gtk_builder_get_object(builder,"Menu_box"));
     Image_chooser = GTK_WIDGET(gtk_builder_get_object(builder,"Image_chooser"));
+    Image_loader = GTK_WIDGET(gtk_builder_get_object(builder,"Image_loader"));
     Net_chooser = GTK_WIDGET(gtk_builder_get_object(builder,"Net_chooser"));
+    Net_loader = GTK_WIDGET(gtk_builder_get_object(builder,"Net_loader"));
     Net_name = GTK_WIDGET(gtk_builder_get_object(builder,"Net_name"));
     Net_button = GTK_WIDGET(gtk_builder_get_object(builder,"Net_button"));
     Net_test = GTK_WIDGET(gtk_builder_get_object(builder,"Net_test"));
+    Net_check = GTK_WIDGET(gtk_builder_get_object(builder,"Net_check"));
     Net_res = GTK_WIDGET(gtk_builder_get_object(builder,"Net_res"));
     Rot_left = GTK_WIDGET(gtk_builder_get_object(builder,"Rot_left"));
     Rot_right = GTK_WIDGET(gtk_builder_get_object(builder,"Rot_right"));
@@ -195,19 +201,32 @@ void exit_app()
     gtk_main_quit();
 }
 
-void on_Image_chooser_file_set(GtkFileChooserButton *fi)
+void on_Image_chooser_changed(GtkEntry *t)
 {
-    sprintf(pathImg,"%s",gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)));
-    printf("File Name = %s\n",pathImg);
-    extractName();
-    printf("Name : %s\n",nameImg);
+    sprintf(pathImg,"./Ressources/%s",gtk_entry_get_text(t));
+    printf("File Image Name = %s\n",pathImg);
+    //extractName();
+    //printf("Name : %s\n",nameImg);
+}
+
+void on_Image_loader_clicked(GtkButton *b)
+{
+    printf("Image loader...\n");
     gtk_image_set_from_file(GTK_IMAGE(Image_sudoku),pathImg);   
 }
 
-void on_Net_chooser_file_set(GtkFileChooserButton *fi)
+void on_Net_chooser_changed(GtkEntry *t)
 {
-    sprintf(pathNet,"%s",gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)));
-    printf("File Name = %s\n",pathNet);
+    sprintf(pathNet,"./obj/%s",gtk_entry_get_text(t));
+    printf("File Net Name = %s\n",pathNet);
+}
+
+void on_Net_loader_clicked(GtkButton *b)
+{
+    printf("Net loader...\n");
+    char res[64];
+    sprintf(res,"Réseau utilisé : %s",pathNet);
+    gtk_label_set_text(GTK_LABEL(Net_check), (const gchar*) res);
 }
 
 void on_Net_name_changed(GtkEntry *t)
