@@ -34,26 +34,64 @@ double gauss3[9]={
 int gauss3W = 16;
 
 double gauss5[25]={
-1,4,7,4,1,
-4,16,26,16,4,
-7,26,41,26,7,
-4,16,26,16,4,
-1,4,7,4,1
+    1,4,7,4,1,
+    4,16,26,16,4,
+    7,26,41,26,7,
+    4,16,26,16,4,
+    1,4,7,4,1
 };
 
 int gauss5W = 273;
 
 double gauss7[49]={
-0,0,1,2,1,0,0,
-0,3,13,22,13,3,0,
-1,13,59,97,59,13,1,
-2,22,97,159,97,22,2,
-1,13,59,97,59,13,1,
-0,3,13,22,13,3,0,
-0,0,1,2,1,0,0
+    0,0,1,2,1,0,0,
+    0,3,13,22,13,3,0,
+    1,13,59,97,59,13,1,
+    2,22,97,159,97,22,2,
+    1,13,59,97,59,13,1,
+    0,3,13,22,13,3,0,
+    0,0,1,2,1,0,0
 };
 
 int gauss7W=1003;
+
+void resize(SDL_Surface* image_surface,char* to_display)
+{
+    double coeff;
+    int height = image_surface->h;
+    int width = image_surface->w;
+    SDL_Surface* init_surface;
+    if(height>width)
+    {
+        if(height>800)
+        {
+            coeff = 800/(double)height;
+            init_surface = zoomSurface(image_surface,coeff,coeff,0);
+        }
+        else
+        {
+            init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+            SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
+        }
+    }
+    else
+    {
+        if (width>800)
+        {
+            coeff = 800/(double)height;
+            init_surface = zoomSurface(image_surface,coeff,coeff,0);
+        }   
+        else
+        {
+            init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+            SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
+        }
+    }
+    SDL_SaveBMP(init_surface,to_display);
+    SDL_SaveBMP(image_surface,"../../Temp/use.bmp");
+    SDL_FreeSurface(init_surface);
+    SDL_FreeSurface(image_surface);
+}
 
 char sudokuSolved[81];
 char *entrySudo = "entrySudo";
@@ -63,54 +101,114 @@ int mainHough(int click)
     //char* sudoku = malloc(81*sizeof(char));
     SDL_Surface* image_surface;
     init_sdl();
-    image_surface = load_image("../../Ressources/image_06.jpeg");
-    SDL_SaveBMP(image_surface,"../Temp/image.bmp");
+    image_surface = load_image("../../Ressources/image_03.jpeg");
     //SDL_Surface* image_surface = rotozoomSurface(image_surface1,22,1,0);
     //SDL_FreeSurface(image_surface1);
-    display_image(image_surface);
-    wait_for_keypressed();
+    //display_image(image_surface);
+    //wait_for_keypressed();
     if(click==-1){
-        SDL_FreeSurface(image_surface);
+        resize(image_surface,"../../Temp/image.bmp");
         return 0;}
     image_surface = grayscalebis(image_surface);
-    SDL_SaveBMP(image_surface,"../Temp/grayscale.bmp");
-    display_image(image_surface);
-    wait_for_keypressed();
+    //display_image(image_surface);
+    //wait_for_keypressed();
     if(click==1){
-        SDL_FreeSurface(image_surface);
+        resize(image_surface,"../../Temp/grayscale.bmp");
         return 0;}
-    for (int i = 0;i<0;i++)
+    if(click==2){
+        applicate_filter(image_surface,gauss3,3,gauss3W);
+        resize(image_surface,"../../Temp/gauss3.bmp");
+        return 0;
+    }
+    if(click==3)
+    {
+        applicate_filter(image_surface,gauss5,5,gauss5W); 
+        resize(image_surface,"../../Temp/gauss5.bmp");
+        return 0;
+    }
+    if (click == 4)
     {
         applicate_filter(image_surface,gauss7,7,gauss7W); 
+        resize(image_surface,"../../Temp/gauss7.bmp");
+        return 0;
     }
-    for(int i = 0;i<0;i++)
+    if(click==5)
     {
         mean_filter(image_surface);
+        resize(image_surface,"../../Temp/median.bmp");
+        return 0;
     }
-    SDL_SaveBMP(image_surface,"../Temp/filter.bmp");
-    display_image(image_surface);
-    wait_for_keypressed();
-    if(click==2){
-        SDL_FreeSurface(image_surface);
-        return 0;}
+
     //SDL_FreeSurface(image_surface);
     //image_surface = canny("../../Ressources/image_09.jpeg");
-    printf("Key pressed\n");
-    filtre(image_surface,75);
-    SDL_SaveBMP(image_surface,"../Temp/adaptative.bmp");
-    display_image(image_surface);
-    wait_for_keypressed();
-    if(click==3){return 0;}
+    //printf("Key pressed\n");
+    filtre(image_surface,90);
+    //display_image(image_surface);
+    //wait_for_keypressed();
+    if(click==6)
+    {
+        resize(image_surface,"../../Temp/otsu.bmp");
+        return 0;
+    }
+    if(click==7)
+    {
+        image_surface = canny(image_surface);
+        resize(image_surface,"../../Temp/canny.bmp");
+        return 0;
+    }
     image_surface = hough_line(hough_first(image_surface),image_surface,1,click);
-    SDL_SaveBMP(image_surface,"../Temp/hough.bmp");
-    if(click==5){
+    if(click == 8)
+    {
+        resize(image_surface,"../../Temp/auto_rotate.bmp");
+        return 0;
+    }
+    if(click == 9)
+    {
+        resize(image_surface,"../../Temp/hough.bmp");
+        return 0;
+    }
+    /*SDL_Surface* init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+      SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
+      display_image(init_surface);
+      wait_for_keypressed();
+      SDL_FreeSurface(init_surface);
+     */
+    //printf("Square column called\n");
+    List* column = square_column(image_surface);
+    //printf("Square line called\n");
+    List* line = square_line(image_surface);
+    if(column == NULL||line==NULL)
+    {
         SDL_FreeSurface(image_surface);
-        return 0;}
-    int height = image_surface->h;
-    int width = image_surface->w;
-    double coeff = 1;
-    SDL_Surface* init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
-    SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
+        image_surface = load_image("../../Ressources/error.png");
+        switch(click)
+        {
+            case 10:
+                resize(image_surface,"../../Temp/square.bmp");
+                break;
+            case 11:
+                resize(image_surface,"../../Temp/traitement.bmp");
+                break;
+            case 0:
+                resize(image_surface,"../../Temp/solved.bmp");
+                break;
+            default:
+                resize(image_surface,"../../Temp/default.bmp");
+                break;
+        }
+        return 1;
+    }
+
+    //printf("DrawSquare called\n");
+    DrawSquare(image_surface,column,line);
+    if(click == 10)
+    {
+        resize(image_surface,"../../Temp/square.bmp");
+        return 0;
+    }
+    //printf("End of drawing\n");
+    //init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+    //SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
     /*
        if(height>width)
        {
@@ -130,53 +228,38 @@ int mainHough(int click)
        }
        }
      */
-    display_image(init_surface);
-    wait_for_keypressed();
-    SDL_FreeSurface(init_surface);
-    printf("Square column called\n");
-    List* column = square_column(image_surface);
-    printf("Square line called\n");
-    List* line = square_line(image_surface);
-    printf("DrawSquare called\n");
-    DrawSquare(image_surface,column,line);
-    SDL_SaveBMP(image_surface,"../Temp/square.bmp");
-    printf("End of drawing\n");
-    init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
-    SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
-/*
-    if(height>width)
-    {
-        if(height>800)
-        {
-            coeff = 800/(double)height;
-            init_surface = zoomSurface(init_surface,coeff,coeff,0);
-        }
-    }
-    else
-    {
-        if (width>800)
-        {
-            coeff = 800/(double)height;
-            init_surface = zoomSurface(init_surface,coeff,coeff,0);
-
-        }
-    }
-*/
-    display_image(init_surface);
-    wait_for_keypressed();
-    SDL_FreeSurface(init_surface);
-    if(click==6){
-        SDL_FreeSurface(image_surface);
-        return 0;}
-
+    /*
+       display_image(init_surface);
+       wait_for_keypressed();
+       SDL_FreeSurface(init_surface);
+     */
     //display_image(image_surface);
     //wait_for_keypressed()i;
     FILE *entry_sudoku = fopen(entrySudo,"w");
     WriteFile(entry_sudoku,sudoku);
-    solveMain("entrySudo");
+    if(click == 11)
+    {
+        resize(image_surface,"../../Temp/traitement.bmp");
+        return 0;
+    }
+    int is_valid = solveMain("entrySudo");
+    if(is_valid == 404 && click ==0)
+    {
+        SDL_FreeSurface(image_surface);
+        image_surface = load_image("../../Ressources/error404.png");
+        resize(image_surface,"../../Temp/solved.bmp");
+        return 1;
+
+    }
     entry_sudoku = fopen("entrySudo.result","r");
     readFile(entry_sudoku,sudokuSolved);
-    fill_numbers(init_numbers(grid,sudoku),sudokuSolved,sudoku);
+    SDL_FreeSurface(image_surface);
+    image_surface =fill_numbers(init_numbers(grid,sudoku),sudokuSolved,sudoku);
+    if(click == 0)
+    {
+        resize(image_surface,"../../Temp/solved.bmp");
+        return 0;
+    }
     //printf("Key pressed\n");
     SDL_FreeSurface(image_surface);
     /* image_surface = load_image("../../Ressources/image_03.jpeg");
@@ -220,5 +303,5 @@ int mainHough(int click)
     //printf("Key pressed\n");
     SDL_FreeSurface(image_surface);
     printf("Done\n");*/
-    return 0;
+    return 1;
 }

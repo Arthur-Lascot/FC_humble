@@ -228,7 +228,7 @@ List* square_column(SDL_Surface* image_surface)
     }
     if(compteur != 9)
     {
-        errx(1,"you didn't detect a sudoku (column)");
+        return NULL;
     }
     else
     {
@@ -430,7 +430,7 @@ List* square_line(SDL_Surface* image_surface)
     }
     if(compteur != 9)
     {
-        errx(1,"you didn't detect a sudoku (line)");
+        return NULL;
     }
     else
     {
@@ -453,7 +453,7 @@ List* square_line(SDL_Surface* image_surface)
     free(ecart_clean);
     return result;
 }
-
+/*
 void fillHole(double* dst)
 {
     double acc =0;
@@ -487,7 +487,7 @@ void fillHole(double* dst)
         dst[i]=0;
     }
 }
-
+*/
 void adjust(double *dst)
 {
     int neighbours = 0;
@@ -787,7 +787,6 @@ void WriteFile(FILE *entry_sudoku, char sudoku[])
         }
         if((i+1)%27==0)
         {
-            printf("allo");
             fputs("\n",entry_sudoku);
         }
     }
