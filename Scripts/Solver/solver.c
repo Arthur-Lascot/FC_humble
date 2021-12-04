@@ -362,7 +362,7 @@ void write_sudo(FILE *gridres)
 }
 
 //Function to concat a string
-char* concat(const char *s1, const char *s2)
+char* concatF(const char *s1, const char *s2)
 {
     char *result = malloc(strlen(s1) + strlen(s2) + 1); 
     // +1 for the null-terminator
@@ -393,7 +393,7 @@ int solveMain(char * path)
 
 	solve();
 
-	char *fileres = concat(path,".result");
+	char *fileres = concatF(path,".result");
 	FILE *gridres = fopen(fileres,"w");
 	if (gridres == NULL)
 		errx(1,"Error : Could not write the result file");

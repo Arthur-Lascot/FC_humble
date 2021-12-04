@@ -3,7 +3,7 @@
 #include <err.h>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
-#include "base_function_on_pict.h"
+#include "../Image_processing/base_function_on_pict.h"
 #include <assert.h>
 
 

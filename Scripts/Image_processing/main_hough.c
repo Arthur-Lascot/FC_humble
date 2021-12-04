@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "Hough.h"
-#include "grayscale.h"
 #include <stdlib.h>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
