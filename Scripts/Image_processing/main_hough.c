@@ -57,8 +57,7 @@ int gauss7W=1003;
 
 char sudokuSolved[81];
 char *entrySudo = "entrySudo";
-int click = 0;
-int main()
+int mainHough(int click)
 {
     SDL_Surface* grid = load_image("../../Ressources/result/empty_grid.jpg");
     //char* sudoku = malloc(81*sizeof(char));
