@@ -1,11 +1,20 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <gtk/gtk.h>
 #include <err.h>
 
 #include "./OCR/xor.h"
 
-// == Network == //
-char pathNet[128]; 
+// == Variables == //
+
+char pathNet[45];
+char pathImg[128];
+
+char nameImg[128];
+
+char nameGrid[128];
+char *gridc;
+
 // === GTK === //
 
 GtkWidget *MainWindow;
@@ -13,13 +22,16 @@ GtkBuilder *builder;
 
 GtkWidget *Menu_box;
 GtkWidget *Image_chooser;
+GtkWidget *Image_loader;
 //Net Box
 //Net_tile
 GtkWidget *Net_chooser;
+GtkWidget *Net_loader;
 //Create_net
 GtkWidget *Net_name;
 GtkWidget *Net_button;
 GtkWidget *Net_test;
+GtkWidget *Net_check;
 GtkWidget *Net_res;
 //Solver
 //OCR_title
@@ -37,11 +49,19 @@ GtkWidget *Print_case;
 GtkWidget *OCR_button;
 GtkWidget *Solver_button;
 
+GtkWidget *Save;
 GtkWidget *Name_sudoku;
 //Page 1
 GtkWidget *Image_sudoku;
 //Page 2
-GtkWidget *Sudoku_file;
+GtkWidget *View_Stack;
+GtkWidget *Text_view;
+GtkTextBuffer *TextBuffer;
+
+
+
+void on_changed_text(GtkTextBuffer *t);
+
 
 // === TOOLS === //
 //Function to concat a string
@@ -59,6 +79,60 @@ char* concat(const char *s1, const char *s2)
     return result;
 }
 
+void readgrid()
+{
+    printf("F\n");
+    printf("Name grid enter : %s\n", nameGrid);
+    FILE *f = fopen(nameGrid, "rb");
+    if (f == NULL)
+    {
+        printf("Can not open this grid\n");
+    }
+    else if (f != NULL)
+    {
+        printf("Grid exist !\n");
+        fseek(f, 0, SEEK_END);
+        long fsize = ftell(f);
+        fseek(f, 0, SEEK_SET);
+
+        gridc = malloc(fsize + 1);
+        fread(gridc, 1, fsize, f);
+        gridc[fsize] = 0;
+    
+        fclose(f);
+    }
+    else 
+    {
+        printf("Can not open this grid\n");
+    }
+}
+
+void extractName()
+{
+    int i = 0;
+    int indexlast = 0;
+    while (pathImg[i] != 0 && pathImg[i] != ' ')
+    {
+        if (pathImg[i] == '/')
+            indexlast = i;
+        i++;
+    }
+    indexlast++;
+    int j = 0;
+    while (pathImg[indexlast] != 0 && pathImg[indexlast] != ' ')
+    {
+        nameImg[j] = pathImg[indexlast];
+        indexlast++;
+        j++;
+    }
+}
+
+void saveGrid()
+{
+    FILE *f = fopen(nameGrid,"w");
+    fprintf(f,"%s",gridc);
+    fclose(f);
+}
 
 // === TOOLS === //
 
@@ -77,10 +151,13 @@ int main(int argc, char *argv[])
     // === MENU ===
     Menu_box = GTK_WIDGET(gtk_builder_get_object(builder,"Menu_box"));
     Image_chooser = GTK_WIDGET(gtk_builder_get_object(builder,"Image_chooser"));
+    Image_loader = GTK_WIDGET(gtk_builder_get_object(builder,"Image_loader"));
     Net_chooser = GTK_WIDGET(gtk_builder_get_object(builder,"Net_chooser"));
+    Net_loader = GTK_WIDGET(gtk_builder_get_object(builder,"Net_loader"));
     Net_name = GTK_WIDGET(gtk_builder_get_object(builder,"Net_name"));
     Net_button = GTK_WIDGET(gtk_builder_get_object(builder,"Net_button"));
     Net_test = GTK_WIDGET(gtk_builder_get_object(builder,"Net_test"));
+    Net_check = GTK_WIDGET(gtk_builder_get_object(builder,"Net_check"));
     Net_res = GTK_WIDGET(gtk_builder_get_object(builder,"Net_res"));
     Rot_left = GTK_WIDGET(gtk_builder_get_object(builder,"Rot_left"));
     Rot_right = GTK_WIDGET(gtk_builder_get_object(builder,"Rot_right"));
@@ -95,14 +172,22 @@ int main(int argc, char *argv[])
     /// === MENU ===
 
     /// === Main Area ===
+    Save=GTK_WIDGET(gtk_builder_get_object(builder,"Save"));
     Image_sudoku=GTK_WIDGET(gtk_builder_get_object(builder,"Image_sudoku"));
     Name_sudoku=GTK_WIDGET(gtk_builder_get_object(builder,"Name_sudoku"));
-    Sudoku_file=GTK_WIDGET(gtk_builder_get_object(builder,"Sudoku_file"));
+    View_Stack=GTK_WIDGET(gtk_builder_get_object(builder,"View_Stack"));
+    Text_view=GTK_WIDGET(gtk_builder_get_object(builder,"Text_view"));
 
     /// === Main Area ===
 
+    TextBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Text_view));
+
+    g_signal_connect(TextBuffer,"changed",G_CALLBACK(on_changed_text), NULL);
 
     gtk_widget_show(MainWindow);
+    
+    sprintf(nameGrid,"./obj/grid_00"); 
+    gtk_widget_hide(Save);
 
     gtk_main();
 
@@ -116,17 +201,32 @@ void exit_app()
     gtk_main_quit();
 }
 
-void on_Image_chooser_file_set(GtkFileChooserButton *fi)
+void on_Image_chooser_changed(GtkEntry *t)
 {
-    printf("File Name = %s\n",gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)));
-    printf("Folder Name = %s\n",gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fi)));
+    sprintf(pathImg,"./Ressources/%s",gtk_entry_get_text(t));
+    printf("File Image Name = %s\n",pathImg);
+    //extractName();
+    //printf("Name : %s\n",nameImg);
 }
 
-void on_Net_chooser_file_set(GtkFileChooserButton *fi)
+void on_Image_loader_clicked(GtkButton *b)
 {
-    //pathNet = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)); 
-    printf("File Name = %s\n",gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fi)));
-    printf("Folder Name = %s\n",gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fi)));
+    printf("Image loader...\n");
+    gtk_image_set_from_file(GTK_IMAGE(Image_sudoku),pathImg);   
+}
+
+void on_Net_chooser_changed(GtkEntry *t)
+{
+    sprintf(pathNet,"./obj/%s",gtk_entry_get_text(t));
+    printf("File Net Name = %s\n",pathNet);
+}
+
+void on_Net_loader_clicked(GtkButton *b)
+{
+    printf("Net loader...\n");
+    char res[64];
+    sprintf(res,"Réseau utilisé : %s",pathNet);
+    gtk_label_set_text(GTK_LABEL(Net_check), (const gchar*) res);
 }
 
 void on_Net_name_changed(GtkEntry *t)
@@ -149,11 +249,14 @@ void on_Net_button_clicked(GtkButton *b)
 void on_Net_test_clicked(GtkButton *b)
 {
     FILE *fnet = fopen(pathNet,"r");
-    //xr(1,fnet,NULL);
-    printf("Test Network : %f\n",rate);
-    char res[64];
-    sprintf(res,"Resultat : %i/100",(int)rate);
-    gtk_label_set_text(GTK_LABEL(Net_res), (const gchar*) res);
+    if (fnet != NULL)
+    {
+        //xr(1,fnet,NULL);
+        printf("Test Network : %f\n",rate);
+        char res[64];
+        sprintf(res,"Resultat : %i/100",(int)rate);
+        gtk_label_set_text(GTK_LABEL(Net_res), (const gchar*) res);
+    }
 }
 
 void on_Rot_left_clicked(GtkButton *b)
@@ -178,7 +281,7 @@ void on_Filter_otsu_clicked(GtkButton *b)
 
 void on_Filter_canny_clicked(GtkButton *b)
 {
-    printf("Filter Canny");
+    printf("Filter Canny\n");
 }
 
 void on_Auto_rot_clicked(GtkButton *b)
@@ -204,9 +307,47 @@ void on_OCR_button_clicked(GtkButton *b)
 void on_Solver_button_clicked(GtkButton *b)
 {
     printf("Solver...\n");
+    readgrid();
+    printf("%s",gridc);
+    gtk_text_buffer_set_text(TextBuffer,(const gchar *) gridc,(gint) -1 );
+   
+    
+    gtk_widget_hide(Save);
+
 }
 
 void on_Case_clicked(GtkButton *b)
 {
     printf("Case clicked\n");
+}
+
+
+void on_Name_sudoku_changed(GtkEntry *t)
+{
+    sprintf(nameGrid,"./obj/%s",gtk_entry_get_text(t));
+    printf("PathNet : %s\n",nameGrid); 
+
+}
+
+void on_Save_clicked(GtkButton *b)
+{
+    printf("Save clicked\n");
+    GtkTextIter begin, end;
+    gchar *grid;
+
+    gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(TextBuffer),&begin,(gint) 0);
+    gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(TextBuffer),&end,(gint) -1);
+
+    grid = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(TextBuffer),&begin,&end,TRUE);
+    gridc = grid;
+    saveGrid();
+    printf("\n%s\n",gridc);
+    gtk_widget_hide(Save);
+
+}
+
+void on_changed_text(GtkTextBuffer *t)
+{
+    printf("Buffer Changed\n");
+    gtk_widget_show(Save);
 }
