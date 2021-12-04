@@ -4,9 +4,13 @@
 
 #include "./OCR/xor.h"
 
-// == Network == //
+// == Variables == //
+
 char pathNet[128];
 char pathImg[128];
+
+char *gridc;
+
 // === GTK === //
 
 GtkWidget *MainWindow;
@@ -38,11 +42,19 @@ GtkWidget *Print_case;
 GtkWidget *OCR_button;
 GtkWidget *Solver_button;
 
+GtkWidget *Save;
 GtkWidget *Name_sudoku;
 //Page 1
 GtkWidget *Image_sudoku;
 //Page 2
-GtkWidget *Sudoku_file;
+GtkWidget *View_Stack;
+GtkWidget *Text_view;
+GtkTextBuffer *TextBuffer;
+
+
+
+void on_changed_text(GtkTextBuffer *t);
+
 
 // === TOOLS === //
 //Function to concat a string
@@ -60,6 +72,20 @@ char* concat(const char *s1, const char *s2)
     return result;
 }
 
+void readgrid()
+{
+    FILE *f = fopen("grid_00", "rb");
+    fseek(f, 0, SEEK_END);
+    long fsize = ftell(f);
+    fseek(f, 0, SEEK_SET);  /* same as rewind(f); */
+
+    gridc = malloc(fsize + 1);
+    fread(gridc, 1, fsize, f);
+    fclose(f);
+
+    gridc[fsize] = 0;
+
+}
 
 // === TOOLS === //
 
@@ -96,12 +122,17 @@ int main(int argc, char *argv[])
     /// === MENU ===
 
     /// === Main Area ===
+    Save=GTK_WIDGET(gtk_builder_get_object(builder,"Save"));
     Image_sudoku=GTK_WIDGET(gtk_builder_get_object(builder,"Image_sudoku"));
     Name_sudoku=GTK_WIDGET(gtk_builder_get_object(builder,"Name_sudoku"));
-    Sudoku_file=GTK_WIDGET(gtk_builder_get_object(builder,"Sudoku_file"));
+    View_Stack=GTK_WIDGET(gtk_builder_get_object(builder,"View_Stack"));
+    Text_view=GTK_WIDGET(gtk_builder_get_object(builder,"Text_view"));
 
     /// === Main Area ===
 
+    TextBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Text_view));
+
+    g_signal_connect(TextBuffer,"changed",G_CALLBACK(on_changed_text), NULL);
 
     gtk_widget_show(MainWindow);
 
@@ -182,7 +213,7 @@ void on_Filter_otsu_clicked(GtkButton *b)
 
 void on_Filter_canny_clicked(GtkButton *b)
 {
-    printf("Filter Canny");
+    printf("Filter Canny\n");
 }
 
 void on_Auto_rot_clicked(GtkButton *b)
@@ -208,9 +239,25 @@ void on_OCR_button_clicked(GtkButton *b)
 void on_Solver_button_clicked(GtkButton *b)
 {
     printf("Solver...\n");
+    readgrid();
+    printf("%s",gridc);
+    gtk_text_buffer_set_text(TextBuffer,(const gchar *) gridc,(gint) -1 );
+    gtk_widget_hide(Save);
+
 }
 
 void on_Case_clicked(GtkButton *b)
 {
     printf("Case clicked\n");
+}
+
+void on_Save_clicked(GtkButton *b)
+{
+    printf("Save clicked\n");
+}
+
+void on_changed_text(GtkTextBuffer *t)
+{
+    printf("Buffer Changed\n");
+    gtk_widget_show(Save);
 }
