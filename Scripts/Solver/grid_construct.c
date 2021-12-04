@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "../Image_processing/base_function_on_pict.h"
 
-int init_numbers(SDL_Surface* grid  ,char sudoku[])
+SDL_Surface* init_numbers(SDL_Surface* grid  ,char sudoku[])
 {
     display_image(grid);
     wait_for_keypressed();
@@ -84,7 +84,7 @@ int init_numbers(SDL_Surface* grid  ,char sudoku[])
                 default:
                     break;
             }
-        rect.x += h_square;
+            rect.x += h_square;
         }
         rect.x -= 9*(h_square);
         rect.y += h_square;
@@ -94,8 +94,8 @@ int init_numbers(SDL_Surface* grid  ,char sudoku[])
 
     //SDL_FreeSurface(number);
     SDL_FreeSurface(grid);
-    SDL_FreeSurface(result);
-    return 0;
+    //SDL_FreeSurface(result);
+    return result;
 }
 
 int fill_numbers(SDL_Surface* result  ,char sudoku[],char oldsudoku[])
@@ -113,66 +113,66 @@ int fill_numbers(SDL_Surface* result  ,char sudoku[],char oldsudoku[])
         {
             if(oldsudoku[i*9+j]=='.')
             {
-            switch(sudoku[i*9+j])
-            {
-                case '1':
-                    number = load_image("../../Ressources/result/1_red.png");
-                    SDL_BlitSurface(number,NULL,result,&rect);
-                    SDL_FreeSurface(number);
-                    break;
-                case '2':
-                    number = load_image("../../Ressources/result/2_red.png");
-                    SDL_BlitSurface(number,NULL,result,&rect);
-                    SDL_FreeSurface(number);
-                    break;
+                switch(sudoku[i*9+j])
+                {
+                    case '1':
+                        number = load_image("../../Ressources/result/1_red.png");
+                        SDL_BlitSurface(number,NULL,result,&rect);
+                        SDL_FreeSurface(number);
+                        break;
+                    case '2':
+                        number = load_image("../../Ressources/result/2_red.png");
+                        SDL_BlitSurface(number,NULL,result,&rect);
+                        SDL_FreeSurface(number);
+                        break;
 
-                case '3':
-                    number = load_image("../../Ressources/result/3_red.png");
-                    SDL_BlitSurface(number,NULL,result,&rect);
-                    SDL_FreeSurface(number);
-                    break;
+                    case '3':
+                        number = load_image("../../Ressources/result/3_red.png");
+                        SDL_BlitSurface(number,NULL,result,&rect);
+                        SDL_FreeSurface(number);
+                        break;
 
-                case '4':
-                    number = load_image("../../Ressources/result/4_red.png");
-                    SDL_BlitSurface(number,NULL,result,&rect);
-                    SDL_FreeSurface(number);
-                    break;
+                    case '4':
+                        number = load_image("../../Ressources/result/4_red.png");
+                        SDL_BlitSurface(number,NULL,result,&rect);
+                        SDL_FreeSurface(number);
+                        break;
 
-                case '5':
-                    number = load_image("../../Ressources/result/5_red.png");
-                    SDL_BlitSurface(number,NULL,result,&rect);
-                    SDL_FreeSurface(number);
-                    break;
+                    case '5':
+                        number = load_image("../../Ressources/result/5_red.png");
+                        SDL_BlitSurface(number,NULL,result,&rect);
+                        SDL_FreeSurface(number);
+                        break;
 
-                case '6':
-                    number = load_image("../../Ressources/result/6_red.png");
-                    SDL_BlitSurface(number,NULL,result,&rect);
-                    SDL_FreeSurface(number);
-                    break;
+                    case '6':
+                        number = load_image("../../Ressources/result/6_red.png");
+                        SDL_BlitSurface(number,NULL,result,&rect);
+                        SDL_FreeSurface(number);
+                        break;
 
-                case '7':
-                    number = load_image("../../Ressources/result/7_red.png");
-                    SDL_BlitSurface(number,NULL,result,&rect);
-                    SDL_FreeSurface(number);
-                    break;
+                    case '7':
+                        number = load_image("../../Ressources/result/7_red.png");
+                        SDL_BlitSurface(number,NULL,result,&rect);
+                        SDL_FreeSurface(number);
+                        break;
 
-                case '8':
-                    number = load_image("../../Ressources/result/8_red.png");
-                    SDL_BlitSurface(number,NULL,result,&rect);
-                    SDL_FreeSurface(number);
-                    break;
+                    case '8':
+                        number = load_image("../../Ressources/result/8_red.png");
+                        SDL_BlitSurface(number,NULL,result,&rect);
+                        SDL_FreeSurface(number);
+                        break;
 
-                case '9':
-                    number = load_image("../../Ressources/result/9_red.png");
-                    SDL_BlitSurface(number,NULL,result,&rect);
-                    SDL_FreeSurface(number);
-                    break;
+                    case '9':
+                        number = load_image("../../Ressources/result/9_red.png");
+                        SDL_BlitSurface(number,NULL,result,&rect);
+                        SDL_FreeSurface(number);
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
             }
-            }
-        rect.x += h_square;
+            rect.x += h_square;
         }
         rect.x -= 9*(h_square);
         rect.y += h_square;

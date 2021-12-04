@@ -13,6 +13,7 @@
 #include "filtering.h"
 #include "../Solver/solver.h"
 #include "../Solver/grid_construct.h"
+#include "../Otsu/otsu_function.h"
 
 char sudoku[81];
 
@@ -60,11 +61,11 @@ int main()
 {
     SDL_Surface* grid = load_image("../../Ressources/result/empty_grid.jpg");
     //char* sudoku = malloc(81*sizeof(char));
-    SDL_Surface* image_surface1;
+    SDL_Surface* image_surface;
     init_sdl();
-    image_surface1 = load_image("../../Ressources/image_01.jpeg");
-    SDL_Surface* image_surface = rotozoomSurface(image_surface1,22,1,0);
-    SDL_FreeSurface(image_surface1);
+    image_surface = load_image("../../Ressources/image_06.jpeg");
+    //SDL_Surface* image_surface = rotozoomSurface(image_surface1,22,1,0);
+    //SDL_FreeSurface(image_surface1);
     display_image(image_surface);
     wait_for_keypressed();
     image_surface = grayscalebis(image_surface);
@@ -83,6 +84,9 @@ int main()
     //SDL_FreeSurface(image_surface);
     //image_surface = canny("../../Ressources/image_09.jpeg");
     printf("Key pressed\n");
+    filtre(image_surface,75);
+    display_image(image_surface);
+    wait_for_keypressed();
     image_surface = hough_line(hough_first(image_surface),image_surface,1);
     int height = image_surface->h;
     int width = image_surface->w;
@@ -120,7 +124,7 @@ int main()
     printf("End of drawing\n");
     init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
     SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
-
+/*
     if(height>width)
     {
         if(height>800)
@@ -138,7 +142,7 @@ int main()
 
         }
     }
-
+*/
     display_image(init_surface);
     wait_for_keypressed();
     free(init_surface);
@@ -150,8 +154,7 @@ int main()
     solveMain("entrySudo");
     entry_sudoku = fopen("entrySudo.result","r");
     readFile(entry_sudoku,sudokuSolved);
-    init_numbers(grid,sudoku);
-    fill_numbers(grid,sudokuSolved,sudoku);
+    fill_numbers(init_numbers(grid,sudoku),sudokuSolved,sudoku);
     //printf("Key pressed\n");
     SDL_FreeSurface(image_surface);
     /* image_surface = load_image("../../Ressources/image_03.jpeg");

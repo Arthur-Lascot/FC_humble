@@ -200,11 +200,11 @@ SDL_Surface* binarisation (SDL_Surface* gray_pict)
     return gray_pict;
 }
 
-SDL_Surface* filtre(char* lien , int t)
+SDL_Surface* filtre(SDL_Surface *image_surface , int t)
 {
-    SDL_Surface* image_surface;
+    //SDL_Surface* image_surface;
 
-    init_sdl();
+    //init_sdl();
     
     //image_surface=load_image(path);
     //display_image(image_surface);
@@ -213,7 +213,7 @@ SDL_Surface* filtre(char* lien , int t)
 
     //SDL_FreeSurface(image_surface);
     
-    image_surface = grayscale (lien);
+    //image_surface = grayscale (lien);
     //display_image(image_surface);
 
     //wait_for_keypressed();
@@ -241,7 +241,7 @@ SDL_Surface* filtre(char* lien , int t)
     //return image_surface;
     //SDL_FreeSurface(image_surface);
 }
-
+/*
 int main()
 {
     SDL_Surface* image_surface;
@@ -255,3 +255,4 @@ int main()
 
     return 1;
 }
+*/

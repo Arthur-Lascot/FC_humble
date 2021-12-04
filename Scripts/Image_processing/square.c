@@ -25,7 +25,7 @@ void quicksort(int number[],int first,int last){
 
         while(i<j){
             while(number[i]<=number[pivot]&&i<last)
-	    	i++;
+                i++;
             while(number[j]>number[pivot])
                 j--;
             if(i<j){
@@ -71,12 +71,12 @@ List* square_column(SDL_Surface* image_surface)
     if(w>h)
     {
         ec_type = (int)round(w/100);
-        ec2_type = (int)round(w/100);
+        ec2_type = (int)round(w/300);
     }
     else
     {
         ec_type = (int)round(h/100);
-        ec2_type = (int)round(h/150);
+        ec2_type = (int)round(h/300);
     }
     Uint32 pixel;
     Uint8 r,g,b;
@@ -181,7 +181,7 @@ List* square_column(SDL_Surface* image_surface)
         if(neighbour_ecart==current_ecart)
         {
             int value = *((int*)(((tuple3*)(current_ecart->key))->item3));
-            if(value<median+ec_type&&value>median-ec_type)
+            if(value<median+ec2_type&&value>median-ec2_type)
             {
 
                 neighbour_ecart = neighbour_ecart->previous;
@@ -388,7 +388,7 @@ List* square_line(SDL_Surface* image_surface)
         if(neighbour_ecart==current_ecart)
         {
             int value = *((int*)(((tuple3*)(current_ecart->key))->item3));
-            if(value<median+ec_type&&value>median-ec_type)
+            if(value<median+ec2_type&&value>median-ec2_type)
             {
                 neighbour_ecart = neighbour_ecart->previous;
                 compteur +=1;
@@ -462,29 +462,29 @@ void fillHole(double* dst)
     {
         for(int j=1;j<27;j++)
         {
-            
+
             if(dst[i+28+j]>=0.3)
             {
                 dst[i+j]=0.90;
             }
-	    if(acc<=1)
-	    {
-		dst[i+j]=0;
-	    }
+            if(acc<=1)
+            {
+                dst[i+j]=0;
+            }
             acc=0;
         }
     }
     for(int i=0;i<28;i++)
     {
-	    dst[i]=0;
+        dst[i]=0;
     }
     for(int i=0;i<28*28;i+=28)
     {
-	    dst[i]=0;
+        dst[i]=0;
     }
     for(int i=27;i<28*28;i+=28)
     {
-	    dst[i]=0;
+        dst[i]=0;
     }
 }
 
@@ -495,7 +495,7 @@ void adjust(double *dst)
     {
         for(int j=1;j<27;j++)
         {
-            
+
             if(dst[i+28+j]>=0.3)
             {
                 neighbours++;
@@ -512,15 +512,15 @@ void adjust(double *dst)
             {
                 neighbours++;
             }
-            
-             
+
+
             if(neighbours>=3)
             {
                 dst[i+j] = 0.80;
             }
-            
+
             //dst[i+j] = neighbours*0.20;
-            
+
             neighbours = 0;
         }
     }
@@ -534,7 +534,7 @@ int format(SDL_Surface* src,double* dst)
     int i = 0;
     int j =0;
     int m = 3;
-   // printf("\nDim %i/%i \n",src->w,src->h);
+    // printf("\nDim %i/%i \n",src->w,src->h);
     while(j<112*112 && m<112)
     {
         for(int k=0;k<4;k++)
@@ -560,36 +560,59 @@ int format(SDL_Surface* src,double* dst)
         }
         if(j%112==0){m +=4;}
         moy/=(4*4);
-        if(moy!=0)
+        if(moy>=0.1)
         {
-            res = 1;
             /*
-            moy *= 2;
-            if (moy > 1)
-                moy = 1;
-            */
-            
+               moy *= 2;
+               if (moy > 1)
+               moy = 1;
+             */
+
             if (moy>0.10 && moy < 0.70) 
             {
                 moy+=0.30;
                 //printf("%f\n",moy);
             }
-            
+
             else if (moy >= 0.70) 
             {
                 moy = 1;
                 //printf("%f\n",moy);
             }
-            
+
         }
         dst[i]=moy;
         moy =0;
         i++;
     }
-    for (int j = 0; j <28*28;j++)
+    for(int i=0;i<28;i++)
     {
-        adjust(dst);
+        dst[i]=0;
     }
+    for(int i=0;i<28*28;i+=28)
+    {
+        dst[i]=0;
+    }
+    for(int i=27;i<28*28;i+=28)
+    {
+        dst[i]=0;
+    }
+    for(int i = 0; i<28*28;i++)
+    {
+        if(dst[i]!=0)
+        {
+            res =  1;
+        }
+    }
+
+    if(res != 0)
+    {
+        for (int j = 0; j <28*28;j++)
+        {
+            adjust(dst);
+        }
+    }
+    res = 0;
     return res;
 }
 
@@ -603,7 +626,7 @@ void writenet(FILE *path,double sudo[31][784],int num[31])
             for (int i= 0 ;i < 784; i++)
             {
                 //printf("%lf",sudo[j][i]);
-               // fprintf(path,"%lf\n",sudo[j][i]);
+                // fprintf(path,"%lf\n",sudo[j][i]);
             }
         }
     }
@@ -622,11 +645,11 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
     int i = -1;
     int isNotBlank = 0;
     /*
-    FILE *f = fopen("number2","w");
-    double sudo[81][784];
-    int num[81];
-    int c = 0;
-    */
+       FILE *f = fopen("number2","w");
+       double sudo[81][784];
+       int num[81];
+       int c = 0;
+     */
     while(current_line != NULL)
     {
         int high = *((int*)(((tuple3*)(current_line->key))->item1));
@@ -653,38 +676,35 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
 
 
                 if(isNotBlank==1){
-                    isNotBlank=0;
-
-                   /*     
+                    isNotBlank=0;   
                     for (int i=0; i<784; i++) 
                     {
                         if (Case[i] > 0.75)
                             printf("1 ");
                         else if (Case[i] > 0.5)
                             printf("0 ");
-                        else 
+                        else
                             printf("  ");
                         if ((i+1) % 28 == 0) putchar('\n');
                     }
-*/
                     sudoku[i] = (char)xr(1,NULL,Case) + '0';
                     printf("Case done : %c\n",sudoku[i]);
-                   // display_image(image112x112);
-                   // wait_for_keypressed();
+                    // display_image(image112x112);
+                    // wait_for_keypressed();
                     /*
-                    for(int h = 0;h < 784; h++)
-                    {
-                        sudo[c][h] = Case[h];
-                    }
-                    num[c] = sudoku[i];
-                    c++;
-                    */
+                       for(int h = 0;h < 784; h++)
+                       {
+                       sudo[c][h] = Case[h];
+                       }
+                       num[c] = sudoku[i];
+                       c++;
+                     */
                 }
                 else{
-                   // printf("\nI=%i\n",i);
+                    // printf("\nI=%i\n",i);
                     sudoku[i]='.';
                 }
-                
+
                 SDL_FreeSurface(image112x112);
                 free(Case);
             }
@@ -736,19 +756,19 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
             }
         }
     }
-    
+
     /*
-    if (num[1] != 0)
-    {
-        printf("Not 0");
-        for (int j = 0; j<784;j++)
-        {
-            printf("%lf",sudo[1][j]);
-        }
-    }
-    */
+       if (num[1] != 0)
+       {
+       printf("Not 0");
+       for (int j = 0; j<784;j++)
+       {
+       printf("%lf",sudo[1][j]);
+       }
+       }
+     */
     //writenet(f,sudo,num);
-   
+
 }
 
 void WriteFile(FILE *entry_sudoku, char sudoku[])
@@ -765,11 +785,11 @@ void WriteFile(FILE *entry_sudoku, char sudoku[])
         {
             fputs("\n",entry_sudoku);
         }
-	if((i+1)%27==0)
-	{
-	    printf("allo");
-	    fputs("\n",entry_sudoku);
-	}
+        if((i+1)%27==0)
+        {
+            printf("allo");
+            fputs("\n",entry_sudoku);
+        }
     }
     fclose(entry_sudoku);
 }
@@ -782,7 +802,7 @@ void readFile(FILE *toRead,char sudoku[])
     {
         if(ch!=' ' && ch!='\n')
         {
-            sudoku[i]=ch-48;
+            sudoku[i]=(char)ch;
             i++;
         }
     }

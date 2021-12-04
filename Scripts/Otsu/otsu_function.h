@@ -1,12 +1,10 @@
-#ifndef BASE_FUNCTION_ON_PICT_H_
-#define BASE_FUNCTION_ON_PICT_H_
-#ifndef GRAYSCALE_H_
-#define GRAYSCALE_H_
+#ifndef OTSU_FUNCTION_H
+#define OTSU_FUNCTION_H
 #include <stdlib.h>
 #include <SDL.h>
 
-SLD_Surface* otsuadapt (SDL_Surface* image;)
-SDL_Surface* filtre(char * path); 
+SDL_Surface* otsuadapt (SDL_Surface* image,int t);
+SDL_Surface* filtre(SDL_Surface* image_surface,int t); 
 
 #endif
 
