@@ -2,11 +2,17 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="lower">-180</property>
+    <property name="upper">180</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkWindow" id="MainWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">OCR</property>
-    <property name="default_width">1090</property>
-    <property name="default_height">-1</property>
+    <property name="default_width">1200</property>
+    <property name="default_height">900</property>
     <signal name="destroy" handler="exit_app" swapped="no"/>
     <child type="titlebar">
       <placeholder/>
@@ -261,21 +267,18 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="Rot_man">
+                  <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="halign">center</property>
-                    <property name="spacing">14</property>
+                    <property name="margin_left">17</property>
+                    <property name="margin_right">21</property>
+                    <property name="spacing">10</property>
+                    <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkButton" id="Rot_left">
-                        <property name="label" translatable="yes">Rotation Gauche</property>
-                        <property name="width_request">55</property>
+                      <object class="GtkSpinButton" id="Rot_spin">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="halign">center</property>
-                        <property name="margin_left">17</property>
-                        <signal name="clicked" handler="on_Rot_left_clicked" swapped="no"/>
+                        <property name="adjustment">adjustment1</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -284,16 +287,12 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="Rot_right">
-                        <property name="label" translatable="yes">Rotation Droite</property>
-                        <property name="width_request">55</property>
+                      <object class="GtkButton" id="Rot_man">
+                        <property name="label" translatable="yes">Rotation</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="halign">center</property>
-                        <property name="margin_right">17</property>
-                        <property name="always_show_image">True</property>
-                        <signal name="clicked" handler="on_Rot_right_clicked" swapped="no"/>
+                        <signal name="clicked" handler="on_Rot_man_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -329,7 +328,7 @@
                             <property name="receives_default">True</property>
                             <property name="halign">center</property>
                             <property name="margin_top">4</property>
-                            <signal name="clicked" handler="on_Filter_flou_clicked" swapped="no"/>
+                            <signal name="clicked" handler="on_Gauss_1_clicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -346,7 +345,7 @@
                             <property name="receives_default">True</property>
                             <property name="halign">center</property>
                             <property name="margin_top">4</property>
-                            <signal name="clicked" handler="on_Filter_flou_clicked" swapped="no"/>
+                            <signal name="clicked" handler="on_Gauss_2_clicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -573,8 +572,8 @@
                         <property name="pixbuf">Ressources/result/empty_grid.jpg</property>
                       </object>
                       <packing>
-                        <property name="x">80</property>
-                        <property name="y">80</property>
+                        <property name="x">30</property>
+                        <property name="y">30</property>
                       </packing>
                     </child>
                   </object>

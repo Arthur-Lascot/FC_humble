@@ -10,7 +10,7 @@ SDL_Surface* init_numbers(SDL_Surface* grid  ,char sudoku[])
     //wait_for_keypressed();
 
     SDL_Surface* result;
-    SDL_Surface* number = load_image("../../Ressources/result/1_black.png");
+    SDL_Surface* number = load_image("./Ressources/result/1_black.png");
     int h_number = number->h;
     SDL_FreeSurface(number);
     int h_square = grid->h/9;
@@ -29,54 +29,54 @@ SDL_Surface* init_numbers(SDL_Surface* grid  ,char sudoku[])
             switch(sudoku[i*9+j])
             {
                 case '1':
-                    number = load_image("../../Ressources/result/1_black.png");
+                    number = load_image("./Ressources/result/1_black.png");
                     SDL_BlitSurface(number,NULL,result,&rect);
                     SDL_FreeSurface(number);
                     break;
                 case '2':
-                    number = load_image("../../Ressources/result/2_black.png");
+                    number = load_image("./Ressources/result/2_black.png");
                     SDL_BlitSurface(number,NULL,result,&rect);
                     SDL_FreeSurface(number);
                     break;
 
                 case '3':
-                    number = load_image("../../Ressources/result/3_black.png");
+                    number = load_image("./Ressources/result/3_black.png");
                     SDL_BlitSurface(number,NULL,result,&rect);
                     SDL_FreeSurface(number);
                     break;
 
                 case '4':
-                    number = load_image("../../Ressources/result/4_black.png");
+                    number = load_image("./Ressources/result/4_black.png");
                     SDL_BlitSurface(number,NULL,result,&rect);
                     SDL_FreeSurface(number);
                     break;
 
                 case '5':
-                    number = load_image("../../Ressources/result/5_black.png");
+                    number = load_image("./Ressources/result/5_black.png");
                     SDL_BlitSurface(number,NULL,result,&rect);
                     SDL_FreeSurface(number);
                     break;
 
                 case '6':
-                    number = load_image("../../Ressources/result/6_black.png");
+                    number = load_image("./Ressources/result/6_black.png");
                     SDL_BlitSurface(number,NULL,result,&rect);
                     SDL_FreeSurface(number);
                     break;
 
                 case '7':
-                    number = load_image("../../Ressources/result/7_black.png");
+                    number = load_image("./Ressources/result/7_black.png");
                     SDL_BlitSurface(number,NULL,result,&rect);
                     SDL_FreeSurface(number);
                     break;
 
                 case '8':
-                    number = load_image("../../Ressources/result/8_black.png");
+                    number = load_image("./Ressources/result/8_black.png");
                     SDL_BlitSurface(number,NULL,result,&rect);
                     SDL_FreeSurface(number);
                     break;
 
                 case '9':
-                    number = load_image("../../Ressources/result/9_black.png");
+                    number = load_image("./Ressources/result/9_black.png");
                     SDL_BlitSurface(number,NULL,result,&rect);
                     SDL_FreeSurface(number);
                     break;
@@ -116,54 +116,54 @@ SDL_Surface* fill_numbers(SDL_Surface* result  ,char sudoku[],char oldsudoku[])
                 switch(sudoku[i*9+j])
                 {
                     case '1':
-                        number = load_image("../../Ressources/result/1_red.png");
+                        number = load_image("./Ressources/result/1_red.png");
                         SDL_BlitSurface(number,NULL,result,&rect);
                         SDL_FreeSurface(number);
                         break;
                     case '2':
-                        number = load_image("../../Ressources/result/2_red.png");
+                        number = load_image("./Ressources/result/2_red.png");
                         SDL_BlitSurface(number,NULL,result,&rect);
                         SDL_FreeSurface(number);
                         break;
 
                     case '3':
-                        number = load_image("../../Ressources/result/3_red.png");
+                        number = load_image("./Ressources/result/3_red.png");
                         SDL_BlitSurface(number,NULL,result,&rect);
                         SDL_FreeSurface(number);
                         break;
 
                     case '4':
-                        number = load_image("../../Ressources/result/4_red.png");
+                        number = load_image("./Ressources/result/4_red.png");
                         SDL_BlitSurface(number,NULL,result,&rect);
                         SDL_FreeSurface(number);
                         break;
 
                     case '5':
-                        number = load_image("../../Ressources/result/5_red.png");
+                        number = load_image("./Ressources/result/5_red.png");
                         SDL_BlitSurface(number,NULL,result,&rect);
                         SDL_FreeSurface(number);
                         break;
 
                     case '6':
-                        number = load_image("../../Ressources/result/6_red.png");
+                        number = load_image("./Ressources/result/6_red.png");
                         SDL_BlitSurface(number,NULL,result,&rect);
                         SDL_FreeSurface(number);
                         break;
 
                     case '7':
-                        number = load_image("../../Ressources/result/7_red.png");
+                        number = load_image("./Ressources/result/7_red.png");
                         SDL_BlitSurface(number,NULL,result,&rect);
                         SDL_FreeSurface(number);
                         break;
 
                     case '8':
-                        number = load_image("../../Ressources/result/8_red.png");
+                        number = load_image("./Ressources/result/8_red.png");
                         SDL_BlitSurface(number,NULL,result,&rect);
                         SDL_FreeSurface(number);
                         break;
 
                     case '9':
-                        number = load_image("../../Ressources/result/9_red.png");
+                        number = load_image("./Ressources/result/9_red.png");
                         SDL_BlitSurface(number,NULL,result,&rect);
                         SDL_FreeSurface(number);
                         break;

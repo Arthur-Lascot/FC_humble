@@ -13,6 +13,8 @@
 #include "../Solver/solver.h"
 #include "../Solver/grid_construct.h"
 #include "../Otsu/otsu_function.h"
+#include "../Otsu/rotation.h"
+#include "main_hough.h"
 
 char sudoku[81];
 
@@ -54,7 +56,7 @@ double gauss7[49]={
 
 int gauss7W=1003;
 
-void resize(SDL_Surface* image_surface,char* to_display)
+void resize(SDL_Surface* image_surface,char* to_display,int touse)
 {
     double coeff;
     int height = image_surface->h;
@@ -87,176 +89,189 @@ void resize(SDL_Surface* image_surface,char* to_display)
         }
     }
     SDL_SaveBMP(init_surface,to_display);
-    SDL_SaveBMP(image_surface,"../../Temp/use.bmp");
+
+    if (touse)
+        SDL_SaveBMP(image_surface,"./Temp/use.bmp");
+
     SDL_FreeSurface(init_surface);
     SDL_FreeSurface(image_surface);
 }
 
 char sudokuSolved[81];
 char *entrySudo = "entrySudo";
-int mainHough(int click)
+int mainHough(int click,char *pathImg)
 {
-    SDL_Surface* grid = load_image("../../Ressources/result/empty_grid.jpg");
+    SDL_Surface* grid = load_image("./Ressources/result/empty_grid.jpg");
     //char* sudoku = malloc(81*sizeof(char));
     SDL_Surface* image_surface;
     init_sdl();
-    image_surface = load_image("../../Ressources/image_03.jpeg");
-    //SDL_Surface* image_surface = rotozoomSurface(image_surface1,22,1,0);
-    //SDL_FreeSurface(image_surface1);
-    //display_image(image_surface);
-    //wait_for_keypressed();
-    if(click==-1){
-        resize(image_surface,"../../Temp/image.bmp");
-        return 0;}
-    image_surface = grayscalebis(image_surface);
-    //display_image(image_surface);
-    //wait_for_keypressed();
-    if(click==1){
-        resize(image_surface,"../../Temp/grayscale.bmp");
-        return 0;}
-    if(click==2){
-        applicate_filter(image_surface,gauss3,3,gauss3W);
-        resize(image_surface,"../../Temp/gauss3.bmp");
-        return 0;
-    }
-    if(click==3)
+    if(click != 0)
     {
-        applicate_filter(image_surface,gauss5,5,gauss5W); 
-        resize(image_surface,"../../Temp/gauss5.bmp");
-        return 0;
-    }
-    if (click == 4)
-    {
-        applicate_filter(image_surface,gauss7,7,gauss7W); 
-        resize(image_surface,"../../Temp/gauss7.bmp");
-        return 0;
-    }
-    if(click==5)
-    {
-        mean_filter(image_surface);
-        resize(image_surface,"../../Temp/median.bmp");
-        return 0;
-    }
-
-    //SDL_FreeSurface(image_surface);
-    //image_surface = canny("../../Ressources/image_09.jpeg");
-    //printf("Key pressed\n");
-    filtre(image_surface,90);
-    //display_image(image_surface);
-    //wait_for_keypressed();
-    if(click==6)
-    {
-        resize(image_surface,"../../Temp/otsu.bmp");
-        return 0;
-    }
-    if(click==7)
-    {
-        image_surface = canny(image_surface);
-        resize(image_surface,"../../Temp/canny.bmp");
-        return 0;
-    }
-    image_surface = hough_line(hough_first(image_surface),image_surface,1,click);
-    if(click == 8)
-    {
-        resize(image_surface,"../../Temp/auto_rotate.bmp");
-        return 0;
-    }
-    if(click == 9)
-    {
-        resize(image_surface,"../../Temp/hough.bmp");
-        return 0;
-    }
-    /*SDL_Surface* init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
-      SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
-      display_image(init_surface);
-      wait_for_keypressed();
-      SDL_FreeSurface(init_surface);
-     */
-    //printf("Square column called\n");
-    List* column = square_column(image_surface);
-    //printf("Square line called\n");
-    List* line = square_line(image_surface);
-    if(column == NULL||line==NULL)
-    {
-        SDL_FreeSurface(image_surface);
-        image_surface = load_image("../../Ressources/error.png");
-        switch(click)
+        image_surface = load_image(pathImg);
+        //SDL_Surface* image_surface = rotozoomSurface(image_surface1,22,1,0);
+        //SDL_FreeSurface(image_surface1);
+        //display_image(image_surface);
+        //wait_for_keypressed();
+        if(click==-2){
+            resize(image_surface,"./Temp/image.bmp",1);
+            return 0;}
+        if(click==-1) //Rotate Manual Right
         {
-            case 10:
-                resize(image_surface,"../../Temp/square.bmp");
-                break;
-            case 11:
-                resize(image_surface,"../../Temp/traitement.bmp");
-                break;
-            case 0:
-                resize(image_surface,"../../Temp/solved.bmp");
-                break;
-            default:
-                resize(image_surface,"../../Temp/default.bmp");
-                break;
+            image_surface = rotate(image_surface,degrot);
+            resize(image_surface,"./Temp/imagerot.bmp",0);
+            return 0;
         }
-        return 1;
-    }
+        image_surface = grayscalebis(image_surface);
+        //display_image(image_surface);
+        //wait_for_keypressed();
+        if(click==1){
+            resize(image_surface,"./Temp/grayscale.bmp",0);
+            return 0;}
+        if(click==2){
+            applicate_filter(image_surface,gauss3,3,gauss3W);
+            resize(image_surface,"./Temp/gauss3.bmp",1);
+            return 0;
+        }
+        if(click==3)
+        {
+            applicate_filter(image_surface,gauss5,5,gauss5W); 
+            resize(image_surface,"./Temp/gauss5.bmp",1);
+            return 0;
+        }
+        if (click == 4)
+        {
+            applicate_filter(image_surface,gauss7,7,gauss7W); 
+            resize(image_surface,"./Temp/gauss7.bmp",1);
+            return 0;
+        }
+        if(click==5)
+        {
+            mean_filter(image_surface);
+            resize(image_surface,"./Temp/median.bmp",1);
+            return 0;
+        }
 
-    //printf("DrawSquare called\n");
-    DrawSquare(image_surface,column,line);
-    if(click == 10)
-    {
-        resize(image_surface,"../../Temp/square.bmp");
-        return 0;
-    }
-    //printf("End of drawing\n");
-    //init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
-    //SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
-    /*
-       if(height>width)
-       {
-       if(height>800)
-       {
-       coeff = 800/(double)height;
-       init_surface = zoomSurface(init_surface,coeff,coeff,0);
-       }
-       }
-       else
-       {
-       if (width>800)
-       {
-       coeff = 800/(double)height;
-       init_surface = zoomSurface(init_surface,coeff,coeff,0);
+        //SDL_FreeSurface(image_surface);
+        //image_surface = canny("../../Ressources/image_09.jpeg");
+        //printf("Key pressed\n");
 
-       }
-       }
-     */
-    /*
-       display_image(init_surface);
-       wait_for_keypressed();
-       SDL_FreeSurface(init_surface);
-     */
-    //display_image(image_surface);
-    //wait_for_keypressed()i;
-    FILE *entry_sudoku = fopen(entrySudo,"w");
-    WriteFile(entry_sudoku,sudoku);
-    if(click == 11)
-    {
-        resize(image_surface,"../../Temp/traitement.bmp");
-        return 0;
+        //filtre(image_surface,90);
+
+        //display_image(image_surface);
+        //wait_for_keypressed();
+        if(click==6)
+        {
+            resize(image_surface,"./Temp/otsu.bmp",0);
+            return 0;
+        }
+        if(click==7)
+        {
+            image_surface = canny(image_surface);
+            resize(image_surface,"./Temp/canny.bmp",0);
+            return 0;
+        }
+        image_surface = hough_line(hough_first(image_surface),image_surface,1,click);
+        if(click == 8)
+        {
+            resize(image_surface,"./Temp/auto_rotate.bmp",0);
+            return 0;
+        }
+        if(click == 9)
+        {
+            resize(image_surface,"./Temp/hough.bmp",0);
+            return 0;
+        }
+        /*SDL_Surface* init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+          SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
+          display_image(init_surface);
+          wait_for_keypressed();
+          SDL_FreeSurface(init_surface);
+         */
+        //printf("Square column called\n");
+        List* column = square_column(image_surface);
+        //printf("Square line called\n");
+        List* line = square_line(image_surface);
+        if(column == NULL||line==NULL)
+        {
+            SDL_FreeSurface(image_surface);
+            image_surface = load_image("./Ressources/error.png");
+            switch(click)
+            {
+                case 10:
+                    resize(image_surface,"./Temp/square.bmp",0);
+                    break;
+                case 11:
+                    resize(image_surface,"./Temp/traitement.bmp",0);
+                    break;
+                case 0:
+                    resize(image_surface,"./Temp/solved.bmp",0);
+                    break;
+                default:
+                    resize(image_surface,"./Temp/default.bmp",0);
+                    break;
+            }
+            return 1;
+        }
+
+        printf("DrawSquare called\n");
+        DrawSquare(image_surface,column,line);
+        if(click == 10)
+        {
+            resize(image_surface,"./Temp/square.bmp",0);
+            return 0;
+        }
+        printf("End of drawing\n");
+        //init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+        //SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
+        /*
+           if(height>width)
+           {
+           if(height>800)
+           {
+           coeff = 800/(double)height;
+           init_surface = zoomSurface(init_surface,coeff,coeff,0);
+           }
+           }
+           else
+           {
+           if (width>800)
+           {
+           coeff = 800/(double)height;
+           init_surface = zoomSurface(init_surface,coeff,coeff,0);
+
+           }
+           }
+         */
+        /*
+           display_image(init_surface);
+           wait_for_keypressed();
+           SDL_FreeSurface(init_surface);
+         */
+        //display_image(image_surface);
+        //wait_for_keypressed()i;
+        FILE *entry_sudoku = fopen(nameGrid,"w");
+        WriteFile(entry_sudoku,sudoku);
+        if(click == 11)
+        {
+            resize(image_surface,"./Temp/traitement.bmp",0);
+            return 0;
+        }
     }
-    int is_valid = solveMain("entrySudo");
+    int is_valid = solveMain(nameGrid);
     if(is_valid == 404 && click ==0)
     {
-        SDL_FreeSurface(image_surface);
-        image_surface = load_image("../../Ressources/error404.png");
-        resize(image_surface,"../../Temp/solved.bmp");
+        image_surface = load_image("./Ressources/error404.png");
+        resize(image_surface,"./Temp/solved.bmp",0);
         return 1;
 
     }
-    entry_sudoku = fopen("entrySudo.result","r");
+    sprintf(nameGrid,"%s.result",nameGrid);
+    FILE *entry_sudoku = fopen(nameGrid,"r");
     readFile(entry_sudoku,sudokuSolved);
-    SDL_FreeSurface(image_surface);
     image_surface =fill_numbers(init_numbers(grid,sudoku),sudokuSolved,sudoku);
     if(click == 0)
     {
-        resize(image_surface,"../../Temp/solved.bmp");
+        resize(image_surface,"./Temp/solved.bmp",0);
         return 0;
     }
     //printf("Key pressed\n");

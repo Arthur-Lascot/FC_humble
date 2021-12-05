@@ -612,7 +612,7 @@ int format(SDL_Surface* src,double* dst)
             adjust(dst);
         }
     }
-    res = 0;
+    //res = 0;
     return res;
 }
 
@@ -677,6 +677,7 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
 
                 if(isNotBlank==1){
                     isNotBlank=0;   
+                    /*
                     for (int i=0; i<784; i++) 
                     {
                         if (Case[i] > 0.75)
@@ -687,6 +688,7 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                             printf("  ");
                         if ((i+1) % 28 == 0) putchar('\n');
                     }
+                    */
                     sudoku[i] = (char)xr(1,NULL,Case) + '0';
                     printf("Case done : %c\n",sudoku[i]);
                     // display_image(image112x112);

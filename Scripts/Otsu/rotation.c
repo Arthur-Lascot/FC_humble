@@ -27,7 +27,7 @@ int convert(char arg[])
 
 
 
-int rotate(SDL_Surface* image_surface)
+SDL_Surface *rotate(SDL_Surface* image_surface,int deg)
 {
     //printf("Rotation = %i°\n",deg);
     
@@ -43,11 +43,9 @@ int rotate(SDL_Surface* image_surface)
 
     //wait_for_keypressed();
 
-    int deg = 15;
-
     rotation = rotozoomSurface(image_surface, deg, 1.0, 1); 
 
-    SDL_SaveBMP(rotation,"../../Temp/rotationM.bmp");
+    //SDL_SaveBMP(rotation,"../../Temp/rotationM.bmp");
 
     //screen = display_image(rotation);
 
@@ -55,8 +53,8 @@ int rotate(SDL_Surface* image_surface)
 
     //free(degC);
     //SDL_FreeSurface(screen);
-    SDL_FreeSurface(rotation);
+    //SDL_FreeSurface(rotation);
     SDL_FreeSurface(image_surface);
-    return 0;
+    return rotation;
 }
 
