@@ -527,24 +527,36 @@ void adjust(double *dst)
 }
 
 
-int format(SDL_Surface* src,double* dst)
+int format(SDL_Surface* src,double* dst,SDL_Surface* dstS)
 {
+    int w = src->w;
+    int dim = 28;
+    int coeff = 1;
+    while(a<w)
+    {
+        dim+=28;
+        coeff+=1;
+    }
+    double zoomx = dim/(double) newImage->w;
+    double zoomy =dim/(double) newImage->h;
+    SDL_Surface* redim = zoomSurface(src,zoomx,zoomy,0);
+    SDL_FreeSurface(src);
     int res =0;
     double moy = 0;
     int i = 0;
     int j =0;
     int m = 3;
     // printf("\nDim %i/%i \n",src->w,src->h);
-    while(j<112*112 && m<112)
+    while(j<dim*dim && m<dim)
     {
-        for(int k=0;k<4;k++)
+        for(int k=0;k<coeff;k++)
         {
-            for(int l=0;l<4;l++)
+            for(int l=0;l<coeff;l++)
             {
                 Uint32 pixel;
                 Uint8 r,g,b;
                 //printf(" %i/%i ",j%112,m+(-3+l));
-                pixel = get_pixel(src,j%112,m +(-3+l));
+                pixel = get_pixel(src,j%dim,m +(-(coeff-1)+l));
                 SDL_GetRGB(pixel,src->format,&r,&g,&b);
                 if(r!=255||g!=255||b!=255)
                 {
@@ -558,8 +570,8 @@ int format(SDL_Surface* src,double* dst)
             }
             j++;
         }
-        if(j%112==0){m +=4;}
-        moy/=(4*4);
+        if(j%dim==0){m +=coeff;}
+        moy/=(coeff*coeff);
         if(moy>=0.1)
         {
             /*
@@ -668,11 +680,8 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
             SDL_Surface* newImage = SDL_CreateRGBSurface(0,square.w,square.h
                     ,32,0,0,0,0);
             if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
-                double zoomx = 112/(double) newImage->w;
-                double zoomy = 112/(double) newImage->h;
-                SDL_Surface* image112x112 = zoomSurface(newImage,zoomx,zoomy,0);
                 double* Case = calloc(28*28,sizeof(double));
-                isNotBlank= format(image112x112,Case);
+                isNotBlank= format(newImage,Case,image28x28);
 
 
                 if(isNotBlank==1){
@@ -707,10 +716,9 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                     sudoku[i]='.';
                 }
 
-                SDL_FreeSurface(image112x112);
+                SDL_FreeSurface(image28x28);
                 free(Case);
             }
-            SDL_FreeSurface(newImage);
             for(int i = high;i<low;i++)
             {
                 put_pixel(image_surface,left,i,red);
