@@ -36,7 +36,7 @@ void applicate_filter(SDL_Surface* image_surface, double M[], int KS,int weight)
             }
             res /= weight;
             pixel = 
-                SDL_MapRGB(work_surface->format,round(res),round(res),round(res));
+        SDL_MapRGB(work_surface->format,round(res),round(res),round(res));
             put_pixel(work_surface,i,j,pixel);
             res = 0;
             nbvalue = 0;

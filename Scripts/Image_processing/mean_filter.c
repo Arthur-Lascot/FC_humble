@@ -63,7 +63,7 @@ int mean_filter(SDL_Surface* init_surface)
     int width = init_surface->w;
     int height = init_surface->h;
 
-    SDL_Surface* image_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+SDL_Surface* image_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
     SDL_BlitSurface(init_surface,NULL,image_surface,NULL);
     Uint8 r,g,b;
     int nb_value = 0;
@@ -167,7 +167,7 @@ int mean_filter(SDL_Surface* init_surface)
             }
             quickSort(M,0,nb_value-1);
             new_value = M[nb_value/2];
-            pixel = SDL_MapRGB(image_surface->format,new_value,new_value,new_value);
+        pixel = SDL_MapRGB(image_surface->format,new_value,new_value,new_value);
             put_pixel(image_surface,i,j,pixel);
             nb_value = 0;
             x = 0;

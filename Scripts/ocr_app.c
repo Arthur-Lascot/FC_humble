@@ -452,10 +452,10 @@ void on_Save_clicked()
     GtkTextIter begin, end;
     gchar *grid;
 
-    gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(TextBuffer),&begin,(gint) 0);
-    gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(TextBuffer),&end,(gint) -1);
+gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(TextBuffer),&begin,(gint) 0);
+gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(TextBuffer),&end,(gint) -1);
 
-    grid = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(TextBuffer),&begin,&end,TRUE);
+grid = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(TextBuffer),&begin,&end,TRUE);
     gridc = grid;
     saveGrid();
     printf("\n%s\n",gridc);

@@ -174,7 +174,7 @@ int mainHough(int click,char *pathImg)
             resize(image_surface,"./Temp/canny.bmp",0);
             return 0;
         }
-        image_surface = hough_line(hough_first(image_surface),image_surface,1,click);
+image_surface = hough_line(hough_first(image_surface),image_surface,1,click);
         if(click == 8)
         {
             resize(image_surface,"./Temp/auto_rotate.bmp",0);
@@ -185,7 +185,7 @@ int mainHough(int click,char *pathImg)
             resize(image_surface,"./Temp/hough.bmp",0);
             return 0;
         }
-        /*SDL_Surface* init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+/*SDL_Surface* init_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
           SDL_BlitSurface(image_surface,NULL,init_surface,NULL);
           display_image(init_surface);
           wait_for_keypressed();

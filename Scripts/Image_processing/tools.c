@@ -49,7 +49,8 @@ void add(List* list, void* newKey)
 		{
 			exit(EXIT_FAILURE);
 		}
-		(list->last)->next=new; //the last element now point to the new element
+		(list->last)->next=new; 
+		//the last element now point to the new element
 		new->previous=list->last;
 		list->last = new;//then the new element become the last element
 		new->key = newKey; //the address of the value of the element
