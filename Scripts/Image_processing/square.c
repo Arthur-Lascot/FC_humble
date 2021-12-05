@@ -257,11 +257,6 @@ List* square_column(SDL_Surface* image_surface)
     return result;
 }
 
-//je te laisse ça là
-//toutes les keys->arrays
-//quicksort
-//tu as ta key, tu cherches ta list avec la meme key
-//sale, mais efficace
 
 List* square_line(SDL_Surface* image_surface)
 {

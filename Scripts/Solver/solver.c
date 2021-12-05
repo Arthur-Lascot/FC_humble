@@ -105,8 +105,8 @@ int is_solved()
 {
 	for(int i = 0; i < 9; i++)
 	{
-		if(!is_column_solved(i)||!is_line_solved(i)||is_square_solved(i/3,i%3))
-			return 0; //False
+	if(!is_column_solved(i)||!is_line_solved(i)||is_square_solved(i/3,i%3))
+		return 0; //False
 	}
 	return 1; //True
 }
@@ -229,7 +229,7 @@ int solve_rec(int x, int y)
 		//printf("already in line %i %i => %i \n",y,i,al_in_l);
 
 		int al_in_s = already_in_square(x,y,i);
-		//printf("already in square(y = %i,x = %i) %i => %i \n",y,x,i,al_in_s);
+	//printf("already in square(y = %i,x = %i) %i => %i \n",y,x,i,al_in_s);
 
 		//printf("\n");
 		if (!al_in_c && !al_in_l && !al_in_s)
@@ -321,7 +321,7 @@ void read_sudo(FILE *gridtxt)
 		
 		//Invalid character
 		else if (ch != 32 && ch != 10)
-			errx(1,"Error :  The grid contains an invalid character");
+		errx(1,"Error :  The grid contains an invalid character");
 
 
 		if (x == 9)
