@@ -162,7 +162,7 @@ int mainHough(int click,char *pathImg)
         //wait_for_keypressed();
         if(click==6)
         {
-            printf("Threshold : %i",thresh_otsu);
+            //printf("Threshold : %i",thresh_otsu);
             resize(image_surface,"./Temp/otsu.bmp",0);
             return 0;
         }

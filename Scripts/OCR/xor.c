@@ -354,10 +354,10 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
                     printf("\n==============> EPOCH N°%i <===============\n",n);
 
                 //Forward
-                int result = forward(res,n,1,0,NULL);
+                //int result = forward(res,n,1,0,NULL);
 
                 //BackProp
-                backprop(result,n);
+                backprop(n);
             }
             else 
             {

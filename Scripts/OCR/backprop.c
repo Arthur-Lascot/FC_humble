@@ -48,7 +48,7 @@ deltaOutput = MSE for each output neurons
 deltaHidden = MSE for each hidden neurons
  */
 
-void backprop(int result,int n)
+void backprop(int n)
 {
     
     int img = n%TRAIN_DATA;

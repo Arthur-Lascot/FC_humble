@@ -51,8 +51,6 @@ void convert_i(int size_d,unsigned char image_char[][SIZE],
     double image[][SIZE],int label[size_d])
 {
     int mnist = 0;
-    int haz = 0;
-    int haz_bis = 0;
     int mod = 10000;
     if (size_d == TRAIN_DATA)
         mod = 60000;

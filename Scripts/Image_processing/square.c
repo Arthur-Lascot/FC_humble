@@ -638,7 +638,7 @@ int format(SDL_Surface* src,double* dst)
 }
 
 
-void writenet(FILE *path,double sudo[31][784],int num[31])
+void writenet(FILE *path/*,double sudo[31][784]*/,int num[31])
 {
     for (int j = 0; j < 31; j++)
     {

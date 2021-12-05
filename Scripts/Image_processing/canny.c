@@ -610,7 +610,6 @@ SDL_Surface* thresh_surface=SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
             put_pixel(thresh_surface,i,j,pixel1);
         }
     }
-    printf("hey\n");
     //display_image(image_surface);
     //wait_for_keypressed();
     SDL_FreeSurface(image_surface);
