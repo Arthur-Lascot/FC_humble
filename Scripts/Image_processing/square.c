@@ -532,21 +532,22 @@ int format(SDL_Surface* src,double* dst,SDL_Surface* dstS)
     int w = src->w;
     int dim = 28;
     int coeff = 1;
-    while(a<w)
+    while(dim<w)
     {
         dim+=28;
         coeff+=1;
     }
-    double zoomx = dim/(double) newImage->w;
-    double zoomy =dim/(double) newImage->h;
-    SDL_Surface* redim = zoomSurface(src,zoomx,zoomy,0);
-    SDL_FreeSurface(src);
+    double zoomx = dim/(double) src->w;
+    double zoomy =dim/(double) src->h;
+    src = zoomSurface(src,zoomx,zoomy,0);
     int res =0;
     double moy = 0;
     int i = 0;
     int j =0;
     int m = 3;
-    // printf("\nDim %i/%i \n",src->w,src->h);
+    printf("Dim : %i\n",dim);
+    printf("Coef : %i\n",coeff);
+     //printf("\nDim %i/%i \n",src->w,src->h);
     while(j<dim*dim && m<dim)
     {
         for(int k=0;k<coeff;k++)
@@ -624,6 +625,8 @@ int format(SDL_Surface* src,double* dst,SDL_Surface* dstS)
             adjust(dst);
         }
     }
+    
+    SDL_FreeSurface(src);
     //res = 0;
     return res;
 }
@@ -670,6 +673,7 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
         while(current_column != NULL)
         {
             i++;
+            SDL_Surface *image28x28;
             int left = *((int*)(((tuple3*)(current_column->key))->item1));
             int right = *((int*)(((tuple3*)(current_column->key))->item2));
             SDL_Rect square;
@@ -686,7 +690,7 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
 
                 if(isNotBlank==1){
                     isNotBlank=0;   
-                    /*
+                    
                     for (int i=0; i<784; i++) 
                     {
                         if (Case[i] > 0.75)
@@ -697,7 +701,7 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                             printf("  ");
                         if ((i+1) % 28 == 0) putchar('\n');
                     }
-                    */
+                    
                     sudoku[i] = (char)xr(1,NULL,Case) + '0';
                     printf("Case done : %c\n",sudoku[i]);
                     // display_image(image112x112);
