@@ -352,7 +352,7 @@ void on_Filter_otsu_clicked(GtkButton *b)
 {
     printf("Filter Otsu\n");
     sprintf(pathImg,"./Temp/use.bmp");
-    gdouble valotsu = gtk_spin_button_get_value(GTK_SPIN_BUTTON(Rot_spin));
+    gdouble valotsu = gtk_spin_button_get_value(GTK_SPIN_BUTTON(Otsu_spin));
     thresh_otsu = (int)valotsu;
     int res = mainHough(6,&pathImg);
     if (res)
