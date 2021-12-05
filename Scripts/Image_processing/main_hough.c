@@ -156,7 +156,8 @@ int mainHough(int click,char *pathImg)
         //image_surface = canny("../../Ressources/image_09.jpeg");
         //printf("Key pressed\n");
 
-        image_surface = adaptative_threshold(image_surface,thresh_otsu);
+        adaptative_threshold(image_surface,thresh_otsu);
+        image_surface = load_image("./Temp/trashfile");
 
         //display_image(image_surface);
         //wait_for_keypressed();

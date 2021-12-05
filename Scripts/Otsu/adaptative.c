@@ -24,7 +24,7 @@ int Min(int a, int b)
     return a>b?b:a;
 }
 
-SDL_Surface* adaptative_threshold(SDL_Surface* image_surface,int t)
+void adaptative_threshold(SDL_Surface* image_surface,int t)
 {
    
     SDL_Surface* result=
@@ -87,7 +87,8 @@ SDL_Surface* adaptative_threshold(SDL_Surface* image_surface,int t)
     }
     SDL_FreeSurface(image_surface);
     free(Im);
-    return result;
+    SDL_SaveBMP(result,"./Temp/trashfile");
+    SDL_FreeSurface(result);
 }
 /*
 int main()
