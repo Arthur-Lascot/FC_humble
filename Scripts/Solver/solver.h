@@ -17,7 +17,7 @@ void solve();
 int valid_sudoku();
 void read(FILE *gridtxt);
 void write(FILE *gridres);
-char* concat(const char *s1, const char *s2);
+char* concatF(const char *s1, const char *s2);
 int solveMain(char * path);
 
 #endif

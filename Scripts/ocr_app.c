@@ -113,26 +113,6 @@ void readgrid()
     }
 }
 
-void extractName()
-{
-    int i = 0;
-    int indexlast = 0;
-    while (pathImg[i] != 0 && pathImg[i] != ' ')
-    {
-        if (pathImg[i] == '/')
-            indexlast = i;
-        i++;
-    }
-    indexlast++;
-    int j = 0;
-    while (pathImg[indexlast] != 0 && pathImg[indexlast] != ' ')
-    {
-        nameImg[j] = pathImg[indexlast];
-        indexlast++;
-        j++;
-    }
-}
-
 void saveGrid()
 {
     FILE *f = fopen(nameGrid,"w");
@@ -216,7 +196,7 @@ void exit_app()
 void on_Image_chooser_changed(GtkEntry *t)
 {
     sprintf(pathImg,"./Ressources/%s",gtk_entry_get_text(t));
-    printf("File Image Name = %s\n",pathImg);
+    //printf("File Image Name = %s\n",pathImg);
     //extractName();
     //printf("Name : %s\n",nameImg);
 }
@@ -236,7 +216,7 @@ void on_Image_loader_clicked(GtkButton *b)
 void on_Net_chooser_changed(GtkEntry *t)
 {
     sprintf(pathNet,"./obj/%s",gtk_entry_get_text(t));
-    printf("File Net Name = %s\n",pathNet);
+   // printf("File Net Name = %s\n",pathNet);
 }
 
 void on_Net_loader_clicked(GtkButton *b)
@@ -250,7 +230,7 @@ void on_Net_loader_clicked(GtkButton *b)
 void on_Net_name_changed(GtkEntry *t)
 {
     sprintf(pathNet,"./obj/%s.netOCR",gtk_entry_get_text(t));
-    printf("PathNet : %s\n",pathNet); 
+    //printf("PathNet : %s\n",pathNet); 
 }
 
 
@@ -429,7 +409,7 @@ void on_OCR_button_clicked(GtkButton *b)
     {
         printf("ERROR TRAITMENT\n");
     }
-    sprintf(pathImg,"./Temp/square.bmp");
+    sprintf(pathImg,"./Temp/traitement.bmp");
     gtk_image_set_from_file(GTK_IMAGE(Image_sudoku),pathImg);
     readgrid();
     printf("%s",gridc);
@@ -442,7 +422,6 @@ void on_Solver_button_clicked(GtkButton *b)
 {
     printf("Solver...\n");
        
-    gtk_widget_hide(Save);
     sprintf(pathImg,"./Temp/use.bmp");
     int res = mainHough(0,&pathImg);
     if (res)
@@ -463,7 +442,7 @@ void on_Case_clicked(GtkButton *b)
 void on_Name_sudoku_changed(GtkEntry *t)
 {
     sprintf(nameGrid,"./obj/%s",gtk_entry_get_text(t));
-    printf("PathNet : %s\n",nameGrid); 
+    //printf("PathNet : %s\n",nameGrid); 
 
 }
 
@@ -486,6 +465,6 @@ void on_Save_clicked(GtkButton *b)
 
 void on_changed_text(GtkTextBuffer *t)
 {
-    printf("Buffer Changed\n");
+    //printf("Buffer Changed\n");
     gtk_widget_show(Save);
 }

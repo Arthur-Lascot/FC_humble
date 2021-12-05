@@ -545,8 +545,8 @@ int format(SDL_Surface* src,double* dst,SDL_Surface* dstS)
     int i = 0;
     int j =0;
     int m = 3;
-    printf("Dim : %i\n",dim);
-    printf("Coef : %i\n",coeff);
+    //printf("Dim : %i\n",dim);
+    //printf("Coef : %i\n",coeff);
      //printf("\nDim %i/%i \n",src->w,src->h);
     while(j<dim*dim && m<dim)
     {
@@ -691,6 +691,7 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                 if(isNotBlank==1){
                     isNotBlank=0;   
                     
+                    /*
                     for (int i=0; i<784; i++) 
                     {
                         if (Case[i] > 0.75)
@@ -701,9 +702,9 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                             printf("  ");
                         if ((i+1) % 28 == 0) putchar('\n');
                     }
-                    
+                    */
                     sudoku[i] = (char)xr(1,NULL,Case) + '0';
-                    printf("Case done : %c\n",sudoku[i]);
+                    //printf("Case done : %c\n",sudoku[i]);
                     // display_image(image112x112);
                     // wait_for_keypressed();
                     /*

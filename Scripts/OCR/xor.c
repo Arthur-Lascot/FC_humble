@@ -378,22 +378,24 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
         FILE *defaul;
         if (filenet == NULL)
         {
-            printf("Default File\n");
+            //printf("Default File\n");
             defaul = fopen("./obj/test.netOCR","r");
             if (defaul == NULL)
                 errx(1,"Could not open the default file");
             read_net(defaul);
+            /*
             for (int j = 0; j<NUMOUTPUTS;j++)
             {
                 printf("OutPutLayBias[%i] = %f  ",j,outputLayBias[j]);
             }
+            */
         }
         else
         {
             read_net(filenet);
         }
 
-        printf("\nReading .../\n\n");
+        printf("Reading .../\n");
 
         if (img != NULL)
         {
@@ -419,9 +421,10 @@ int xr(int reading,FILE* filenet,double img[NUMINPUTS])
             {
                 if (test_label[j] != 0)
                 {
+                    /*
                     if (j%1000 == 0)
                         printf("\n============> EPOCH N°%i <=============\n",j);
-
+                    */
                     int result = forward(res,j,0,1,NULL);
                     if (result == test_label[j])
                         rate++;
