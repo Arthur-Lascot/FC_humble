@@ -257,6 +257,8 @@ int mainHough(int click,char *pathImg)
             return 0;
         }
     }
+    FILE *OldSudo = fopen(nameGrid,"r");
+    readFile(OldSudo,sudoku);
     int is_valid = solveMain(nameGrid);
     if(is_valid == 404 && click ==0)
     {
