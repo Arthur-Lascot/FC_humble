@@ -24,11 +24,12 @@ int Min(int a, int b)
     return a>b?b:a;
 }
 
-SDL_Surface* adaptative_threshold(SDL_Surface* image_surface,int t)
+void adaptative_threshold(SDL_Surface* image_surface,int t)
 {
    
     SDL_Surface* result=
     SDL_CreateRGBSurface(0,image_surface->w,image_surface->h,32,0,0,0,0); 
+    SDL_BlitSurface(image_surface,NULL,result,NULL);
     long long* Im= calloc(image_surface->w*image_surface->h,sizeof(long long));
     long long sum;
     int x1;
@@ -86,7 +87,8 @@ SDL_Surface* adaptative_threshold(SDL_Surface* image_surface,int t)
     }
     SDL_FreeSurface(image_surface);
     free(Im);
-    return result;
+    SDL_SaveBMP(result,"./Temp/trashfile");
+    SDL_FreeSurface(result);
 }
 /*
 int main()

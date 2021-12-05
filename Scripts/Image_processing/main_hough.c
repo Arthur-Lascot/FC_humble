@@ -101,8 +101,7 @@ void resize(SDL_Surface* image_surface,char* to_display,int touse)
 char sudokuSolved[81];
 char *entrySudo = "entrySudo";
 int mainHough(int click,char *pathImg)
-{
-    SDL_Surface* grid = load_image("./Ressources/result/empty_grid.jpg");
+{ 
     //char* sudoku = malloc(81*sizeof(char));
     SDL_Surface* image_surface;
     init_sdl();
@@ -156,7 +155,8 @@ int mainHough(int click,char *pathImg)
         //image_surface = canny("../../Ressources/image_09.jpeg");
         //printf("Key pressed\n");
 
-        image_surface = adaptative_threshold(image_surface,thresh_otsu);
+        adaptative_threshold(image_surface,thresh_otsu);
+        image_surface = load_image("./Temp/trashfile");
 
         //display_image(image_surface);
         //wait_for_keypressed();
@@ -273,6 +273,7 @@ int mainHough(int click,char *pathImg)
     char * nameRes = concatF(nameGrid,".result");
     FILE *entry_sudoku = fopen(nameRes,"r");
     readFile(entry_sudoku,sudokuSolved);
+    SDL_Surface* grid = load_image("./Ressources/result/empty_grid.jpg");
     image_surface =fill_numbers(init_numbers(grid,sudoku),sudokuSolved,sudoku);
     if(click == 0)
     {

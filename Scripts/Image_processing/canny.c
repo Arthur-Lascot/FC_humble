@@ -44,8 +44,8 @@ SDL_Surface* canny(SDL_Surface* first_surface)
 SDL_Surface* thresh_surface=SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
     
     SDL_BlitSurface(first_surface,NULL,image_surface,NULL);
-    SDL_BlitSurface(first_surface,NULL,max_surface,NULL);
-    SDL_BlitSurface(first_surface,NULL,thresh_surface,NULL);
+    SDL_BlitSurface(image_surface,NULL,max_surface,NULL);
+    SDL_BlitSurface(max_surface,NULL,thresh_surface,NULL);
     max_surface = grayscalebis(max_surface);
     thresh_surface = grayscalebis(thresh_surface);
 
@@ -610,10 +610,10 @@ SDL_Surface* thresh_surface=SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
             put_pixel(thresh_surface,i,j,pixel1);
         }
     }
-
-    SDL_FreeSurface(max_surface);
+    printf("hey\n");
+    //display_image(image_surface);
+    //wait_for_keypressed();
     SDL_FreeSurface(image_surface);
+    SDL_FreeSurface(max_surface);
     return thresh_surface;
 }
-
-
