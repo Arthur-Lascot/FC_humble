@@ -29,6 +29,7 @@ SDL_Surface* adaptative_threshold(SDL_Surface* image_surface,int t)
    
     SDL_Surface* result=
     SDL_CreateRGBSurface(0,image_surface->w,image_surface->h,32,0,0,0,0); 
+    SDL_BlitSurface(image_surface,NULL,result,NULL);
     long long* Im= calloc(image_surface->w*image_surface->h,sizeof(long long));
     long long sum;
     int x1;
