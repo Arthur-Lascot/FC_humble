@@ -267,8 +267,9 @@ int mainHough(int click,char *pathImg)
         return 1;
 
     }
-    sprintf(nameGrid,"%s.result",nameGrid);
-    FILE *entry_sudoku = fopen(nameGrid,"r");
+    //sprintf(nameGrid,"%s.result",nameGrid);
+    char * nameRes = concatF(nameGrid,".result");
+    FILE *entry_sudoku = fopen(nameRes,"r");
     readFile(entry_sudoku,sudokuSolved);
     image_surface =fill_numbers(init_numbers(grid,sudoku),sudokuSolved,sudoku);
     if(click == 0)
