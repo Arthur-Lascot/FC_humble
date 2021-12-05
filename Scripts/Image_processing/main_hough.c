@@ -168,7 +168,9 @@ int mainHough(int click,char *pathImg)
         }
         if(click==7)
         {
+	    SDL_Surface* to_del = image_surface;
             image_surface = canny(image_surface);
+	    SDL_FreeSurface(to_del);
             resize(image_surface,"./Temp/canny.bmp",0);
             return 0;
         }
@@ -194,7 +196,9 @@ int mainHough(int click,char *pathImg)
         //printf("Square line called\n");
         List* line = square_line(image_surface);
         if(column == NULL||line==NULL)
-        {
+        {   
+	    free(column);
+	    free(line);
             SDL_FreeSurface(image_surface);
             image_surface = load_image("./Ressources/error.png");
             switch(click)

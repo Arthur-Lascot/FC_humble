@@ -228,6 +228,9 @@ List* square_column(SDL_Surface* image_surface)
     }
     if(compteur != 9)
     {
+	del(ecart_clean);
+	free(ecart_clean);
+	free(result);
         return NULL;
     }
     else
@@ -430,6 +433,9 @@ List* square_line(SDL_Surface* image_surface)
     }
     if(compteur != 9)
     {
+        del(ecart_clean);
+	free(ecart_clean);
+	free(result);
         return NULL;
     }
     else
@@ -527,7 +533,7 @@ void adjust(double *dst)
 }
 
 
-int format(SDL_Surface* src,double* dst,SDL_Surface* dstS)
+int format(SDL_Surface* src,double* dst)
 {
     int w = src->w;
     int dim = 28;
@@ -673,7 +679,6 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
         while(current_column != NULL)
         {
             i++;
-            SDL_Surface *image28x28;
             int left = *((int*)(((tuple3*)(current_column->key))->item1));
             int right = *((int*)(((tuple3*)(current_column->key))->item2));
             SDL_Rect square;
@@ -685,8 +690,8 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                     ,32,0,0,0,0);
             if(SDL_BlitSurface(image_surface,&square,newImage,NULL)==0){
                 double* Case = calloc(28*28,sizeof(double));
-                isNotBlank= format(newImage,Case,image28x28);
-
+                isNotBlank= format(newImage,Case);
+		SDL_FreeSurface(newImage);
 
                 if(isNotBlank==1){
                     isNotBlank=0;   
@@ -720,8 +725,6 @@ void DrawSquare(SDL_Surface* image_surface,List* column,List* line)
                     // printf("\nI=%i\n",i);
                     sudoku[i]='.';
                 }
-
-                SDL_FreeSurface(image28x28);
                 free(Case);
             }
             for(int i = high;i<low;i++)
