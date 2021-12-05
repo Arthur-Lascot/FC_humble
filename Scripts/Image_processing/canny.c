@@ -39,9 +39,9 @@ SDL_Surface* canny(SDL_Surface* first_surface)
     int highThreshold;
     int lowThreshold;
     double * directions = (double *) calloc(width*height,sizeof(double));
-    SDL_Surface* image_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+    SDL_Surface* image_surface=SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
     SDL_Surface* max_surface = SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
-    SDL_Surface* thresh_surface=SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
+SDL_Surface* thresh_surface=SDL_CreateRGBSurface(0,width,height,32,0,0,0,0);
     
     SDL_BlitSurface(first_surface,NULL,image_surface,NULL);
     SDL_BlitSurface(first_surface,NULL,max_surface,NULL);
