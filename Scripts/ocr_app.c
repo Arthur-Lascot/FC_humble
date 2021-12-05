@@ -44,7 +44,10 @@ GtkWidget *Gauss_1;
 GtkWidget *Gauss_2;
 GtkWidget *Gauss_3;
 GtkWidget *Filter_median;
+
+GtkWidget *Otsu_spin;
 GtkWidget *Filter_otsu;
+
 GtkWidget *Filter_canny;
 GtkWidget *Auto_rot;
 GtkWidget *Print_line;
@@ -168,6 +171,7 @@ int main(int argc, char *argv[])
     Gauss_2 = GTK_WIDGET(gtk_builder_get_object(builder,"Gauss_2"));
     Gauss_3 = GTK_WIDGET(gtk_builder_get_object(builder,"Gauss_3"));
     Filter_median = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_median"));
+    Otsu_spin = GTK_WIDGET(gtk_builder_get_object(builder,"Otsu_spin"));
     Filter_otsu = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_otsu"));
     Filter_canny = GTK_WIDGET(gtk_builder_get_object(builder,"Filter_canny"));
     Auto_rot = GTK_WIDGET(gtk_builder_get_object(builder,"Auto_rot"));
@@ -194,6 +198,8 @@ int main(int argc, char *argv[])
     
     sprintf(nameGrid,"./obj/grid_00"); 
     gtk_widget_hide(Save);
+
+    thresh_otsu = 10;
 
     gtk_main();
 
@@ -346,6 +352,8 @@ void on_Filter_otsu_clicked(GtkButton *b)
 {
     printf("Filter Otsu\n");
     sprintf(pathImg,"./Temp/use.bmp");
+    gdouble valotsu = gtk_spin_button_get_value(GTK_SPIN_BUTTON(Rot_spin));
+    thresh_otsu = (int)valotsu;
     int res = mainHough(6,&pathImg);
     if (res)
     {
