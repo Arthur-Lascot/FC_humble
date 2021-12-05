@@ -88,7 +88,7 @@ char* concat(const char *s1, const char *s2)
 
 void readgrid()
 {
-    printf("Name grid enter : %s\n", nameGrid);
+   // printf("Name grid enter : %s\n", nameGrid);
     FILE *f = fopen(nameGrid, "rb");
     if (f == NULL)
     {
@@ -96,7 +96,7 @@ void readgrid()
     }
     else if (f != NULL)
     {
-        printf("Grid exist !\n");
+ //       printf("Grid exist !\n");
         fseek(f, 0, SEEK_END);
         long fsize = ftell(f);
         fseek(f, 0, SEEK_SET);
@@ -189,7 +189,7 @@ int main(int argc, char *argv[])
 
 void exit_app()
 {
-    printf("Exit app\n");
+    //printf("Exit app\n");
     gtk_main_quit();
 }
 
@@ -203,7 +203,7 @@ void on_Image_chooser_changed(GtkEntry *t)
 
 void on_Image_loader_clicked()
 {
-    printf("Image loader...\n");
+    //printf("Image loader...\n");
     int pb = mainHough(-2,pathImg);
     if (pb)
     {
@@ -239,7 +239,7 @@ void on_Net_button_clicked()
     printf("Net button\n");
     if(pathNet != NULL) 
     {   
-        printf("New Net %s\n",pathNet);
+     //   printf("New Net %s\n",pathNet);
         new_net(pathNet);
     }
 }
@@ -250,7 +250,7 @@ void on_Net_test_clicked()
     if (fnet != NULL)
     {
         xr(1,fnet,NULL);
-        printf("Test Network : %f\n",rate);
+      //  printf("Test Network : %f\n",rate);
         char res[64];
         sprintf(res,"Resultat : %i/100",(int)rate);
         gtk_label_set_text(GTK_LABEL(Net_res), (const gchar*) res);
@@ -259,7 +259,7 @@ void on_Net_test_clicked()
 
 void on_Rot_man_clicked()
 {
-    printf("Manual Rotation\n");
+    //printf("Manual Rotation\n");
     gdouble valrot = gtk_spin_button_get_value(GTK_SPIN_BUTTON(Rot_spin));
     degrot = (int)valrot;
     sprintf(pathImg,"./Temp/image.bmp");
@@ -267,7 +267,7 @@ void on_Rot_man_clicked()
     int res = mainHough(-1,pathImg);
     if (res)
     {
-        printf("ERROR MANUAL ROTATE\n");
+      //  printf("ERROR MANUAL ROTATE\n");
     }
     sprintf(pathImg,"./Temp/imagerot.bmp");
     gtk_image_set_from_file(GTK_IMAGE(Image_sudoku),pathImg);
@@ -276,12 +276,12 @@ void on_Rot_man_clicked()
 
 void on_Gauss_1_clicked()
 {
-    printf("Gauss 1\n");
+   // printf("Gauss 1\n");
     sprintf(pathImg,"./Temp/use.bmp");
     int res = mainHough(2,pathImg);
     if (res)
     {
-        printf("ERROR GAUSS 1\n");
+     //   printf("ERROR GAUSS 1\n");
     }
     sprintf(pathImg,"./Temp/gauss3.bmp");
     gtk_image_set_from_file(GTK_IMAGE(Image_sudoku),pathImg);
@@ -290,7 +290,7 @@ void on_Gauss_1_clicked()
 
 void on_Gauss_2_clicked()
 {
-    printf("Gauss 2\n");
+    //printf("Gauss 2\n");
     sprintf(pathImg,"./Temp/use.bmp");
     int res = mainHough(3,pathImg);
     if (res)
@@ -304,7 +304,7 @@ void on_Gauss_2_clicked()
 
 void on_Gauss_3_clicked()
 {
-    printf("Gauss 3\n");
+   // printf("Gauss 3\n");
     sprintf(pathImg,"./Temp/use.bmp");
     int res = mainHough(4,pathImg);
     if (res)
@@ -317,7 +317,7 @@ void on_Gauss_3_clicked()
 }
 void on_Filter_median_clicked()
 {
-    printf("Filter Median\n");
+    //printf("Filter Median\n");
     sprintf(pathImg,"./Temp/use.bmp");
     int res = mainHough(5,pathImg);
     if (res)
@@ -330,7 +330,7 @@ void on_Filter_median_clicked()
 
 void on_Filter_otsu_clicked()
 {
-    printf("Filter Otsu\n");
+    //printf("Filter Otsu\n");
     sprintf(pathImg,"./Temp/use.bmp");
     gdouble valotsu = gtk_spin_button_get_value(GTK_SPIN_BUTTON(Otsu_spin));
     thresh_otsu = (int)valotsu;
@@ -346,7 +346,7 @@ void on_Filter_otsu_clicked()
 
 void on_Filter_canny_clicked()
 {
-    printf("Filter Canny\n");
+    //printf("Filter Canny\n");
     sprintf(pathImg,"./Temp/use.bmp");
     int res = mainHough(7,pathImg);
     if (res)
@@ -360,7 +360,7 @@ void on_Filter_canny_clicked()
 
 void on_Auto_rot_clicked()
 {
-    printf("Auto Rotation\n");
+   // printf("Auto Rotation\n");
     sprintf(pathImg,"./Temp/use.bmp");
     int res = mainHough(8,pathImg);
     if (res)
@@ -374,7 +374,7 @@ void on_Auto_rot_clicked()
 
 void on_Print_line_clicked()
 {
-    printf("Print Line\n");
+    //printf("Print Line\n");
     sprintf(pathImg,"./Temp/use.bmp");
     int res = mainHough(9,pathImg);
     if (res)
@@ -388,7 +388,7 @@ void on_Print_line_clicked()
 
 void on_Print_case_clicked()
 {
-    printf("Print Case\n");
+   // printf("Print Case\n");
     sprintf(pathImg,"./Temp/use.bmp");
     int res = mainHough(10,pathImg);
     if (res)
@@ -402,7 +402,7 @@ void on_Print_case_clicked()
 
 void on_OCR_button_clicked()
 {
-    printf("OCR...\n");
+    //printf("OCR...\n");
     sprintf(pathImg,"./Temp/use.bmp");
     int res = mainHough(11,pathImg);
     if (res)
@@ -420,7 +420,7 @@ void on_OCR_button_clicked()
 
 void on_Solver_button_clicked()
 {
-    printf("Solver...\n");
+    //printf("Solver...\n");
        
     sprintf(pathImg,"./Temp/use.bmp");
     int res = mainHough(0,pathImg);
@@ -448,7 +448,7 @@ void on_Name_sudoku_changed(GtkEntry *t)
 
 void on_Save_clicked()
 {
-    printf("Save clicked\n");
+    //printf("Save clicked\n");
     GtkTextIter begin, end;
     gchar *grid;
 
