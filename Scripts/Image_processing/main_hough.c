@@ -13,6 +13,7 @@
 #include "../Solver/solver.h"
 #include "../Solver/grid_construct.h"
 #include "../Otsu/otsu_function.h"
+#include "../Otsu/adaptative.h"
 #include "../Otsu/rotation.h"
 #include "main_hough.h"
 
@@ -155,7 +156,7 @@ int mainHough(int click,char *pathImg)
         //image_surface = canny("../../Ressources/image_09.jpeg");
         //printf("Key pressed\n");
 
-        //filtre(image_surface,90);
+        image_surface = adaptative_threshold(image_surface,thresh_otsu);
 
         //display_image(image_surface);
         //wait_for_keypressed();
