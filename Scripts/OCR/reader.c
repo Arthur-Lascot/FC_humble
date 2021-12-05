@@ -48,7 +48,7 @@ void read_mnist_label(char *path,int size_data,unsigned char label_char[][1])
 }
 
 void convert_i(int size_d,unsigned char image_char[][SIZE],
-    double image[][SIZE],int label[size_d])
+    double image[][SIZE])
 {
     int mnist = 0;
     int mod = 10000;
@@ -199,14 +199,14 @@ void load_data()
     //TRAIN
     read_mnist_image(TRAIN_IMAGE,TRAIN_DATA,train_char);
     read_mnist_label(TRAIN_LABEL,TRAIN_DATA,train_label_char);
-    convert_i(TRAIN_DATA,train_char,train_double,train_label);
+    convert_i(TRAIN_DATA,train_char,train_double/*train_label*/);
     convert_l(TRAIN_DATA,train_label_char,train_label);
 
     
     //TEST
     read_mnist_image(TEST_IMAGE,TEST_DATA,test_char);
     read_mnist_label(TEST_LABEL,TEST_DATA,test_label_char);
-    convert_i(TEST_DATA,test_char,test_double,test_label);
+    convert_i(TEST_DATA,test_char,test_double/*test_label*/);
     convert_l(TEST_DATA,test_label_char,test_label);
     
 }
